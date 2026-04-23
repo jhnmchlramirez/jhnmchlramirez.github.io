@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Michael C. Ramirez | Structural Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --accent-color: #d0c3a6; /* Sampled from "MORE THAN STRUCTURES" */
+            --accent-hover: #b5a98e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn-hire {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-hire:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Sections General */
+        section {
+            padding: 100px 0 60px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* About / Hero Section */
+        #about {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .hero-text h2 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .hero-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        .hero-image {
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Works Section */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .status-completed { background-color: rgba(208, 195, 166, 0.2); color: var(--accent-color); }
+        .status-ongoing { background-color: rgba(255, 255, 255, 0.1); color: #fff; }
+
+        /* Contact Section */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid #333;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content, .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none; /* In a real scenario, you'd add a hamburger menu here */
+            }
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">J.M. RAMIREZ </a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#works">Works</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+                <a href="#contact" class="btn-hire">Hire Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>More Than Structures</h1>
+                <h2>Civil Engineer | Structural Design Engineer | Structural BIM Modeler</h2>
+                <p>Licensed Civil Engineer practicing Structural Engineering Design since 2020, with experience in delivering practical and buildable solutions across residential to mid-rise building projects. My work focuses on bridging structural analysis and detailed documentation to ensure clarity, accuracy, and constructability in every project.</p>
+                <p>Proficient in Structural Drafting, having handled not only structural analysis and design but also the preparation of detailed drawings using both CAD and Revit. This integrated approach allows me to maintain control over the design process, ensuring that calculations, models, and drawings are well-coordinated and aligned with project requirements.</p>
+                <p>With over 2 years of experience using Revit, specializing in Structural Modeling and Drafting, with application in real project workflows. My journey into Building Information Modeling (BIM) has been independently developed through self-directed learning. I am confident in my ability to produce accurate models and drawings, and I continue to improve my BIM workflow and coordination skills with the goal of reaching a higher level of proficiency through guidance and experience.</p>
+                <p>With a strong foundation in Structural Engineering and a developing proficiency in BIM workflows, I aim to contribute to efficient, accurate, and well-coordinated design solutions while continuously advancing my technical capabilities.</p>
+            </div>
+            <div class="hero-image">
+                <img src="Profile.jpg" alt="John Michael C. Ramirez">
+            </div>
+        </div>
+    </section>
+
+    <section id="works" class="container">
+        <h2 class="section-title">Works & Projects</h2>
+        <div class="grid-container">
+            <div class="card">
+                <span class="status-badge status-completed">Completed</span>
+                <h3>Mid-Rise Residential Building</h3>
+                <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
+            </div>
+            <div class="card">
+                <span class="status-badge status-completed">Completed</span>
+                <h3>Custom Residential Project</h3>
+                <p>Bridged structural analysis with detailed CAD drawings to ensure clarity and constructability for the contractor teams on site.</p>
+            </div>
+            <div class="card">
+                <span class="status-badge status-ongoing">Ongoing</span>
+                <h3>Commercial Complex BIM Model</h3>
+                <p>Applying Revit for structural modeling and drafting. Integrating calculations, models, and drawings for strict coordination.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="container">
+        <h2 class="section-title">Services Offered</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Structural Engineering Design</h3>
+                <p>Providing safe, practical, and buildable structural solutions for residential and mid-rise buildings, rooted in accurate structural analysis.</p>
+            </div>
+            <div class="card">
+                <h3>Structural Drafting (CAD & Revit)</h3>
+                <p>Preparation of highly detailed structural drawings. Ensuring that calculations and final drawings are well-coordinated and strictly aligned with your project requirements.</p>
+            </div>
+            <div class="card">
+                <h3>Structural BIM Modeling</h3>
+                <p>Developing accurate 3D structural models using Revit. Implementing BIM workflows to improve project coordination, efficiency, and clash detection.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <p>Interested in collaborating on a project or discussing a role in your team? Let's connect.</p>
+                <br>
+                <p><strong>Email:</strong> <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+                <p><strong>LinkedIn:</strong> <a href="#">linkedin.com/in/yourprofile</a></p>
+                <p><strong>Location:</strong> Philippines</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 John Michael C. Ramirez. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
