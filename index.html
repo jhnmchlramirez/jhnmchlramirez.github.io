@@ -166,7 +166,7 @@
             display: block;
         }
 
-        /* Works Carousel Section */
+        /* Works & Services Carousel Section */
         .carousel-container {
             display: flex;
             align-items: center;
@@ -227,7 +227,7 @@
             flex: 0 0 calc((100% - 4rem) / 3); 
         }
 
-        /* General Grid for Services */
+        /* General Grid for fallback/other content */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -525,27 +525,40 @@
 
     <section id="services" class="container">
         <h2 class="section-title">Services Offered</h2>
-        <div class="grid-container">
-            <div class="card">
-                <h3>Structural Engineering Design</h3>
-                <p>Providing safe, practical, and buildable structural solutions for residential and mid-rise buildings, rooted in accurate structural analysis.</p>
+        
+        <div class="carousel-container">
+            <button class="carousel-btn" id="prevBtnServices" aria-label="Previous">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+            </button>
+
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="servicesCarousel">
+                    <div class="card">
+                        <h3>Structural Engineering Design</h3>
+                        <p>Providing safe, practical, and buildable structural solutions for residential and mid-rise buildings, rooted in accurate structural analysis.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Structural Drafting</h3>
+                        <p>Preparation of highly detailed structural drawings. Ensuring that calculations and final drawings are well-coordinated and strictly aligned with your project requirements.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Structural BIM Modeling</h3>
+                        <p>Developing accurate 3D structural models using Revit. Implementing BIM workflows to improve project coordination, efficiency, and clash detection.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Project Consultation</h3>
+                        <p>Offering expert advice on structural design strategies, material selection, and construction methodologies to optimize project outcomes.</p>
+                    </div>
+                    <div class="card">
+                        <h3>AutoCAD Tutorial</h3>
+                        <p>Comprehensive training sessions to help you master AutoCAD for structural drafting and design.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <h3>Structural Drafting</h3>
-                <p>Preparation of highly detailed structural drawings. Ensuring that calculations and final drawings are well-coordinated and strictly aligned with your project requirements.</p>
-            </div>
-            <div class="card">
-                <h3>Structural BIM Modeling</h3>
-                <p>Developing accurate 3D structural models using Revit. Implementing BIM workflows to improve project coordination, efficiency, and clash detection.</p>
-            </div>
-            <div class="card">
-                <h3>Project Consultation</h3>
-                <p>Offering expert advice on structural design strategies, material selection, and construction methodologies to optimize project outcomes.</p>
-            </div>
-            <div class="card">
-                <h3>AutoCAD Tutorial</h3>
-                <p>Comprehensive training sessions to help you master AutoCAD for structural drafting and design.</p>
-            </div>
+
+            <button class="carousel-btn" id="nextBtnServices" aria-label="Next">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </button>
         </div>
     </section>
 
@@ -685,12 +698,11 @@
             }
         }
 
-        // CAROUSEL LOGIC
+        // WORKS CAROUSEL LOGIC
         const carouselTrack = document.getElementById('worksCarousel');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
-        // Dynamically calculates the scroll amount based on the width of a card + gap size
         prevBtn.addEventListener('click', () => {
             const cardWidth = carouselTrack.querySelector('.card').offsetWidth;
             const gap = parseFloat(getComputedStyle(carouselTrack).gap) || 32; 
@@ -703,6 +715,25 @@
             const gap = parseFloat(getComputedStyle(carouselTrack).gap) || 32; 
             const scrollAmount = cardWidth + gap;
             carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        // SERVICES CAROUSEL LOGIC
+        const servicesTrack = document.getElementById('servicesCarousel');
+        const prevBtnServices = document.getElementById('prevBtnServices');
+        const nextBtnServices = document.getElementById('nextBtnServices');
+
+        prevBtnServices.addEventListener('click', () => {
+            const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
+            const scrollAmount = cardWidth + gap;
+            servicesTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtnServices.addEventListener('click', () => {
+            const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
+            const scrollAmount = cardWidth + gap;
+            servicesTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         });
     </script>
 </body>
