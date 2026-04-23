@@ -166,7 +166,7 @@
             display: block;
         }
 
-        /* Works & Services Carousel Section */
+        /* Carousels */
         .carousel-container {
             display: flex;
             align-items: center;
@@ -187,7 +187,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
-            flex-shrink: 0; /* Prevents button from squishing */
+            flex-shrink: 0; 
         }
 
         .carousel-btn:hover {
@@ -208,26 +208,23 @@
 
         .carousel-track {
             display: flex;
-            gap: 2rem; /* Equals to 32px */
+            gap: 2rem; 
             overflow-x: auto;
             scroll-behavior: smooth;
-            padding: 10px 0 20px 0; /* Space for hover box-shadow */
-            
-            /* Hide scrollbar for clean look */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            padding: 10px 0 20px 0; 
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
         }
         
         .carousel-track::-webkit-scrollbar {
-            display: none; /* Chrome, Safari and Opera */
+            display: none; 
         }
 
         .carousel-track .card {
-            /* Calculates exactly 3 cards to fit perfectly including the two 2rem gaps */
             flex: 0 0 calc((100% - 4rem) / 3); 
         }
 
-        /* General Grid for fallback/other content */
+        /* General Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -273,7 +270,7 @@
         .status-completed { background-color: rgba(208, 195, 166, 0.2); color: var(--accent-color); }
         .status-ongoing { background-color: rgba(255, 255, 255, 0.1); color: #fff; }
 
-        /* Modal / Popup Styles */
+        /* Modal Styles */
         .modal-overlay {
             display: none; 
             position: fixed;
@@ -282,7 +279,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(5px);
             align-items: center;
             justify-content: center;
@@ -303,6 +300,7 @@
             padding: 2.5rem;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: auto; /* helps centering when taller than screen */
         }
 
         .close-btn {
@@ -315,6 +313,7 @@
             cursor: pointer;
             transition: color 0.3s;
             line-height: 1;
+            z-index: 10;
         }
 
         .close-btn:hover {
@@ -338,23 +337,70 @@
             gap: 3rem;
         }
 
-        .modal-left img {
+        /* Photo Slider inside Modal */
+        .image-carousel {
+            position: relative;
             width: 100%;
-            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #121212;
             border-radius: 4px;
             border: 1px solid #333;
             margin-bottom: 1rem;
-            background-color: #121212; 
+            overflow: hidden;
+            min-height: 300px;
         }
 
-        .modal-left img:last-child {
-            margin-bottom: 0;
+        .image-carousel img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            cursor: zoom-in;
+            transition: transform 0.3s;
         }
+
+        .image-carousel img:hover {
+            transform: scale(1.02);
+        }
+
+        .img-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .img-nav-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .img-nav-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .prev-img { left: 10px; }
+        .next-img { right: 10px; }
 
         .image-caption {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            margin-top: -0.5rem;
+            margin-top: 0.5rem;
             margin-bottom: 1.5rem;
             text-align: center;
             display: block;
@@ -370,6 +416,65 @@
             color: var(--text-secondary);
             font-size: 1rem;
             white-space: pre-line; 
+        }
+
+        /* Global Project Navigation Buttons (Outside Modal content) */
+        .modal-project-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(30, 30, 30, 0.85);
+            color: var(--accent-color);
+            border: 1px solid #333;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            z-index: 2010;
+        }
+
+        .modal-project-nav:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(208, 195, 166, 0.2);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .modal-project-nav svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .prev-project { left: 2rem; }
+        .next-project { right: 2rem; }
+
+        /* Lightbox Fullscreen */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 2px solid #333;
+            border-radius: 4px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
         }
 
         /* Contact Section */
@@ -425,9 +530,14 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1100px) {
+            .prev-project { left: 0.5rem; }
+            .next-project { right: 0.5rem; }
+        }
+
         @media (max-width: 900px) {
             .carousel-track .card {
-                flex: 0 0 calc((100% - 2rem) / 2); /* 2 cards on medium screens */
+                flex: 0 0 calc((100% - 2rem) / 2); 
             }
         }
         
@@ -443,12 +553,16 @@
             }
             .modal-overlay {
                 align-items: flex-start; 
+                padding: 1rem;
+            }
+            .modal-project-nav {
+                display: none; /* Hide side navigation on small screens to save space */
             }
         }
 
         @media (max-width: 600px) {
             .carousel-track .card {
-                flex: 0 0 100%; /* 1 card on small screens */
+                flex: 0 0 100%; 
             }
         }
     </style>
@@ -604,8 +718,19 @@
         </div>
     </footer>
 
+    <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
+        <img id="lightboxImg" src="" alt="Enlarged View">
+    </div>
+
     <div id="projectModal" class="modal-overlay">
-        <div class="modal-content">
+        <button class="modal-project-nav prev-project" onclick="prevProject()" aria-label="Previous Project">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+        </button>
+        <button class="modal-project-nav next-project" onclick="nextProject()" aria-label="Next Project">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </button>
+
+        <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-btn" onclick="closeProjectModal()">&times;</span>
             
             <div class="modal-header">
@@ -615,11 +740,18 @@
             
             <div class="modal-body">
                 <div class="modal-left">
-                    <img id="modalPerspectiveImg" src="" alt="Project Perspective">
-                    <span class="image-caption">Perspective View</span>
-                    
-                    <img id="modalDrawingImg" src="" alt="Project Drawing File">
-                    <span class="image-caption">Drawing File</span>
+                    <div class="image-carousel">
+                        <button class="img-nav-btn prev-img" onclick="prevImage()" aria-label="Previous Photo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+                        </button>
+                        
+                        <img id="modalCarouselImg" src="" alt="Project Content" onclick="openLightbox(this.src)" title="Click to enlarge">
+                        
+                        <button class="img-nav-btn next-img" onclick="nextImage()" aria-label="Next Photo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                        </button>
+                    </div>
+                    <span id="modalImageCaption" class="image-caption">Image Caption</span>
                 </div>
                 
                 <div class="modal-right">
@@ -631,60 +763,62 @@
     </div>
 
     <script>
-        // Database of project details
+        // Database of project details (Images updated to an array to support sliding)
         const projectData = {
             'project1': {
                 title: 'D-House Residences (4-Storey Residential Building)',
                 status: 'Completed',
                 statusClass: 'status-completed',
-                imgPerspective: 'D-House.jpg',
-                imgDrawing: 'Plans 1.png',
+                images: [
+                    { src: 'D-House.jpg', caption: 'Perspective View' },
+                    { src: 'Plans 1.png', caption: 'Drawing File' }
+                    // You can add more images here by copying the format above
+                ],
                 description: "Performed comprehensive structural design and analysis for a 4-storey residential building using Linear Static and Dynamic Response-Spectrum Analysis (RSA) to ensure seismic resilience in a high-risk zone. Developed detailed structural documentation and construction drawings, ensuring all solutions maintained strict alignment with the original architectural intent.\n\n Addressed weak soil conditions by conducting a depth-bearing capacity trade-off analysis. Determined an optimal excavation depth to reach a stable strata, providing a high-bearing capacity foundation without the need for expensive deep-piling,To counter the small footprint and soil limitations, integrated Autoclaved Aerated Concrete (AAC) blocks into the design. This significantly reduced the building's dead load, allowing for more slender structural members and reduced foundation pressure."
             },
             'project2': {
                 title: 'Borreros Residences (3-Storey Residential Building with One-level Basement)',
                 status: 'Completed',
                 statusClass: 'status-completed',
-                imgPerspective: 'Borreros Residences.jpg',
-                imgDrawing: 'Plans_Borreros.png',
+                images: [
+                    { src: 'Borreros Residences.jpg', caption: 'Perspective View' },
+                    { src: 'Plans_Borreros.png', caption: 'Drawing File' }
+                ],
                 description: "Executed comprehensive structural design and analysis for a residential building featuring a single-level basement and a distinctive U-shaped architectural configuration. Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to mitigate torsional effects and stress concentrations inherent in irregular plan geometries. To ensure seamless on-site execution, the gap between complex analytical modeling and final construction was bridged through high-precision CAD documentation. This process translated sophisticated seismic data into clear, constructability-focused details, providing contractor teams with a definitive roadmap for assembly.\n\nClarity in the detailing of re-entrant corners and basement retaining walls was prioritized to eliminate field errors and maintain strict alignment with the architectural intent. Following the project\’s completion, a proactive site inspection was conducted to evaluate the structure\’s performance after the 2025 earthquake series. This post-construction verification confirmed the total integrity of the concrete frame, proving that the meticulous coordination between analysis and detailed documentation resulted in a resilient structure free of significant seismic distress."
             },
             'project3': {
                 title: 'Samoy Residences (2-Storey Residential Building)',
                 status: 'Completed',
                 statusClass: 'status-completed',
-                imgPerspective: 'Samoy Perspective.jpg',
-                imgDrawing: 'Plans_Samoy.png',
+                images: [
+                    { src: 'Samoy Perspective.jpg', caption: 'Perspective View' },
+                    { src: 'Plans_Samoy.png', caption: 'Drawing File' }
+                ],
                 description: "Completed the structural design and detailed documentation for a residential project, prioritizing cost-efficiency and structural simplicity. Due to the site\’s proximity to an active fault line, Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to ensure superior seismic performance. This high-level analytical approach allowed for a design that balances strict safety requirements with a lightweight and economical structural frame.\n\n Bridged the gap between advanced seismic modeling and on-site execution through high-precision CAD layouts. These detailed drawings provided contractor teams with a clear, error-free roadmap for assembly, ensuring that critical seismic details were accurately implemented during construction. The final output successfully synchronized stringent technical standards with the original architectural intent, delivering a safe and buildable residential solution."
             },
             'project4': {
                 title: 'Ayala Greenfield Residences (4-Storey Commercial Building)',
                 status: 'Completed',
                 statusClass: 'status-completed',
-                imgPerspective: 'Ayala Perspective.png',
-                imgDrawing: 'Ayala Plans.png',
+                images: [
+                    { src: 'Ayala Perspective.png', caption: 'Perspective View' },
+                    { src: 'Ayala Plans.png', caption: 'Drawing File' }
+                ],
                 description: "Led the structural design and documentation for a one-storey residential building with a distinctive U-shaped architectural configuration and one-level basement, focusing on cost-effectiveness and constructability. Employed Linear Static and Dynamic Response-Spectrum Analysis (RSA) to address seismic concerns in the region. The design balanced safety requirements with a streamlined structural system, ensuring efficient material usage and construction processes.\n\n Collaborated closely with the architectural team to integrate structural elements seamlessly into the building's aesthetic. Detailed CAD drawings were produced to guide construction, ensuring that all seismic considerations were accurately implemented. The completed project met all performance criteria and received recognition for its innovative approach to commercial structural design."
             }
         };
 
         const modal = document.getElementById('projectModal');
+        const projectKeys = Object.keys(projectData);
+        let currentProjectIndex = 0;
+        let currentImageIndex = 0;
 
+        // --- MODAL & PROJECT NAVIGATION LOGIC ---
         function openProjectModal(projectId) {
-            const data = projectData[projectId];
-
-            document.getElementById('modalTitle').innerText = data.title;
-            
-            const statusElement = document.getElementById('modalStatus');
-            statusElement.innerText = data.status;
-            statusElement.className = 'status-badge ' + data.statusClass; 
-
-            document.getElementById('modalPerspectiveImg').src = data.imgPerspective;
-            document.getElementById('modalDrawingImg').src = data.imgDrawing;
-            
-            document.getElementById('modalDescription').innerText = data.description;
-
+            currentProjectIndex = projectKeys.indexOf(projectId);
+            renderProjectData();
             modal.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Prevents background scrolling
         }
 
         function closeProjectModal() {
@@ -692,48 +826,112 @@
             document.body.style.overflow = 'auto';
         }
 
+        function renderProjectData() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+
+            document.getElementById('modalTitle').innerText = data.title;
+            
+            const statusElement = document.getElementById('modalStatus');
+            statusElement.innerText = data.status;
+            statusElement.className = 'status-badge ' + data.statusClass; 
+            
+            document.getElementById('modalDescription').innerText = data.description;
+
+            // Reset photo carousel to first image when loading a project
+            currentImageIndex = 0; 
+            renderModalImage();
+        }
+
+        function prevProject() {
+            if (currentProjectIndex > 0) {
+                currentProjectIndex--;
+            } else {
+                currentProjectIndex = projectKeys.length - 1; // loop to end
+            }
+            renderProjectData();
+        }
+
+        function nextProject() {
+            if (currentProjectIndex < projectKeys.length - 1) {
+                currentProjectIndex++;
+            } else {
+                currentProjectIndex = 0; // loop to start
+            }
+            renderProjectData();
+        }
+
+        // --- IMAGE CAROUSEL LOGIC ---
+        function renderModalImage() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            const currentImg = data.images[currentImageIndex];
+            
+            document.getElementById('modalCarouselImg').src = currentImg.src;
+            document.getElementById('modalImageCaption').innerText = currentImg.caption;
+        }
+
+        function prevImage() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+            } else {
+                currentImageIndex = data.images.length - 1; // loop to last photo
+            }
+            renderModalImage();
+        }
+
+        function nextImage() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            if (currentImageIndex < data.images.length - 1) {
+                currentImageIndex++;
+            } else {
+                currentImageIndex = 0; // loop to first photo
+            }
+            renderModalImage();
+        }
+
+        // --- LIGHTBOX LOGIC ---
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxOverlay').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxOverlay').style.display = 'none';
+        }
+
+        // Close functions for clicking outside
         window.onclick = function(event) {
-            if (event.target === modal) {
+            const lightbox = document.getElementById('lightboxOverlay');
+            if (event.target === lightbox) {
+                closeLightbox();
+            } else if (event.target === modal) {
                 closeProjectModal();
             }
         }
 
-        // WORKS CAROUSEL LOGIC
-        const carouselTrack = document.getElementById('worksCarousel');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        prevBtn.addEventListener('click', () => {
-            const cardWidth = carouselTrack.querySelector('.card').offsetWidth;
-            const gap = parseFloat(getComputedStyle(carouselTrack).gap) || 32; 
-            const scrollAmount = cardWidth + gap;
-            carouselTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        // --- HOME PAGE CAROUSELS LOGIC ---
+        const worksTrack = document.getElementById('worksCarousel');
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            const cardWidth = worksTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
+            worksTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const cardWidth = worksTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
+            worksTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
         });
 
-        nextBtn.addEventListener('click', () => {
-            const cardWidth = carouselTrack.querySelector('.card').offsetWidth;
-            const gap = parseFloat(getComputedStyle(carouselTrack).gap) || 32; 
-            const scrollAmount = cardWidth + gap;
-            carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        });
-
-        // SERVICES CAROUSEL LOGIC
         const servicesTrack = document.getElementById('servicesCarousel');
-        const prevBtnServices = document.getElementById('prevBtnServices');
-        const nextBtnServices = document.getElementById('nextBtnServices');
-
-        prevBtnServices.addEventListener('click', () => {
+        document.getElementById('prevBtnServices').addEventListener('click', () => {
             const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
             const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
-            const scrollAmount = cardWidth + gap;
-            servicesTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            servicesTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
         });
-
-        nextBtnServices.addEventListener('click', () => {
+        document.getElementById('nextBtnServices').addEventListener('click', () => {
             const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
             const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
-            const scrollAmount = cardWidth + gap;
-            servicesTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            servicesTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
         });
     </script>
 </body>
