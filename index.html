@@ -253,23 +253,12 @@
             box-shadow: 0 0 20px rgba(208, 195, 166, 0.15);
         }
 
+        /* Images will now display in their full uploaded color */
         .software-card-logo img {
             width: 50px;
             height: 50px;
             object-fit: contain;
-        }
-
-        /* NEW CSS TRICK: This converts transparent PNGs into your custom golden color */
-        .icon-mask {
-            width: 50px;
-            height: 50px;
-            background-color: var(--accent-color); /* Fills the image shape with your accent color */
-            -webkit-mask-size: contain;
-            -webkit-mask-position: center;
-            -webkit-mask-repeat: no-repeat;
-            mask-size: contain;
-            mask-position: center;
-            mask-repeat: no-repeat;
+            border-radius: 4px; /* Optional: adds a slight rounded corner if your images are perfect squares */
         }
 
         .software-card-logo span {
@@ -529,32 +518,31 @@
             <h3>Engineering & Design</h3>
             <div class="software-grid-logos">
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/autocad/d0c3a6" alt="AutoCAD Logo">
+                    <img src="https://cdn.simpleicons.org/autocad/0696D7" alt="AutoCAD Logo">
                     <span>Autodesk AutoCAD</span>
                 </div>
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/autodeskrevit/d0c3a6" alt="Revit Logo">
+                    <img src="https://cdn.simpleicons.org/autodeskrevit/0696D7" alt="Revit Logo">
                     <span>Autodesk Revit</span>
                 </div>
-                
                 <div class="software-card-logo">
-                    <div class="icon-mask" style="-webkit-mask-image: url('bluebeam.png'); mask-image: url('bluebeam.png');"></div>
+                    <img src="bluebeam.png" alt="Bluebeam Logo" onerror="this.src='https://cdn.simpleicons.org/bluebeam/0082CA'">
                     <span>Bluebeam</span>
                 </div>
                 <div class="software-card-logo">
-                    <div class="icon-mask" style="-webkit-mask-image: url('midas.png'); mask-image: url('midas.png');"></div>
+                    <img src="midas.png" alt="Midas Gen Logo" onerror="this.src='https://via.placeholder.com/50x50/ff9900/ffffff?text=MG'">
                     <span>Midas Gen</span>
                 </div>
                 <div class="software-card-logo">
-                    <div class="icon-mask" style="-webkit-mask-image: url('tekla.png'); mask-image: url('tekla.png');"></div>
+                    <img src="tekla.png" alt="Tekla Logo" onerror="this.src='https://via.placeholder.com/50x50/e60000/ffffff?text=T'">
                     <span>Tekla Structural Designer</span>
                 </div>
                 <div class="software-card-logo">
-                    <div class="icon-mask" style="-webkit-mask-image: url('idea.png'); mask-image: url('idea.png');"></div>
+                    <img src="idea.png" alt="Idea StatiCA Logo" onerror="this.src='https://via.placeholder.com/50x50/00b300/ffffff?text=iS'">
                     <span>Idea StatiCA</span>
                 </div>
                 <div class="software-card-logo">
-                    <div class="icon-mask" style="-webkit-mask-image: url('etabs.png'); mask-image: url('etabs.png');"></div>
+                    <img src="etabs.png" alt="ETABS Logo" onerror="this.src='https://via.placeholder.com/50x50/0033cc/ffffff?text=ETABS'">
                     <span>ETABS</span>
                 </div>
             </div>
@@ -564,19 +552,19 @@
             <h3>Communication & Collaboration</h3>
             <div class="software-grid-logos">
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/googlemeet/d0c3a6" alt="Google Meet Logo">
+                    <img src="https://cdn.simpleicons.org/googlemeet/00897B" alt="Google Meet Logo">
                     <span>Google Meet</span>
                 </div>
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/googlesheets/d0c3a6" alt="Google Sheets Logo">
+                    <img src="https://cdn.simpleicons.org/googlesheets/34A853" alt="Google Sheets Logo">
                     <span>Google Sheets</span>
                 </div>
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/zoom/d0c3a6" alt="Zoom Logo">
+                    <img src="https://cdn.simpleicons.org/zoom/0B5CFF" alt="Zoom Logo">
                     <span>Zoom</span>
                 </div>
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/microsoftteams/d0c3a6" alt="Microsoft Teams Logo">
+                    <img src="https://cdn.simpleicons.org/microsoftteams/6264A7" alt="Microsoft Teams Logo">
                     <span>MS Teams</span>
                 </div>
             </div>
