@@ -166,7 +166,68 @@
             display: block;
         }
 
-        /* Works Section */
+        /* Works Carousel Section */
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .carousel-btn {
+            background-color: rgba(30, 30, 30, 0.85);
+            color: var(--accent-color);
+            border: 1px solid #333;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            flex-shrink: 0; /* Prevents button from squishing */
+        }
+
+        .carousel-btn:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(208, 195, 166, 0.2);
+        }
+
+        .carousel-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .carousel-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 2rem; /* Equals to 32px */
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0 20px 0; /* Space for hover box-shadow */
+            
+            /* Hide scrollbar for clean look */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        .carousel-track::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .carousel-track .card {
+            /* Calculates exactly 3 cards to fit perfectly including the two 2rem gaps */
+            flex: 0 0 calc((100% - 4rem) / 3); 
+        }
+
+        /* General Grid for Services */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -364,6 +425,12 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 900px) {
+            .carousel-track .card {
+                flex: 0 0 calc((100% - 2rem) / 2); /* 2 cards on medium screens */
+            }
+        }
+        
         @media (max-width: 768px) {
             .hero-content, .contact-wrapper, .modal-body {
                 grid-template-columns: 1fr;
@@ -376,6 +443,12 @@
             }
             .modal-overlay {
                 align-items: flex-start; 
+            }
+        }
+
+        @media (max-width: 600px) {
+            .carousel-track .card {
+                flex: 0 0 100%; /* 1 card on small screens */
             }
         }
     </style>
@@ -413,27 +486,40 @@
 
     <section id="works" class="container">
         <h2 class="section-title">Works & Projects</h2>
-        <div class="grid-container">
-            <div class="card" onclick="openProjectModal('project1')">
-                <span class="status-badge status-completed">Completed</span>
-                <h3>D-House Residences</h3>
-                <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
+        
+        <div class="carousel-container">
+            <button class="carousel-btn" id="prevBtn" aria-label="Previous">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+            </button>
+
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="worksCarousel">
+                    <div class="card" onclick="openProjectModal('project1')">
+                        <span class="status-badge status-completed">Completed</span>
+                        <h3>D-House Residences</h3>
+                        <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
+                    </div>
+                    <div class="card" onclick="openProjectModal('project2')">
+                        <span class="status-badge status-completed">Completed</span>
+                        <h3>Borreros Residences</h3>
+                        <p>Provided comprehensive structural design and detailed seismic documentation. Developed cost-effective foundation solutions for challenging soil conditions to ensure buildable results aligned with architectural intent.</p>
+                    </div>
+                    <div class="card" onclick="openProjectModal('project3')">
+                        <span class="status-badge status-completed">Completed</span>
+                        <h3>Samoy Residences</h3>
+                        <p>Provided comprehensive structural design and detailed seismic documentation. Developed simplified, cost-effective structural solutions to ensure rapid construction and buildable results aligned with architectural intent.</p>
+                    </div>
+                    <div class="card" onclick="openProjectModal('project4')">
+                        <span class="status-badge status-completed">Completed</span>
+                        <h3>Ayala Greenfield Residences</h3>
+                        <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
+                    </div>
+                </div>
             </div>
-            <div class="card" onclick="openProjectModal('project2')">
-                <span class="status-badge status-completed">Completed</span>
-                <h3>Borreros Residences</h3>
-                <p>Provided comprehensive structural design and detailed seismic documentation. Developed cost-effective foundation solutions for challenging soil conditions to ensure buildable results aligned with architectural intent.</p>
-            </div>
-            <div class="card" onclick="openProjectModal('project3')">
-                <span class="status-badge status-completed">Completed</span>
-                <h3>Samoy Residences</h3>
-                <p>Provided comprehensive structural design and detailed seismic documentation. Developed simplified, cost-effective structural solutions to ensure rapid construction and buildable results aligned with architectural intent.</p>
-            </div>
-            <div class="card" onclick="openProjectModal('project4')">
-                <span class="status-badge status-completed">Completed</span>
-                <h3>Ayala Greenfield Residences</h3>
-                <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
-            </div>
+
+            <button class="carousel-btn" id="nextBtn" aria-label="Next">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </button>
         </div>
     </section>
 
@@ -590,6 +676,26 @@
                 closeProjectModal();
             }
         }
+
+        // CAROUSEL LOGIC
+        const carouselTrack = document.getElementById('worksCarousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Dynamically calculates the scroll amount based on the width of a card + gap size
+        prevBtn.addEventListener('click', () => {
+            const cardWidth = carouselTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(carouselTrack).gap) || 32; 
+            const scrollAmount = cardWidth + gap;
+            carouselTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const cardWidth = carouselTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(carouselTrack).gap) || 32; 
+            const scrollAmount = cardWidth + gap;
+            carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
     </script>
 </body>
 </html>
