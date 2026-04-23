@@ -170,6 +170,7 @@
             border-radius: 8px;
             border: 1px solid #333;
             transition: transform 0.3s, border-color 0.3s;
+            cursor: pointer; /* Indicates the card is clickable */
         }
 
         .card:hover {
@@ -200,6 +201,105 @@
         .status-completed { background-color: rgba(208, 195, 166, 0.2); color: var(--accent-color); }
         .status-ongoing { background-color: rgba(255, 255, 255, 0.1); color: #fff; }
 
+        /* Modal / Popup Styles */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            border: 1px solid #333;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 1000px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            color: var(--text-secondary);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .modal-header {
+            margin-bottom: 2rem;
+            padding-right: 3rem; /* Prevent overlap with close button */
+        }
+
+        .modal-header h2 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .modal-left img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #333;
+            margin-bottom: 1rem;
+            background-color: #121212; /* Fallback for transparent images */
+        }
+
+        .modal-left img:last-child {
+            margin-bottom: 0;
+        }
+
+        .image-caption {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: -0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: block;
+        }
+
+        .modal-right h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .modal-right p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            white-space: pre-line; /* Respects line breaks from JavaScript text */
+        }
+
         /* Contact Section */
         .contact-wrapper {
             display: grid;
@@ -229,14 +329,17 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .hero-content, .contact-wrapper {
+            .hero-content, .contact-wrapper, .modal-body {
                 grid-template-columns: 1fr;
             }
             .nav-links {
-                display: none; /* In a real scenario, you'd add a hamburger menu here */
+                display: none;
             }
             .hero-text h1 {
                 font-size: 2.5rem;
+            }
+            .modal-overlay {
+                align-items: flex-start; /* Better scrolling on mobile */
             }
         }
     </style>
@@ -275,17 +378,17 @@
     <section id="works" class="container">
         <h2 class="section-title">Works & Projects</h2>
         <div class="grid-container">
-            <div class="card">
+            <div class="card" onclick="openProjectModal('project1')">
                 <span class="status-badge status-completed">Completed</span>
                 <h3>Mid-Rise Residential Building</h3>
                 <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="openProjectModal('project2')">
                 <span class="status-badge status-completed">Completed</span>
                 <h3>Custom Residential Project</h3>
                 <p>Bridged structural analysis with detailed CAD drawings to ensure clarity and constructability for the contractor teams on site.</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="openProjectModal('project3')">
                 <span class="status-badge status-ongoing">Ongoing</span>
                 <h3>Commercial Complex BIM Model</h3>
                 <p>Applying Revit for structural modeling and drafting. Integrating calculations, models, and drawings for strict coordination.</p>
@@ -330,5 +433,97 @@
         </div>
     </footer>
 
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeProjectModal()">&times;</span>
+            
+            <div class="modal-header">
+                <h2 id="modalTitle">Project Name</h2>
+                <span id="modalStatus" class="status-badge">Status</span>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-left">
+                    <img id="modalPerspectiveImg" src="" alt="Project Perspective">
+                    <span class="image-caption">Perspective View</span>
+                    
+                    <img id="modalDrawingImg" src="" alt="Project Drawing File">
+                    <span class="image-caption">Drawing File</span>
+                </div>
+                
+                <div class="modal-right">
+                    <h4>Project Details</h4>
+                    <p id="modalDescription">Detailed description will load here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database of project details
+        // Note: Change the 'imgPerspective' and 'imgDrawing' URLs to the actual filenames of your project images in your repo
+        const projectData = {
+            'project1': {
+                title: 'Mid-Rise Residential Building',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                imgPerspective: 'https://via.placeholder.com/600x400/1e1e1e/d0c3a6?text=Building+Perspective',
+                imgDrawing: 'https://via.placeholder.com/600x400/1e1e1e/d0c3a6?text=CAD/Revit+Drawing',
+                description: "Detailed breakdown of the Mid-Rise Residential Building project.\n\nHere you can discuss the specific challenges faced, the software used (e.g., ETABS, Revit), the structural system implemented (e.g., shear wall, moment frame), and your exact role in delivering the project.\n\n- Full Structural Analysis\n- Foundation Design\n- 100% Construction Documentation"
+            },
+            'project2': {
+                title: 'Custom Residential Project',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                imgPerspective: 'https://via.placeholder.com/600x400/1e1e1e/d0c3a6?text=House+Perspective',
+                imgDrawing: 'https://via.placeholder.com/600x400/1e1e1e/d0c3a6?text=CAD+Drawing',
+                description: "Detailed breakdown of the Custom Residential Project.\n\nDescribe the unique architectural features that required special structural considerations. \n\nFocus on how you bridged structural analysis with detailed CAD drawings to ensure clarity and constructability for the contractor teams on site."
+            },
+            'project3': {
+                title: 'Commercial Complex BIM Model',
+                status: 'Ongoing',
+                statusClass: 'status-ongoing',
+                imgPerspective: 'https://via.placeholder.com/600x400/1e1e1e/d0c3a6?text=Commercial+Complex+Perspective',
+                imgDrawing: 'https://via.placeholder.com/600x400/1e1e1e/d0c3a6?text=Revit+Model+View',
+                description: "Detailed breakdown of the Commercial Complex BIM Model.\n\nElaborate on your BIM workflow. Mention how you applied Revit for structural modeling and drafting.\n\n- LOD 350 Modeling\n- Clash Detection with MEP\n- Extraction of precise material quantities."
+            }
+        };
+
+        const modal = document.getElementById('projectModal');
+
+        function openProjectModal(projectId) {
+            // Get data for the specific project clicked
+            const data = projectData[projectId];
+
+            // Populate the modal fields
+            document.getElementById('modalTitle').innerText = data.title;
+            
+            const statusElement = document.getElementById('modalStatus');
+            statusElement.innerText = data.status;
+            statusElement.className = 'status-badge ' + data.statusClass; // Update styling based on status
+
+            document.getElementById('modalPerspectiveImg').src = data.imgPerspective;
+            document.getElementById('modalDrawingImg').src = data.imgDrawing;
+            
+            document.getElementById('modalDescription').innerText = data.description;
+
+            // Show the modal and prevent background scrolling
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectModal() {
+            // Hide the modal and restore background scrolling
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal if user clicks outside the modal content box
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeProjectModal();
+            }
+        }
+    </script>
 </body>
 </html>
