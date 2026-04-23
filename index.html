@@ -7,11 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0c0c0e; /* Deepened dark mode for CAD/Gamer vibe */
+            --bg-color: #0c0c0e; 
             --surface-color: #1e1e1e;
             --text-primary: #f5f5f5;
             --text-secondary: #a0a0a0;
-            --accent-color: #d0c3a6; /* Sampled from "MORE THAN STRUCTURES" */
+            --accent-color: #d0c3a6; 
             --accent-hover: #b5a98e;
         }
 
@@ -24,25 +24,14 @@
         }
 
         body {
-            /* Deep, dark base reminiscent of dark-mode IDEs and CAD software */
             background-color: var(--bg-color); 
-            
-            /* The layered background effects */
             background-image:
-                /* 1. Top-Right Ambient Glow (Gamer aesthetic) */
                 radial-gradient(circle at 100% 0%, rgba(208, 195, 166, 0.10) 0%, transparent 40%),
-                /* 2. Bottom-Left Ambient Glow (Balances the screen) */
                 radial-gradient(circle at 0% 100%, rgba(208, 195, 166, 0.05) 0%, transparent 40%),
-                /* 3. Structural Drafting Dot-Grid (Engineering CAD vibe) */
                 radial-gradient(rgba(208, 195, 166, 0.15) 1px, transparent 1px);
-            
-            /* Sizes the glows to cover the screen, and the dots to a 32px grid */
             background-size: 100% 100%, 100% 100%, 32px 32px;
-            
-            /* Keeps the grid fixed in place while you scroll the content */
             background-attachment: fixed;
             background-position: top right, bottom left, center center;
-            
             color: var(--text-primary);
             line-height: 1.6;
         }
@@ -59,7 +48,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(12, 12, 14, 0.95); /* Matched to new background */
+            background-color: rgba(12, 12, 14, 0.95); 
             backdrop-filter: blur(10px);
             z-index: 1000;
             border-bottom: 1px solid #333;
@@ -113,15 +102,15 @@
 
         /* Sections General */
         section {
-            padding: 80px 0; /* Equal top and bottom padding */
-            scroll-margin-top: 40px; /* Offset for the fixed navigation header */
+            padding: 80px 0; 
+            scroll-margin-top: 40px; 
         }
 
         .section-title {
             font-size: 2rem;
             color: var(--accent-color);
             margin-top: 40px;
-            margin-bottom: 40px; /* Set equal to the section top padding to balance space */
+            margin-bottom: 40px; 
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -185,19 +174,19 @@
         }
 
         .card {
-            background-color: rgba(30, 30, 30, 0.85); /* Slightly transparent for grid depth */
+            background-color: rgba(30, 30, 30, 0.85); 
             backdrop-filter: blur(5px);
             padding: 2rem;
             border-radius: 8px;
             border: 1px solid #333;
             transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-            cursor: pointer; /* Indicates the card is clickable */
+            cursor: pointer; 
         }
 
         .card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(208, 195, 166, 0.15); /* Tech/Gamer ambient glow on hover */
+            box-shadow: 0 0 20px rgba(208, 195, 166, 0.15); 
         }
 
         .card h3 {
@@ -253,7 +242,7 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            flex: 1 1 calc(20% - 1.5rem); /* Adapts to 5 items per row */
+            flex: 1 1 calc(20% - 1.5rem); 
             min-width: 140px;
             transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
         }
@@ -270,6 +259,19 @@
             object-fit: contain;
         }
 
+        /* NEW CSS TRICK: This converts transparent PNGs into your custom golden color */
+        .icon-mask {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color); /* Fills the image shape with your accent color */
+            -webkit-mask-size: contain;
+            -webkit-mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-size: contain;
+            mask-position: center;
+            mask-repeat: no-repeat;
+        }
+
         .software-card-logo span {
             color: var(--text-primary);
             font-size: 0.95rem;
@@ -279,7 +281,7 @@
 
         /* Modal / Popup Styles */
         .modal-overlay {
-            display: none; /* Hidden by default */
+            display: none; 
             position: fixed;
             z-index: 2000;
             left: 0;
@@ -327,7 +329,7 @@
 
         .modal-header {
             margin-bottom: 2rem;
-            padding-right: 3rem; /* Prevent overlap with close button */
+            padding-right: 3rem; 
         }
 
         .modal-header h2 {
@@ -348,7 +350,7 @@
             border-radius: 4px;
             border: 1px solid #333;
             margin-bottom: 1rem;
-            background-color: #121212; /* Fallback for transparent images */
+            background-color: #121212; 
         }
 
         .modal-left img:last-child {
@@ -373,7 +375,7 @@
         .modal-right p {
             color: var(--text-secondary);
             font-size: 1rem;
-            white-space: pre-line; /* Respects line breaks from JavaScript text */
+            white-space: pre-line; 
         }
 
         /* Contact Section */
@@ -440,7 +442,7 @@
                 font-size: 2.5rem;
             }
             .modal-overlay {
-                align-items: flex-start; /* Better scrolling on mobile */
+                align-items: flex-start; 
             }
         }
     </style>
@@ -527,32 +529,33 @@
             <h3>Engineering & Design</h3>
             <div class="software-grid-logos">
                 <div class="software-card-logo">
-                    <img src="assets/logos/bluebeam.svg" alt="Bluebeam Logo">
-                    <span>Bluebeam</span>
-                </div>
-                <div class="software-card-logo">
-                    <img src="assets/logos/midasgen.svg" alt="Midas Gen Logo">
-                    <span>Midas Gen</span>
-                </div>
-                <div class="software-card-logo">
-                    <img src="assets/logos/tekla.svg" alt="Tekla Structural Designer Logo">
-                    <span>Tekla Structural Designer</span>
-                </div>
-                <div class="software-card-logo">
-                    <img src="assets/logos/ideastatica.svg" alt="IDEA StatiCa Logo">
-                    <span>IDEA StatiCa</span>
-                </div>
-                <div class="software-card-logo">
-                    <img src="assets/logos/etabs.svg" alt="ETABS Logo">
-                    <span>ETABS</span>
-                </div>
-                <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/autocad/d0c3a6" alt="Autodesk AutoCAD Logo">
+                    <img src="https://cdn.simpleicons.org/autocad/d0c3a6" alt="AutoCAD Logo">
                     <span>Autodesk AutoCAD</span>
                 </div>
                 <div class="software-card-logo">
-                    <img src="https://cdn.simpleicons.org/autodeskrevit/d0c3a6" alt="Autodesk Revit Logo">
+                    <img src="https://cdn.simpleicons.org/autodeskrevit/d0c3a6" alt="Revit Logo">
                     <span>Autodesk Revit</span>
+                </div>
+                
+                <div class="software-card-logo">
+                    <div class="icon-mask" style="-webkit-mask-image: url('bluebeam.png'); mask-image: url('bluebeam.png');"></div>
+                    <span>Bluebeam</span>
+                </div>
+                <div class="software-card-logo">
+                    <div class="icon-mask" style="-webkit-mask-image: url('midas.png'); mask-image: url('midas.png');"></div>
+                    <span>Midas Gen</span>
+                </div>
+                <div class="software-card-logo">
+                    <div class="icon-mask" style="-webkit-mask-image: url('tekla.png'); mask-image: url('tekla.png');"></div>
+                    <span>Tekla Structural Designer</span>
+                </div>
+                <div class="software-card-logo">
+                    <div class="icon-mask" style="-webkit-mask-image: url('idea.png'); mask-image: url('idea.png');"></div>
+                    <span>Idea StatiCA</span>
+                </div>
+                <div class="software-card-logo">
+                    <div class="icon-mask" style="-webkit-mask-image: url('etabs.png'); mask-image: url('etabs.png');"></div>
+                    <span>ETABS</span>
                 </div>
             </div>
         </div>
@@ -650,7 +653,6 @@
 
     <script>
         // Database of project details
-        // Note: Change the 'imgPerspective' and 'imgDrawing' URLs to the actual filenames of your project images in your repo
         const projectData = {
             'project1': {
                 title: 'D-House Residences (4-Storey Residential Building)',
@@ -689,33 +691,28 @@
         const modal = document.getElementById('projectModal');
 
         function openProjectModal(projectId) {
-            // Get data for the specific project clicked
             const data = projectData[projectId];
 
-            // Populate the modal fields
             document.getElementById('modalTitle').innerText = data.title;
             
             const statusElement = document.getElementById('modalStatus');
             statusElement.innerText = data.status;
-            statusElement.className = 'status-badge ' + data.statusClass; // Update styling based on status
+            statusElement.className = 'status-badge ' + data.statusClass; 
 
             document.getElementById('modalPerspectiveImg').src = data.imgPerspective;
             document.getElementById('modalDrawingImg').src = data.imgDrawing;
             
             document.getElementById('modalDescription').innerText = data.description;
 
-            // Show the modal and prevent background scrolling
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
         }
 
         function closeProjectModal() {
-            // Hide the modal and restore background scrolling
             modal.classList.remove('show');
             document.body.style.overflow = 'auto';
         }
 
-        // Close modal if user clicks outside the modal content box
         window.onclick = function(event) {
             if (event.target === modal) {
                 closeProjectModal();
