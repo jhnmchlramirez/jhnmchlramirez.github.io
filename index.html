@@ -56,33 +56,7 @@
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
                 </button>
                 <div class="carousel-wrapper">
-                    <div class="carousel-track" id="worksCarousel">
-                        <div class="card" onclick="openProjectModal('project1')">
-                            <span class="status-badge status-completed">Completed</span>
-                            <h3>One-Storey Pickleball Court with Mezzanine</h3>
-                            <p>Structural design of a pickleball court with mezzanine utilizing Special Concentrically Braced Frames (SCBF) and Response-Spectrum Analysis. Bridged complex steel modeling with detailed CAD documentation to ensure high constructability and seismic resilience for the large-span structure.</p>
-                        </div>
-                        <div class="card" onclick="openProjectModal('project2')">
-                            <span class="status-badge status-completed">Completed</span>
-                            <h3>D-House Residences</h3>
-                            <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
-                        </div>
-                        <div class="card" onclick="openProjectModal('project3')">
-                            <span class="status-badge status-completed">Completed</span>
-                            <h3>Borreros Residences</h3>
-                            <p>Provided comprehensive structural design and detailed seismic documentation. Developed cost-effective foundation solutions for challenging soil conditions to ensure buildable results aligned with architectural intent.</p>
-                        </div>
-                        <div class="card" onclick="openProjectModal('project4')">
-                            <span class="status-badge status-completed">Completed</span>
-                            <h3>Samoy Residences</h3>
-                            <p>Provided comprehensive structural design and detailed seismic documentation. Developed simplified, cost-effective structural solutions to ensure rapid construction and buildable results aligned with architectural intent.</p>
-                        </div>
-                        <div class="card" onclick="openProjectModal('project5')">
-                            <span class="status-badge status-completed">Completed</span>
-                            <h3>Ayala Greenfield Residences</h3>
-                            <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
-                        </div>
-                    </div>
+                    <div class="carousel-track" id="worksCarousel"></div>
                 </div>
                 <button class="carousel-btn" id="nextBtn" aria-label="Next">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
@@ -97,28 +71,7 @@
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
                 </button>
                 <div class="carousel-wrapper">
-                    <div class="carousel-track" id="servicesCarousel">
-                        <div class="card">
-                            <h3>Structural Engineering Design</h3>
-                            <p>Providing safe, practical, and buildable structural solutions for residential and mid-rise buildings, rooted in accurate structural analysis.</p>
-                        </div>
-                        <div class="card">
-                            <h3>Structural Drafting</h3>
-                            <p>Preparation of highly detailed structural drawings. Ensuring that calculations and final drawings are well-coordinated and strictly aligned with your project requirements.</p>
-                        </div>
-                        <div class="card">
-                            <h3>Structural BIM Modeling</h3>
-                            <p>Developing accurate 3D structural models using Revit. Implementing BIM workflows to improve project coordination, efficiency, and clash detection.</p>
-                        </div>
-                        <div class="card">
-                            <h3>Project Consultation</h3>
-                            <p>Offering expert advice on structural design strategies, material selection, and construction methodologies to optimize project outcomes.</p>
-                        </div>
-                        <div class="card">
-                            <h3>AutoCAD Tutorial</h3>
-                            <p>Comprehensive training sessions to help you master AutoCAD for structural drafting and design.</p>
-                        </div>
-                    </div>
+                    <div class="carousel-track" id="servicesCarousel"></div>
                 </div>
                 <button class="carousel-btn" id="nextBtnServices" aria-label="Next">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
@@ -128,12 +81,12 @@
 
         <section id="blogs" class="container page-section hidden-section">
             <h2 class="section-title">Blogs & Insights</h2>
-            <p style="color: var(--text-secondary);">Coming soon. This space will feature technical articles, industry insights, and engineering updates.</p>
+            <div id="blogsGrid" class="grid-container"></div>
         </section>
 
         <section id="webtools" class="container page-section hidden-section">
             <h2 class="section-title">Engineering Webtools</h2>
-            <p style="color: var(--text-secondary);">Coming soon. Interactive Engineering Calculators and digital solutions will be available here.</p>
+            <div id="webtoolsGrid" class="grid-container"></div>
         </section>
 
     </main>
@@ -173,7 +126,7 @@
             </div>
 
             <div class="footer-col">
-                <h4 class="footer-heading">PLATFORM</h4>
+                <h4 class="footer-heading">PLAYFORM</h4>
                 <ul class="footer-links">
                     <li><a href="#" data-tab="about" onclick="switchTab('about', event)" class="active-link">Home</a></li>
                     <li><a href="#" data-tab="works" onclick="switchTab('works', event)">Works</a></li>
@@ -253,103 +206,101 @@
         </div>
     </div>
 
+    <script src="worksData.js"></script>
+    <script src="servicesData.js"></script>
+    <script src="blogsData.js"></script>
+    <script src="webtoolsData.js"></script>
+
     <script>
-        const projectData = {
-            'project1': {
-                title: 'One-Storey Pickleball Court with Mezzanine',
-                status: 'Completed',
-                statusClass: 'status-completed',
-                images: [
-                    { src: 'images/FMDC Pers.jpg', caption: 'Perspective View' },
-                    { src: 'images/FMDC_1.png', caption: 'Drawing File' },
-                    { src: 'images/FMDC_2.png', caption: 'Drawing File' },
-                    { src: 'images/FMDC_3.png', caption: 'Drawing File' }
-                ],
-                description: "Completed the structural design and detailed documentation for a one-storey pickleball facility featuring a functional mezzanine level. Due to the high-seismic demands of the region, the lateral force resisting system was engineered using a Special Concentrically Braced Frame (SCBF). Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to optimize the steel members and connections, ensuring the structure could withstand significant seismic energy through controlled member yielding.\n\n Bridged the gap between advanced steel modeling and on-site assembly through high-precision CAD layouts and connection detailing. Specific focus was placed on the design of the mezzanine floor and the large-span roof trusses to maintain the open-court architectural intent while meeting stringent drift requirements. The resulting documentation provided a clear roadmap for the contractor teams, ensuring that the specialized bracing and structural joints were implemented with high accuracy for a safe and cost-effective build."
-            },
-            'project2': {
-                title: 'D-House Residences (4-Storey Residential Building)',
-                status: 'Completed',
-                statusClass: 'status-completed',
-                images: [
-                    { src: 'images/D-House.jpg', caption: 'Perspective View' },
-                    { src: 'images/Plans 1.png', caption: 'Drawing File' },
-                    { src: 'images/Plans 2.png', caption: 'Drawing File' }
-                ],
-                description: "Performed comprehensive structural design and analysis for a 4-storey residential building using Linear Static and Dynamic Response-Spectrum Analysis (RSA) to ensure seismic resilience in a high-risk zone. Developed detailed structural documentation and construction drawings, ensuring all solutions maintained strict alignment with the original architectural intent.\n\n Addressed weak soil conditions by conducting a depth-bearing capacity trade-off analysis. Determined an optimal excavation depth to reach a stable strata, providing a high-bearing capacity foundation without the need for expensive deep-piling. To counter the small footprint and soil limitations, integrated Autoclaved Aerated Concrete (AAC) blocks into the design. This significantly reduced the building's dead load, allowing for more slender structural members and reduced foundation pressure."
-            },
-            'project3': {
-                title: 'Borreros Residences (3-Storey Residential Building with One-level Basement)',
-                status: 'Completed',
-                statusClass: 'status-completed',
-                images: [
-                    { src: 'images/Borreros Residences.jpg', caption: 'Perspective View' },
-                    { src: 'images/Plans_Borreros.png', caption: 'Drawing File' },
-                    { src: 'images/Plans_Borreros2.png', caption: 'Drawing File' }
-                ],
-                description: "Executed comprehensive structural design and analysis for a residential building featuring a single-level basement and a distinctive U-shaped architectural configuration. Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to mitigate torsional effects and stress concentrations inherent in irregular plan geometries. To ensure seamless on-site execution, the gap between complex analytical modeling and final construction was bridged through high-precision CAD documentation. This process translated sophisticated seismic data into clear, constructability-focused details, providing contractor teams with a definitive roadmap for assembly.\n\nClarity in the detailing of re-entrant corners and basement retaining walls was prioritized to eliminate field errors and maintain strict alignment with the architectural intent. Following the project’s completion, a proactive site inspection was conducted to evaluate the structure’s performance after the 2025 earthquake series. This post-construction verification confirmed the total integrity of the concrete frame, proving that the meticulous coordination between analysis and detailed documentation resulted in a resilient structure free of significant seismic distress."
-            },
-            'project4': {
-                title: 'Samoy Residences (2-Storey Residential Building)',
-                status: 'Completed',
-                statusClass: 'status-completed',
-                images: [
-                    { src: 'images/Samoy Perspective.jpg', caption: 'Perspective View' },
-                    { src: 'images/Plans_Samoy.png', caption: 'Drawing File' }
-                ],
-                description: "Completed the structural design and detailed documentation for a residential project, prioritizing cost-efficiency and structural simplicity. Due to the site’s proximity to an active fault line, Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to ensure superior seismic performance. This high-level analytical approach allowed for a design that balances strict safety requirements with a lightweight and economical structural frame.\n\n Bridged the gap between advanced seismic modeling and on-site execution through high-precision CAD layouts. These detailed drawings provided contractor teams with a clear, error-free roadmap for assembly, ensuring that critical seismic details were accurately implemented during construction. The final output successfully synchronized stringent technical standards with the original architectural intent, delivering a safe and buildable residential solution."
-            },
-            'project5': {
-                title: 'Ayala Greenfield Residences (4-Storey Commercial Building)',
-                status: 'Completed',
-                statusClass: 'status-completed',
-                images: [
-                    { src: 'images/Ayala Perspective.png', caption: 'Perspective View' },
-                    { src: 'images/Ayala Plans.png', caption: 'Drawing File' },
-                    { src: 'images/Ayala Plans2.png', caption: 'Drawing File' }
-                ],
-                description: "Led the structural design and documentation for a one-storey residential building with a distinctive U-shaped architectural configuration and one-level basement, focusing on cost-effectiveness and constructability. Employed Linear Static and Dynamic Response-Spectrum Analysis (RSA) to address seismic concerns in the region. The design balanced safety requirements with a streamlined structural system, ensuring efficient material usage and construction processes.\n\n Collaborated closely with the architectural team to integrate structural elements seamlessly into the building's aesthetic. Detailed CAD drawings were produced to guide construction, ensuring that all seismic considerations were accurately implemented. The completed project met all performance criteria and received recognition for its innovative approach to commercial structural design."
-            },
-        };
+        // Global variables initialized after data sets load
+        const modal = document.getElementById('projectModal');
+        const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
+        let currentProjectIndex = 0;
+        let currentImageIndex = 0;
+
+        // DATA INJECTION ENGINE
+        function initAppEngine() {
+            // A. Render Works
+            const worksTrack = document.getElementById('worksCarousel');
+            if (worksTrack && projectKeys.length > 0) {
+                worksTrack.innerHTML = projectKeys.map(key => `
+                    <div class="card" onclick="openProjectModal('${key}')">
+                        <span class="status-badge ${projectData[key].statusClass}">${projectData[key].status}</span>
+                        <h3>${projectData[key].title}</h3>
+                        <p>${projectData[key].description.substring(0, 140)}...</p>
+                    </div>
+                `).join('');
+            }
+
+            // B. Render Services
+            const servicesTrack = document.getElementById('servicesCarousel');
+            if (servicesTrack && typeof servicesData !== 'undefined') {
+                servicesTrack.innerHTML = servicesData.map(service => `
+                    <div class="card">
+                        <h3>${service.title}</h3>
+                        <p>${service.desc}</p>
+                    </div>
+                `).join('');
+            }
+
+            // C. Render Blogs Placeholder
+            const blogsGrid = document.getElementById('blogsGrid');
+            if (blogsGrid && typeof blogsData !== 'undefined') {
+                blogsGrid.innerHTML = `
+                    <p style="color: var(--text-secondary); padding: 10px 0;">${blogsData.placeholderText}</p>
+                `;
+            }
+
+            // D. Render Webtools Placeholder
+            const webtoolsGrid = document.getElementById('webtoolsGrid');
+            if (webtoolsGrid && typeof webtoolsData !== 'undefined') {
+                webtoolsGrid.innerHTML = `
+                    <p style="color: var(--text-secondary); padding: 10px 0;">${webtoolsData.placeholderText}</p>
+                `;
+            }
+        }
+
+        // Run rendering logic when DOM loads
+        window.addEventListener('DOMContentLoaded', initAppEngine);
 
         function switchTab(tabId, event) {
-    if (event) event.preventDefault(); 
+            if (event) event.preventDefault(); 
 
-    // Hide all sections
-    const sections = document.querySelectorAll('.page-section');
-    sections.forEach(sec => {
-        sec.classList.remove('active-section');
-        sec.classList.add('hidden-section');
-    });
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => {
+                sec.classList.remove('active-section');
+                sec.classList.add('hidden-section');
+            });
 
-    // Show target section
-    const targetSection = document.getElementById(tabId);
-    if (targetSection) {
-        targetSection.classList.remove('hidden-section');
-        targetSection.classList.add('active-section');
-    }
+            // Show target section
+            const targetSection = document.getElementById(tabId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden-section');
+                targetSection.classList.add('active-section');
+            }
 
-    // --- Highlight the active navigation link ---
-    const allNavLinks = document.querySelectorAll('a[data-tab]');
-    allNavLinks.forEach(link => {
-        link.classList.remove('active-link'); // Remove highlight from all tabs
-        if (link.getAttribute('data-tab') === tabId) {
-            link.classList.add('active-link'); // Add highlight to the active tab
+            // --- Highlight the active navigation link ---
+            const allNavLinks = document.querySelectorAll('a[data-tab]');
+            allNavLinks.forEach(link => {
+                link.classList.remove('active-link'); // Remove highlight from all tabs
+                if (link.getAttribute('data-tab') === tabId) {
+                    link.classList.add('active-link'); // Add highlight to the active tab
+                }
+            });
+
+            // Toggle Back to Home Button
+            const backBtn = document.getElementById('backToHomeBtn');
+            if (backBtn) {
+                if (tabId === 'about') {
+                    backBtn.style.display = 'none'; 
+                } else {
+                    backBtn.style.display = 'flex'; 
+                }
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    });
-
-    // Toggle Back to Home Button
-    const backBtn = document.getElementById('backToHomeBtn');
-    if (backBtn) {
-        if (tabId === 'about') {
-            backBtn.style.display = 'none'; 
-        } else {
-            backBtn.style.display = 'flex'; 
-        }
-    }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
         function scrollToFooter(event) {
             if (event) event.preventDefault(); 
@@ -357,11 +308,6 @@
                 behavior: 'smooth' 
             });
         }
-
-        const modal = document.getElementById('projectModal');
-        const projectKeys = Object.keys(projectData);
-        let currentProjectIndex = 0;
-        let currentImageIndex = 0;
 
         function openProjectModal(projectId) {
             currentProjectIndex = projectKeys.indexOf(projectId);
@@ -437,28 +383,35 @@
             }
         }
 
-        const worksTrack = document.getElementById('worksCarousel');
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            const cardWidth = worksTrack.querySelector('.card').offsetWidth;
-            const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
-            worksTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
-        });
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            const cardWidth = worksTrack.querySelector('.card').offsetWidth;
-            const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
-            worksTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
-        });
+        // CAROUSEL EVENT LISTENERS (With safety handling for empty loads)
+        window.addEventListener('DOMContentLoaded', () => {
+            const worksTrack = document.getElementById('worksCarousel');
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                const card = worksTrack.querySelector('.card');
+                const cardWidth = card ? card.offsetWidth : 300;
+                const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
+                worksTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+            });
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                const card = worksTrack.querySelector('.card');
+                const cardWidth = card ? card.offsetWidth : 300;
+                const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
+                worksTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+            });
 
-        const servicesTrack = document.getElementById('servicesCarousel');
-        document.getElementById('prevBtnServices').addEventListener('click', () => {
-            const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
-            const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
-            servicesTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
-        });
-        document.getElementById('nextBtnServices').addEventListener('click', () => {
-            const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
-            const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
-            servicesTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+            const servicesTrack = document.getElementById('servicesCarousel');
+            document.getElementById('prevBtnServices').addEventListener('click', () => {
+                const card = servicesTrack.querySelector('.card');
+                const cardWidth = card ? card.offsetWidth : 300;
+                const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
+                servicesTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+            });
+            document.getElementById('nextBtnServices').addEventListener('click', () => {
+                const card = servicesTrack.querySelector('.card');
+                const cardWidth = card ? card.offsetWidth : 300;
+                const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
+                servicesTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+            });
         });
     </script>
 </body>
