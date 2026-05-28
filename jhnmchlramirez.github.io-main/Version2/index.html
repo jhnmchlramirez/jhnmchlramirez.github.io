@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Michael C. Ramirez | Structural Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" onclick="switchTab('about', event)" class="logo">
+                <span class="logo-name">Engr. JM Ramirez</span> 
+                <span class="logo-suffix">Engineering Solutions</span>
+            </a>
+            <div class="nav-links">
+                <a href="#" data-tab="about" onclick="switchTab('about', event)" class="active-link">Home</a>
+                <a href="#" data-tab="works" onclick="switchTab('works', event)">Works</a>
+                <a href="#" data-tab="services" onclick="switchTab('services', event)">Services</a>
+                <a href="#" data-tab="blogs" onclick="switchTab('blogs', event)">Blogs/Insights</a>
+                <a href="#" data-tab="webtools" onclick="switchTab('webtools', event)">Webtools</a>
+                <a href="#site-footer" onclick="scrollToFooter(event)" class="btn-hire">Hire Me</a>
+            </div>
+        </div>
+    </nav>
+
+    <button id="backToHomeBtn" class="back-btn" onclick="switchTab('about', event)">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        Back to Home
+    </button>
+
+    <main id="app-container">
+        
+        <section id="about" class="container page-section active-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>More Than Structures</h1>
+                    <h2>Civil Engineer | Structural Design Engineer | Structural BIM Modeler</h2>
+                    <p>Licensed Civil Engineer practicing Structural Engineering Design since 2020, with experience in delivering practical and buildable solutions across residential to mid-rise building projects. My work focuses on bridging structural analysis and detailed documentation to ensure clarity, accuracy, and constructability in every project.</p>
+                    <p>Proficient in Structural Drafting, having handled not only structural analysis and design but also the preparation of detailed drawings using both CAD and Revit. This integrated approach allows me to maintain control over the design process, ensuring that calculations, models, and drawings are well-coordinated and aligned with project requirements.</p>
+                    <p>Dedicated to mastering Building Information Modeling (BIM) through self-directed learning, I specialize in Structural Modeling and Drafting within real project workflows. I am confident in my ability to produce accurate Revit models and detailed drawings, and I am committed to further refining my coordination skills and technical proficiency through professional guidance and collaborative experience.</p>
+                    <p>With a strong foundation in Structural Engineering and a developing proficiency in BIM workflows, I aim to contribute to efficient, accurate, and well-coordinated design solutions while continuously advancing my technical capabilities.</p>
+                </div>
+                <div class="hero-image">
+                    <img src="images/Profile.jpg" alt="John Michael C. Ramirez">
+                </div>
+            </div>
+        </section>
+
+        <section id="works" class="container page-section hidden-section">
+            <h2 class="section-title">Works & Projects</h2>
+            <div class="carousel-container">
+                <button class="carousel-btn" id="prevBtn" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+                </button>
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="worksCarousel">
+                        <div class="card" onclick="openProjectModal('project1')">
+                            <span class="status-badge status-completed">Completed</span>
+                            <h3>One-Storey Pickleball Court with Mezzanine</h3>
+                            <p>Structural design of a pickleball court with mezzanine utilizing Special Concentrically Braced Frames (SCBF) and Response-Spectrum Analysis. Bridged complex steel modeling with detailed CAD documentation to ensure high constructability and seismic resilience for the large-span structure.</p>
+                        </div>
+                        <div class="card" onclick="openProjectModal('project2')">
+                            <span class="status-badge status-completed">Completed</span>
+                            <h3>D-House Residences</h3>
+                            <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
+                        </div>
+                        <div class="card" onclick="openProjectModal('project3')">
+                            <span class="status-badge status-completed">Completed</span>
+                            <h3>Borreros Residences</h3>
+                            <p>Provided comprehensive structural design and detailed seismic documentation. Developed cost-effective foundation solutions for challenging soil conditions to ensure buildable results aligned with architectural intent.</p>
+                        </div>
+                        <div class="card" onclick="openProjectModal('project4')">
+                            <span class="status-badge status-completed">Completed</span>
+                            <h3>Samoy Residences</h3>
+                            <p>Provided comprehensive structural design and detailed seismic documentation. Developed simplified, cost-effective structural solutions to ensure rapid construction and buildable results aligned with architectural intent.</p>
+                        </div>
+                        <div class="card" onclick="openProjectModal('project5')">
+                            <span class="status-badge status-completed">Completed</span>
+                            <h3>Ayala Greenfield Residences</h3>
+                            <p>Delivered comprehensive structural engineering design and detailed documentation. Ensured practical, buildable solutions aligned with architectural intent.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn" id="nextBtn" aria-label="Next">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <section id="services" class="container page-section hidden-section">
+            <h2 class="section-title">Services Offered</h2>
+            <div class="carousel-container">
+                <button class="carousel-btn" id="prevBtnServices" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+                </button>
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="servicesCarousel">
+                        <div class="card">
+                            <h3>Structural Engineering Design</h3>
+                            <p>Providing safe, practical, and buildable structural solutions for residential and mid-rise buildings, rooted in accurate structural analysis.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Structural Drafting</h3>
+                            <p>Preparation of highly detailed structural drawings. Ensuring that calculations and final drawings are well-coordinated and strictly aligned with your project requirements.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Structural BIM Modeling</h3>
+                            <p>Developing accurate 3D structural models using Revit. Implementing BIM workflows to improve project coordination, efficiency, and clash detection.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Project Consultation</h3>
+                            <p>Offering expert advice on structural design strategies, material selection, and construction methodologies to optimize project outcomes.</p>
+                        </div>
+                        <div class="card">
+                            <h3>AutoCAD Tutorial</h3>
+                            <p>Comprehensive training sessions to help you master AutoCAD for structural drafting and design.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn" id="nextBtnServices" aria-label="Next">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <section id="blogs" class="container page-section hidden-section">
+            <h2 class="section-title">Blogs & Insights</h2>
+            <p style="color: var(--text-secondary);">Coming soon. This space will feature technical articles, industry insights, and engineering updates.</p>
+        </section>
+
+        <section id="webtools" class="container page-section hidden-section">
+            <h2 class="section-title">Engineering Webtools</h2>
+            <p style="color: var(--text-secondary);">Coming soon. Interactive Engineering Calculators and digital solutions will be available here.</p>
+        </section>
+
+    </main>
+
+    <footer id="site-footer" class="site-footer">
+        <div class="container footer-content">
+            
+            <div class="footer-col brand-col">
+                <a href="#" onclick="switchTab('about', event)" class="footer-logo">
+                    <span class="logo-name">Engr. JM Ramirez</span>
+                </a>
+                <p class="footer-desc">Engineering Design, Drafting, BIM Modeling and Digital Solutions.</p>
+                
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/zerimar024" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/john-michael-ramirez-56ab46197/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.762 0-5 2.238-5 5v14c0 2.762 2.238 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.762-2.238-5-5-5zM7 19H4V8h3v11zM5.5 6.5C4.12 6.5 3 5.38 3 4s1.12-2.5 2.5-2.5S8 2.62 8 4 6.88 6.5 5.5 6.5zM20 19h-3v-5.5c0-1.3-1-2.5-2.4-2.5-1.2 0-1.8.8-2.1 1.5-.1.2-.1.5-.1.8V19h-3V8h3v1.6c.4-.6 1.3-1.5 3-1.5 2.2 0 3.5 1.4 3.5 4.4V19z"/></svg>
+                    </a>
+                    <a href="mailto:jhnmchlramirez@gmail.com" class="social-btn" aria-label="Gmail">
+                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    </a>
+                </div>
+
+                <h4 class="footer-heading contact-heading">CONTACT</h4>
+                <ul class="footer-contact-list">
+                    <li>
+                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <a href="mailto:jhnmchlramirez@gmail.com">jhnmchlramirez@gmail.com</a>
+                    </li>
+                    <li>
+                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/></svg>
+                        <span>Manila, Philippines</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">PLATFORM</h4>
+                <ul class="footer-links">
+                    <li><a href="#" data-tab="about" onclick="switchTab('about', event)" class="active-link">Home</a></li>
+                    <li><a href="#" data-tab="works" onclick="switchTab('works', event)">Works</a></li>
+                    <li><a href="#" data-tab="services" onclick="switchTab('services', event)">Services</a></li>
+                    <li><a href="#" data-tab="blogs" onclick="switchTab('blogs', event)">Blogs/Insights</a></li>
+                    <li><a href="#" data-tab="webtools" onclick="switchTab('webtools', event)">Webtools</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">SERVICES</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="switchTab('services', event)">Structural Design</a></li>
+                    <li><a href="#" onclick="switchTab('services', event)">Drafting</a></li>
+                    <li><a href="#" onclick="switchTab('services', event)">BIM Modeling</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">LEGAL</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Disclaimer</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 John Michael C. Ramirez. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
+        <img id="lightboxImg" src="" alt="Enlarged View">
+    </div>
+
+    <div id="projectModal" class="modal-overlay">
+        <button class="modal-project-nav prev-project" onclick="prevProject()" aria-label="Previous Project">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+        </button>
+        <button class="modal-project-nav next-project" onclick="nextProject()" aria-label="Next Project">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </button>
+
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeProjectModal()">&times;</span>
+            
+            <div class="modal-header">
+                <h2 id="modalTitle">Project Name</h2>
+                <span id="modalStatus" class="status-badge">Status</span>
+            </div>
+            
+            <div class="modal-body">
+                <div class="modal-left">
+                    <div class="image-carousel">
+                        <button class="img-nav-btn prev-img" onclick="prevImage()" aria-label="Previous Photo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+                        </button>
+                        
+                        <img id="modalCarouselImg" src="" alt="Project Content" onclick="openLightbox(this.src)" title="Click to enlarge">
+                        
+                        <button class="img-nav-btn next-img" onclick="nextImage()" aria-label="Next Photo">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                        </button>
+                    </div>
+                    <span id="modalImageCaption" class="image-caption">Image Caption</span>
+                </div>
+                
+                <div class="modal-right">
+                    <h4>Project Details</h4>
+                    <p id="modalDescription">Detailed description will load here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projectData = {
+            'project1': {
+                title: 'One-Storey Pickleball Court with Mezzanine',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                images: [
+                    { src: 'images/FMDC Pers.jpg', caption: 'Perspective View' },
+                    { src: 'images/FMDC_1.png', caption: 'Drawing File' },
+                    { src: 'images/FMDC_2.png', caption: 'Drawing File' },
+                    { src: 'images/FMDC_3.png', caption: 'Drawing File' }
+                ],
+                description: "Completed the structural design and detailed documentation for a one-storey pickleball facility featuring a functional mezzanine level. Due to the high-seismic demands of the region, the lateral force resisting system was engineered using a Special Concentrically Braced Frame (SCBF). Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to optimize the steel members and connections, ensuring the structure could withstand significant seismic energy through controlled member yielding.\n\n Bridged the gap between advanced steel modeling and on-site assembly through high-precision CAD layouts and connection detailing. Specific focus was placed on the design of the mezzanine floor and the large-span roof trusses to maintain the open-court architectural intent while meeting stringent drift requirements. The resulting documentation provided a clear roadmap for the contractor teams, ensuring that the specialized bracing and structural joints were implemented with high accuracy for a safe and cost-effective build."
+            },
+            'project2': {
+                title: 'D-House Residences (4-Storey Residential Building)',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                images: [
+                    { src: 'images/D-House.jpg', caption: 'Perspective View' },
+                    { src: 'images/Plans 1.png', caption: 'Drawing File' },
+                    { src: 'images/Plans 2.png', caption: 'Drawing File' }
+                ],
+                description: "Performed comprehensive structural design and analysis for a 4-storey residential building using Linear Static and Dynamic Response-Spectrum Analysis (RSA) to ensure seismic resilience in a high-risk zone. Developed detailed structural documentation and construction drawings, ensuring all solutions maintained strict alignment with the original architectural intent.\n\n Addressed weak soil conditions by conducting a depth-bearing capacity trade-off analysis. Determined an optimal excavation depth to reach a stable strata, providing a high-bearing capacity foundation without the need for expensive deep-piling. To counter the small footprint and soil limitations, integrated Autoclaved Aerated Concrete (AAC) blocks into the design. This significantly reduced the building's dead load, allowing for more slender structural members and reduced foundation pressure."
+            },
+            'project3': {
+                title: 'Borreros Residences (3-Storey Residential Building with One-level Basement)',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                images: [
+                    { src: 'images/Borreros Residences.jpg', caption: 'Perspective View' },
+                    { src: 'images/Plans_Borreros.png', caption: 'Drawing File' },
+                    { src: 'images/Plans_Borreros2.png', caption: 'Drawing File' }
+                ],
+                description: "Executed comprehensive structural design and analysis for a residential building featuring a single-level basement and a distinctive U-shaped architectural configuration. Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to mitigate torsional effects and stress concentrations inherent in irregular plan geometries. To ensure seamless on-site execution, the gap between complex analytical modeling and final construction was bridged through high-precision CAD documentation. This process translated sophisticated seismic data into clear, constructability-focused details, providing contractor teams with a definitive roadmap for assembly.\n\nClarity in the detailing of re-entrant corners and basement retaining walls was prioritized to eliminate field errors and maintain strict alignment with the architectural intent. Following the project’s completion, a proactive site inspection was conducted to evaluate the structure’s performance after the 2025 earthquake series. This post-construction verification confirmed the total integrity of the concrete frame, proving that the meticulous coordination between analysis and detailed documentation resulted in a resilient structure free of significant seismic distress."
+            },
+            'project4': {
+                title: 'Samoy Residences (2-Storey Residential Building)',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                images: [
+                    { src: 'images/Samoy Perspective.jpg', caption: 'Perspective View' },
+                    { src: 'images/Plans_Samoy.png', caption: 'Drawing File' }
+                ],
+                description: "Completed the structural design and detailed documentation for a residential project, prioritizing cost-efficiency and structural simplicity. Due to the site’s proximity to an active fault line, Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to ensure superior seismic performance. This high-level analytical approach allowed for a design that balances strict safety requirements with a lightweight and economical structural frame.\n\n Bridged the gap between advanced seismic modeling and on-site execution through high-precision CAD layouts. These detailed drawings provided contractor teams with a clear, error-free roadmap for assembly, ensuring that critical seismic details were accurately implemented during construction. The final output successfully synchronized stringent technical standards with the original architectural intent, delivering a safe and buildable residential solution."
+            },
+            'project5': {
+                title: 'Ayala Greenfield Residences (4-Storey Commercial Building)',
+                status: 'Completed',
+                statusClass: 'status-completed',
+                images: [
+                    { src: 'images/Ayala Perspective.png', caption: 'Perspective View' },
+                    { src: 'images/Ayala Plans.png', caption: 'Drawing File' },
+                    { src: 'images/Ayala Plans2.png', caption: 'Drawing File' }
+                ],
+                description: "Led the structural design and documentation for a one-storey residential building with a distinctive U-shaped architectural configuration and one-level basement, focusing on cost-effectiveness and constructability. Employed Linear Static and Dynamic Response-Spectrum Analysis (RSA) to address seismic concerns in the region. The design balanced safety requirements with a streamlined structural system, ensuring efficient material usage and construction processes.\n\n Collaborated closely with the architectural team to integrate structural elements seamlessly into the building's aesthetic. Detailed CAD drawings were produced to guide construction, ensuring that all seismic considerations were accurately implemented. The completed project met all performance criteria and received recognition for its innovative approach to commercial structural design."
+            },
+        };
+
+        function switchTab(tabId, event) {
+    if (event) event.preventDefault(); 
+
+    // Hide all sections
+    const sections = document.querySelectorAll('.page-section');
+    sections.forEach(sec => {
+        sec.classList.remove('active-section');
+        sec.classList.add('hidden-section');
+    });
+
+    // Show target section
+    const targetSection = document.getElementById(tabId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden-section');
+        targetSection.classList.add('active-section');
+    }
+
+    // --- Highlight the active navigation link ---
+    const allNavLinks = document.querySelectorAll('a[data-tab]');
+    allNavLinks.forEach(link => {
+        link.classList.remove('active-link'); // Remove highlight from all tabs
+        if (link.getAttribute('data-tab') === tabId) {
+            link.classList.add('active-link'); // Add highlight to the active tab
+        }
+    });
+
+    // Toggle Back to Home Button
+    const backBtn = document.getElementById('backToHomeBtn');
+    if (backBtn) {
+        if (tabId === 'about') {
+            backBtn.style.display = 'none'; 
+        } else {
+            backBtn.style.display = 'flex'; 
+        }
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+        function scrollToFooter(event) {
+            if (event) event.preventDefault(); 
+            document.getElementById('site-footer').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        const modal = document.getElementById('projectModal');
+        const projectKeys = Object.keys(projectData);
+        let currentProjectIndex = 0;
+        let currentImageIndex = 0;
+
+        function openProjectModal(projectId) {
+            currentProjectIndex = projectKeys.indexOf(projectId);
+            renderProjectData();
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeProjectModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderProjectData() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            document.getElementById('modalTitle').innerText = data.title;
+            const statusElement = document.getElementById('modalStatus');
+            statusElement.innerText = data.status;
+            statusElement.className = 'status-badge ' + data.statusClass; 
+            document.getElementById('modalDescription').innerText = data.description;
+            currentImageIndex = 0; 
+            renderModalImage();
+        }
+
+        function prevProject() {
+            if (currentProjectIndex > 0) currentProjectIndex--;
+            else currentProjectIndex = projectKeys.length - 1; 
+            renderProjectData();
+        }
+
+        function nextProject() {
+            if (currentProjectIndex < projectKeys.length - 1) currentProjectIndex++;
+            else currentProjectIndex = 0; 
+            renderProjectData();
+        }
+
+        function renderModalImage() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            const currentImg = data.images[currentImageIndex];
+            document.getElementById('modalCarouselImg').src = currentImg.src;
+            document.getElementById('modalImageCaption').innerText = currentImg.caption;
+        }
+
+        function prevImage() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            if (currentImageIndex > 0) currentImageIndex--;
+            else currentImageIndex = data.images.length - 1; 
+            renderModalImage();
+        }
+
+        function nextImage() {
+            const data = projectData[projectKeys[currentProjectIndex]];
+            if (currentImageIndex < data.images.length - 1) currentImageIndex++;
+            else currentImageIndex = 0; 
+            renderModalImage();
+        }
+
+        function openLightbox(src) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxOverlay').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxOverlay').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const lightbox = document.getElementById('lightboxOverlay');
+            if (event.target === lightbox) {
+                closeLightbox();
+            } else if (event.target === modal) {
+                closeProjectModal();
+            }
+        }
+
+        const worksTrack = document.getElementById('worksCarousel');
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            const cardWidth = worksTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
+            worksTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+        });
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const cardWidth = worksTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
+            worksTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+        });
+
+        const servicesTrack = document.getElementById('servicesCarousel');
+        document.getElementById('prevBtnServices').addEventListener('click', () => {
+            const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
+            servicesTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+        });
+        document.getElementById('nextBtnServices').addEventListener('click', () => {
+            const cardWidth = servicesTrack.querySelector('.card').offsetWidth;
+            const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
+            servicesTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
