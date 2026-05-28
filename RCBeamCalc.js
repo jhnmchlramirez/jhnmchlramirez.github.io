@@ -95,6 +95,7 @@ function launchRCBeamTool() {
             <p><span>Effective Depth (\\(d\\)):</span> <span id="outDepth" class="result-val">-</span></p>
             <p><span>Neutral Axis Depth (\\(c\\)):</span> <span id="outNA" class="result-val">-</span></p>
             <p><span>Strength Reduction Factor (\\(\\phi\\)):</span> <span id="outPhi" class="result-val">-</span></p>
+            <p><span>Failure Mode / Classification:</span> <span id="outClassification" class="result-val">-</span></p>
         </div>
 
         <div class="app-results" id="equationPanel" style="display: none; border-left-color: #a0aec0;">
@@ -139,31 +140,34 @@ function toggleBeamInputs() {
     }
 }
 
+// Controls visibility behavior for standard output dashboard panel
 function toggleAnalysis() {
     const panel = document.getElementById('resultsPanel');
     if (panel.style.display === 'block') {
-        panel.style.display = 'none'; // Collapse if open
+        panel.style.display = 'none'; 
     } else {
-        panel.style.display = 'block'; // Expand if closed
+        panel.style.display = 'block'; 
         calculateBeam();
     }
 }
 
+// Controls visibility behavior for structural equations substitution drawer
 function toggleEquationView() {
     const panel = document.getElementById('equationPanel');
     if (panel.style.display === 'block') {
-        panel.style.display = 'none'; // Collapse if open
+        panel.style.display = 'none'; 
     } else {
-        panel.style.display = 'block'; // Expand if closed
-        calculateBeam(); // Force calculation so MathJax loads immediately
+        panel.style.display = 'block'; 
+        calculateBeam(); 
         panel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 }
 
+
 // --- 3. MATHEMATICAL COMPUTATION & DYNAMIC SUBSTITUTION ENGINE ---
 function calculateBeam() {
     const errorDiv = document.getElementById("errorMessage");
-    if(!errorDiv) return; // Prevent errors if the UI hasn't injected yet
+    if(!errorDiv) return; 
     
     errorDiv.innerText = "";
 
@@ -283,19 +287,53 @@ function calculateBeam() {
             }
         }
 
+        // --- STRAIN & DUCTILITY CLASSIFICATION ENGINE ---
         const netStrain = (0.003 * (d - c)) / c;
-        const tyStrain = fy / 200000; 
+        const tyStrain = fy / 200000; // Steel yield strain limit calculation
         
         let phiFlexure = 0.90; 
-        if (netStrain < 0.005) {
-            if (netStrain <= tyStrain) {
-                phiFlexure = 0.65; 
-                errorDiv.innerText = "WARNING: Section is compression-controlled.";
-            } else {
-                phiFlexure = 0.65 + (netStrain - tyStrain) * (0.25 / (0.005 - tyStrain)); 
-            }
+        let sectionStatus = "";
+        let statusColor = "#34d399"; // Default green accent color for safe ductile limit code bounds
+
+        if (netStrain >= 0.005) {
+            phiFlexure = 0.90;
+            sectionStatus = "Tension-Controlled (Ductile) ✔";
+        } else if (netStrain <= tyStrain) {
+            phiFlexure = 0.65; 
+            sectionStatus = "Compression-Controlled (Brittle) ❌";
+            statusColor = "#ef4444"; 
+            errorDiv.innerText = "CRITICAL: Section is compression-controlled. Increase dimensions or f'c.";
+        } else {
+            phiFlexure = 0.65 + (netStrain - tyStrain) * (0.25 / (0.005 - tyStrain)); 
+            sectionStatus = "Transition Zone ⚠";
+            statusColor = "#fbbf24"; 
         }
+
+        // --- CODE MINIMUM REINFORCEMENT CHECK (ACI 318) ---
+        const b_flex = (type === "tbeam") ? (parseFloat(document.getElementById("webWidth").value) || b_shear) : b_shear;
+        const As_min1 = (0.25 * Math.sqrt(fc) * b_flex * d) / fy;
+        const As_min2 = (1.4 * b_flex * d) / fy;
+        const As_min = Math.max(As_min1, As_min2);
+        let rebarCheckText = "";
         
+        if (As < As_min) {
+            rebarCheckText = `As_min Check: As (${As.toFixed(0)} mm²) < As_min (${As_min.toFixed(0)} mm²) ❌ Rebar area is insufficient.`;
+            if (errorDiv.innerText === "") errorDiv.innerText = "WARNING: Reinforcement is below code absolute minimums.";
+        } else {
+            rebarCheckText = `As_min Check: As (${As.toFixed(0)} mm²) ≥ As_min (${As_min.toFixed(0)} mm²) ✔ Section satisfies minimum steel requirement.`;
+        }
+
+        // Append Ductility and Minimum Rebar Verification to LaTeX Panel
+        dynamicMathHTML += `
+            <hr style="border: 1px solid #2d2d35; margin: 15px 0;">
+            <h4 style="color:#FFEE91;">Ductility & Rebar Verification</h4>
+            <p style="display: block;">Net Tensile Strain in Extreme Tension Steel (\\(\\varepsilon_t\\)):</p>
+            <div class="equation">\\[ \\varepsilon_t = 0.003 \\left(\\frac{d - c}{c}\\right) = 0.003 \\left(\\frac{${d.toFixed(1)} - ${c.toFixed(1)}}{${c.toFixed(1)}}\\right) = ${netStrain.toFixed(5)} \\]</div>
+            <p style="display: block; color: #a0aec0;"><i>* Yield Strain Limit (\\(\\varepsilon_{ty} = f_y / E_s\\)): ${tyStrain.toFixed(5)}</i></p>
+            <p style="display: block; font-weight: bold; color: ${statusColor};">${sectionStatus} (\\(\\phi = ${phiFlexure.toFixed(3)}\\))</p>
+            <p style="display: block; margin-top: 10px; font-family: monospace; color: #cbd5e1;">${rebarCheckText}</p>
+        `;
+
         const Mn_kNm = Mn / 1000000;
         const phiMn_kNm = phiFlexure * Mn_kNm;
 
@@ -341,12 +379,12 @@ function calculateBeam() {
         document.getElementById("outDepth").innerText = d.toFixed(1) + " mm";
         document.getElementById("outNA").innerText = c.toFixed(1) + " mm";
         document.getElementById("outPhi").innerText = phiFlexure.toFixed(3);
+        document.getElementById("outClassification").innerText = sectionStatus.replace(" ✔","").replace(" ❌","").replace(" ⚠","");
 
         // Update Dynamic Formula Substitutions
         document.getElementById("equationSubstitutions").innerHTML = dynamicMathHTML;
         
         // ONLY command MathJax to redraw equations if the panel is currently open
-        // (This prevents the website from freezing up when you are typing fast while the panel is hidden)
         if (window.MathJax && document.getElementById('equationPanel').style.display === 'block') { 
             MathJax.typesetPromise([document.getElementById("equationSubstitutions")]); 
         }
@@ -363,4 +401,5 @@ function clearOutputs() {
     document.getElementById("outDepth").innerText = "-";
     document.getElementById("outNA").innerText = "-";
     document.getElementById("outPhi").innerText = "-";
+    document.getElementById("outClassification").innerText = "-";
 }
