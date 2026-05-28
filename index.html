@@ -61,6 +61,44 @@
         .app-results p { color: #f8fafc; font-family: monospace; font-size: 1rem; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; }
         .app-results p span:first-child { display: flex; align-items: center; gap: 6px; }
         .app-results span.result-val { color: #FFEE91; font-weight: bold; font-size: 1.05rem; }
+
+        /* --- MOBILE RESPONSIVENESS PATCH --- */
+        @media (max-width: 600px) {
+            /* 1. Give more breathing room by shrinking container margins */
+            .app-interface { 
+                padding: 15px; 
+            }
+            
+            /* 2. Stack labels and values vertically so they never overlap */
+            .app-results p { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: 6px;
+                background: #222222;
+                padding: 10px;
+                border-radius: 4px;
+            }
+            
+            /* 3. Push values to the right side of their row for a clean layout */
+            .app-results span.result-val { 
+                align-self: flex-end; 
+                font-size: 1.1rem;
+            }
+
+            /* 4. Allow long MathJax equations to scroll sideways if they are too wide */
+            #equationSubstitutions, .equation {
+                overflow-x: auto;
+                max-width: 100%;
+                display: block;
+                padding-bottom: 5px;
+            }
+            
+            /* 5. Make action buttons stack vertically on tiny screens */
+            .app-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
     </style>
 </head>
 <body>
