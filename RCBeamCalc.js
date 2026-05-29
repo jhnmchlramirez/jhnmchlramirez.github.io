@@ -113,13 +113,14 @@ function launchRCBeamTool() {
 // --- 2. LIVE INTERACTIVITY & NAVIGATORS ---
 
 let calcTimeout;
+let mathJaxPromise = Promise.resolve(); // Queue for MathJax to prevent unhandled rejections
 
 // Debounce function to prevent lag while the user is actively typing
 function triggerCalculate() {
     clearTimeout(calcTimeout);
     calcTimeout = setTimeout(() => {
         calculateBeam();
-    }, 300); // Waits 300ms after the last keystroke before crunching the math
+    }, 300); 
 }
 
 function toggleBeamInputs() {
@@ -181,6 +182,7 @@ function calculateBeam() {
     
     const d = h - cc - 10 - 12.5; 
     
+    // Validate depth and core materials first
     if (d <= 0 || fc <= 0 || As <= 0 || fy <= 0) {
         errorDiv.innerText = "Error: Invalid geometric or material inputs.";
         clearOutputs();
@@ -203,6 +205,11 @@ function calculateBeam() {
         // --- ROUTE 1: SINGLY REINFORCED ---
         if (type === "singly") {
             const b = parseFloat(document.getElementById("beamWidth").value) || 0;
+            if (b <= 0) {
+                errorDiv.innerText = "Error: Beam width must be greater than zero.";
+                clearOutputs();
+                return;
+            }
             b_shear = b;
             a = (As * fy) / (0.85 * fc * b);
             c = a / beta1;
@@ -220,6 +227,11 @@ function calculateBeam() {
         // --- ROUTE 2: DOUBLY REINFORCED ---
         else if (type === "doubly") {
             const b = parseFloat(document.getElementById("beamWidth").value) || 0;
+            if (b <= 0) {
+                errorDiv.innerText = "Error: Beam width must be greater than zero.";
+                clearOutputs();
+                return;
+            }
             b_shear = b;
             const Asc = parseFloat(document.getElementById("compBarArea").value) || 0; 
             const dp = parseFloat(document.getElementById("compDepth").value) || 0;    
@@ -227,6 +239,11 @@ function calculateBeam() {
             a = ((As - Asc) * fy) / (0.85 * fc * b);
             c = a / beta1;
             let fsc = 600 * (c - dp) / c;
+
+            // Handle condition where neutral axis causes tension in compression steel
+            if (c <= dp) {
+                errorDiv.innerText = "WARNING: Neutral axis is above compression steel (c < d'). 'Compression' steel is in tension.";
+            }
 
             if (fsc < fy) {
                 const A_quad = 0.85 * fc * b * beta1;
@@ -246,7 +263,7 @@ function calculateBeam() {
             dynamicMathHTML += `
                 <h4 style="color:#FFEE91; margin-top:0;">Flexural Strength Mechanics (Doubly Reinforced)</h4>
                 <p style="display: block;">Calculated Neutral Axis (\\(c\\)) based on stress equilibrium: ${c.toFixed(2)} mm</p>
-                <p style="display: block;">Nominal Moment (\\(M_n = M_{concrete} + M_{comp\\_steel}\\)):</p>
+                <p style="display: block;">Nominal Moment (\\(M_n = M_c + M_{cs}\\)):</p>
                 <div class="equation">\\[ M_n = C_c \\left(d - \\frac{a}{2}\\right) + C_s(d - d') = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\]</div>
             `;
         }
@@ -256,6 +273,12 @@ function calculateBeam() {
             const bf = parseFloat(document.getElementById("flangeWidth").value) || 0;
             const hf = parseFloat(document.getElementById("flangeThickness").value) || 0;
             const bw = parseFloat(document.getElementById("webWidth").value) || 0;
+            
+            if (bf <= 0 || bw <= 0) {
+                errorDiv.innerText = "Error: Web width and Flange width must be greater than zero.";
+                clearOutputs();
+                return;
+            }
             b_shear = bw;
 
             a = (As * fy) / (0.85 * fc * bf);
@@ -289,11 +312,11 @@ function calculateBeam() {
 
         // --- STRAIN & DUCTILITY CLASSIFICATION ENGINE ---
         const netStrain = (0.003 * (d - c)) / c;
-        const tyStrain = fy / 200000; // Steel yield strain limit calculation
+        const tyStrain = fy / 200000; 
         
         let phiFlexure = 0.90; 
         let sectionStatus = "";
-        let statusColor = "#34d399"; // Default green accent color for safe ductile limit code bounds
+        let statusColor = "#34d399"; 
 
         if (netStrain >= 0.005) {
             phiFlexure = 0.90;
@@ -302,7 +325,9 @@ function calculateBeam() {
             phiFlexure = 0.65; 
             sectionStatus = "Compression-Controlled (Brittle) ❌";
             statusColor = "#ef4444"; 
-            errorDiv.innerText = "CRITICAL: Section is compression-controlled. Increase dimensions or f'c.";
+            if (errorDiv.innerText === "") {
+                errorDiv.innerText = "CRITICAL: Section is compression-controlled. Increase dimensions or f'c.";
+            }
         } else {
             phiFlexure = 0.65 + (netStrain - tyStrain) * (0.25 / (0.005 - tyStrain)); 
             sectionStatus = "Transition Zone ⚠";
@@ -384,9 +409,11 @@ function calculateBeam() {
         // Update Dynamic Formula Substitutions
         document.getElementById("equationSubstitutions").innerHTML = dynamicMathHTML;
         
-        // ONLY command MathJax to redraw equations if the panel is currently open
+        // Chain the MathJax promise to prevent unhandled rejection errors
         if (window.MathJax && document.getElementById('equationPanel').style.display === 'block') { 
-            MathJax.typesetPromise([document.getElementById("equationSubstitutions")]); 
+            mathJaxPromise = mathJaxPromise.then(() => {
+                return MathJax.typesetPromise([document.getElementById("equationSubstitutions")]);
+            }).catch((err) => console.log('MathJax rendering error:', err));
         }
 
     } catch (e) {

@@ -79,11 +79,14 @@ const ComplexBeams = {
         loads.forEach(ld => {
             if (ld.type === 'P') { sumF += ld.mag; sumM_0 += ld.mag * ld.a; }
             if (ld.type === 'U') { let f = ld.mag * (ld.b - ld.a); sumF += f; sumM_0 += f * (ld.a + (ld.b - ld.a)/2); }
+            // FIX: Inject triangular static equivalents so they aren't ignored
+            if (ld.type === 'Tri') { let f = 0.5 * ld.mag * (ld.b - ld.a); sumF += f; sumM_0 += f * (ld.a + 2 * (ld.b - ld.a) / 3); }
         });
 
         A[0][0] = 1; A[0][1] = 1; // Basic static bounds integration conditions
         for (let i = 0; i < n; i++) A[0][i] = 1; B[0] = sumF;
-        for (let i = 0; i < n; i++) A[1][i] = L - sups[i]; B[1] = sumM_0;
+        // FIX: Change L - sups[i] to sups[i] to match sumM_0 origin at x = 0
+        for (let i = 0; i < n; i++) A[1][i] = sups[i]; B[1] = sumM_0;
 
         // Apply compatibility boundary matrix structures using standard internal helpers
         for (let k = 0; k < n; k++) {

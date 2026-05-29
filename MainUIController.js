@@ -306,21 +306,25 @@ function calculateAndDraw() {
     if (mode === 'continuous') {
         const method = document.getElementById('analysisMethod').value;
         const customSupportsRaw = document.getElementById('customSupports').value;
-        let supportLocationsStr = customSupportsRaw.split(',').map(s => s.split(':')[0].trim()).join(',');
+        
+        // FIX: Pre-parse and sort the user inputs so index mapping stays identical
+        let parsedSupports = customSupportsRaw.split(',').map(s => {
+            let parts = s.trim().split(':');
+            return { x: parseFloat(parts[0]) || 0, type: parts[1] || 'roller' };
+        }).filter(s => !isNaN(s.x)).sort((a, b) => a.x - b.x);
+
+        let supportLocationsStr = parsedSupports.map(s => s.x).join(',');
         
         beamState = ComplexBeams.solve(L, 'continuous', loads, EI, method, supportLocationsStr);
         beamState.type = 'continuous';
 
         if (!beamState.supports || beamState.supports.length === 0) {
-            beamState.supports = customSupportsRaw.split(',').map(s => {
-                let parts = s.trim().split(':');
-                return { x: parseFloat(parts[0]) || 0, R: 0 };
-            });
+            beamState.supports = parsedSupports.map(s => ({ x: s.x, R: 0 }));
         }
 
-        customSupportsRaw.split(',').forEach((token, idx) => {
-            let parts = token.trim().split(':');
-            if(beamState.supports[idx]) beamState.supports[idx].type = parts[1] || 'roller';
+        // FIX: Safely map pre-sorted types to the engine's structured supports
+        beamState.supports.forEach((sup, idx) => {
+            if(parsedSupports[idx]) sup.type = parsedSupports[idx].type;
         });
     } else {
         const sup1_x = parseFloat(document.getElementById('sup1_pos').value) || 0;

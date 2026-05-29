@@ -118,17 +118,23 @@ const CommonBeams = {
 
         // Perform boundary configuration adjustments to correct numerical drift vectors
         let correctionSlope = 0;
+        let baseDeflection = 0; // FIX: New baseline constant C_2
+        let anchorX = 0;        // FIX: New anchor position
+
         if (type === 'simply' || type === 'propped') {
             correctionSlope = defl[numPoints] / L;
         } else if (type === 'overhanging') {
             let idx1 = Math.round((s1 / L) * numPoints);
             let idx2 = Math.round((s2 / L) * numPoints);
             correctionSlope = (defl[idx2] - defl[idx1]) / (s2 - s1);
+            baseDeflection = defl[idx1]; 
+            anchorX = s1;
         }
 
         for (let i = 0; i <= numPoints; i++) {
             let x = i * (L / numPoints);
-            let trueDeflection = (defl[i] - correctionSlope * x) * 1000; // Normalized scale in mm
+            // FIX: Subtract baseDeflection and anchor rotation mathematically around s1
+            let trueDeflection = (defl[i] - baseDeflection - correctionSlope * (x - anchorX)) * 1000; 
             mathData.push({ x: x, V: V_arr[i], M: M_arr[i], y: trueDeflection });
             maxY = Math.max(maxY, Math.abs(trueDeflection));
         }
