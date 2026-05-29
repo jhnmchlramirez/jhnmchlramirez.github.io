@@ -113,9 +113,8 @@ function launchRCBeamTool() {
 // --- 2. LIVE INTERACTIVITY & NAVIGATORS ---
 
 let calcTimeout;
-let mathJaxPromise = Promise.resolve(); // Queue for MathJax to prevent unhandled rejections
+let mathJaxPromise = Promise.resolve(); 
 
-// Debounce function to prevent lag while the user is actively typing
 function triggerCalculate() {
     clearTimeout(calcTimeout);
     calcTimeout = setTimeout(() => {
@@ -141,7 +140,6 @@ function toggleBeamInputs() {
     }
 }
 
-// Controls visibility behavior for standard output dashboard panel
 function toggleAnalysis() {
     const panel = document.getElementById('resultsPanel');
     if (panel.style.display === 'block') {
@@ -152,7 +150,6 @@ function toggleAnalysis() {
     }
 }
 
-// Controls visibility behavior for structural equations substitution drawer
 function toggleEquationView() {
     const panel = document.getElementById('equationPanel');
     if (panel.style.display === 'block') {
@@ -174,6 +171,10 @@ function calculateBeam() {
 
     const type = document.getElementById("beamType").value;
     const code = document.getElementById("codeVersion").value;
+    
+    // Dynamically set the reference string based on active selection
+    const codeDisplay = code === "ACI318_19M" ? "ACI 318-19M" : "ACI 318-25M";
+
     const h = parseFloat(document.getElementById("beamHeight").value) || 0;
     const cc = parseFloat(document.getElementById("clearCover").value) || 0;
     const fc = parseFloat(document.getElementById("concreteStrength").value) || 0;
@@ -182,7 +183,6 @@ function calculateBeam() {
     
     const d = h - cc - 10 - 12.5; 
     
-    // Validate depth and core materials first
     if (d <= 0 || fc <= 0 || As <= 0 || fy <= 0) {
         errorDiv.innerText = "Error: Invalid geometric or material inputs.";
         clearOutputs();
@@ -218,9 +218,9 @@ function calculateBeam() {
             dynamicMathHTML += `
                 <h4 style="color:#FFEE91; margin-top:0;">Flexural Strength Mechanics</h4>
                 <p style="display: block;">Depth of equivalent stress block (\\(a\\)):</p>
-                <div class="equation">\\[ a = \\frac{A_s f_y}{0.85 f'_c b} = \\frac{(${As})(${fy})}{0.85(${fc})(${b})} = ${a.toFixed(2)} \\text{ mm} \\]</div>
+                <div class="equation">\\[ a = \\frac{A_s f_y}{0.85 f'_c b} = \\frac{(${As})(${fy})}{0.85(${fc})(${b})} = ${a.toFixed(2)} \\text{ mm} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.2.2.4.1]}} \\]</div>
                 <p style="display: block;">Nominal Moment (\\(M_n\\)):</p>
-                <div class="equation">\\[ M_n = A_s f_y \\left(d - \\frac{a}{2}\\right) = (${As})(${fy})\\left(${d.toFixed(1)} - \\frac{${a.toFixed(2)}}{2}\\right) \\times 10^{-6} = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\]</div>
+                <div class="equation">\\[ M_n = A_s f_y \\left(d - \\frac{a}{2}\\right) = (${As})(${fy})\\left(${d.toFixed(1)} - \\frac{${a.toFixed(2)}}{2}\\right) \\times 10^{-6} = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.3.1.1]}} \\]</div>
             `;
         }
 
@@ -240,7 +240,6 @@ function calculateBeam() {
             c = a / beta1;
             let fsc = 600 * (c - dp) / c;
 
-            // Handle condition where neutral axis causes tension in compression steel
             if (c <= dp) {
                 errorDiv.innerText = "WARNING: Neutral axis is above compression steel (c < d'). 'Compression' steel is in tension.";
             }
@@ -264,7 +263,7 @@ function calculateBeam() {
                 <h4 style="color:#FFEE91; margin-top:0;">Flexural Strength Mechanics (Doubly Reinforced)</h4>
                 <p style="display: block;">Calculated Neutral Axis (\\(c\\)) based on stress equilibrium: ${c.toFixed(2)} mm</p>
                 <p style="display: block;">Nominal Moment (\\(M_n = M_c + M_{cs}\\)):</p>
-                <div class="equation">\\[ M_n = C_c \\left(d - \\frac{a}{2}\\right) + C_s(d - d') = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\]</div>
+                <div class="equation">\\[ M_n = C_c \\left(d - \\frac{a}{2}\\right) + C_s(d - d') = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.3.1.1]}} \\]</div>
             `;
         }
 
@@ -289,8 +288,8 @@ function calculateBeam() {
                 dynamicMathHTML += `
                     <h4 style="color:#FFEE91; margin-top:0;">Flexural Strength Mechanics</h4>
                     <p style="display: block;">Acts as False T-Beam (\\(a \\le h_f\\)). Analyzed as rectangular section with \\(b = b_f\\).</p>
-                    <div class="equation">\\[ a = \\frac{(${As})(${fy})}{0.85(${fc})(${bf})} = ${a.toFixed(2)} \\text{ mm} \\]</div>
-                    <div class="equation">\\[ M_n = (${As})(${fy})\\left(${d.toFixed(1)} - \\frac{${a.toFixed(2)}}{2}\\right) \\times 10^{-6} = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\]</div>
+                    <div class="equation">\\[ a = \\frac{(${As})(${fy})}{0.85(${fc})(${bf})} = ${a.toFixed(2)} \\text{ mm} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.2.2.4.1]}} \\]</div>
+                    <div class="equation">\\[ M_n = (${As})(${fy})\\left(${d.toFixed(1)} - \\frac{${a.toFixed(2)}}{2}\\right) \\times 10^{-6} = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.3.1.1]}} \\]</div>
                 `;
             } else {
                 const Cf = 0.85 * fc * (bf - bw) * hf; 
@@ -305,7 +304,7 @@ function calculateBeam() {
                 dynamicMathHTML += `
                     <h4 style="color:#FFEE91; margin-top:0;">Flexural Strength Mechanics (True T-Beam)</h4>
                     <p style="display: block;">Moment is composed of Flange forces (\\(C_f\\)) and Web forces (\\(C_w\\)):</p>
-                    <div class="equation">\\[ M_n = C_f\\left(d - \\frac{h_f}{2}\\right) + C_w\\left(d - \\frac{a}{2}\\right) = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\]</div>
+                    <div class="equation">\\[ M_n = C_f\\left(d - \\frac{h_f}{2}\\right) + C_w\\left(d - \\frac{a}{2}\\right) = ${(Mn/1000000).toFixed(2)} \\text{ kN}\\cdot\\text{m} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.3.1.1]}} \\]</div>
                 `;
             }
         }
@@ -342,18 +341,17 @@ function calculateBeam() {
         let rebarCheckText = "";
         
         if (As < As_min) {
-            rebarCheckText = `As_min Check: As (${As.toFixed(0)} mm²) < As_min (${As_min.toFixed(0)} mm²) ❌ Rebar area is insufficient.`;
+            rebarCheckText = `As_min Check: As (${As.toFixed(0)} mm²) < As_min (${As_min.toFixed(0)} mm²) ❌ Rebar area is insufficient. <span style="color: red;">[${codeDisplay} Sec. 9.6.1.2]</span>`;
             if (errorDiv.innerText === "") errorDiv.innerText = "WARNING: Reinforcement is below code absolute minimums.";
         } else {
-            rebarCheckText = `As_min Check: As (${As.toFixed(0)} mm²) ≥ As_min (${As_min.toFixed(0)} mm²) ✔ Section satisfies minimum steel requirement.`;
+            rebarCheckText = `As_min Check: As (${As.toFixed(0)} mm²) ≥ As_min (${As_min.toFixed(0)} mm²) ✔ Section satisfies minimum steel requirement. <span style="color: red;">[${codeDisplay} Sec. 9.6.1.2]</span>`;
         }
 
-        // Append Ductility and Minimum Rebar Verification to LaTeX Panel
         dynamicMathHTML += `
             <hr style="border: 1px solid #2d2d35; margin: 15px 0;">
             <h4 style="color:#FFEE91;">Ductility & Rebar Verification</h4>
             <p style="display: block;">Net Tensile Strain in Extreme Tension Steel (\\(\\varepsilon_t\\)):</p>
-            <div class="equation">\\[ \\varepsilon_t = 0.003 \\left(\\frac{d - c}{c}\\right) = 0.003 \\left(\\frac{${d.toFixed(1)} - ${c.toFixed(1)}}{${c.toFixed(1)}}\\right) = ${netStrain.toFixed(5)} \\]</div>
+            <div class="equation">\\[ \\varepsilon_t = 0.003 \\left(\\frac{d - c}{c}\\right) = 0.003 \\left(\\frac{${d.toFixed(1)} - ${c.toFixed(1)}}{${c.toFixed(1)}}\\right) = ${netStrain.toFixed(5)} \\quad \\color{red}{\\text{[${codeDisplay} Sec. 22.2.1.2]}} \\]</div>
             <p style="display: block; color: #a0aec0;"><i>* Yield Strain Limit (\\(\\varepsilon_{ty} = f_y / E_s\\)): ${tyStrain.toFixed(5)}</i></p>
             <p style="display: block; font-weight: bold; color: ${statusColor};">${sectionStatus} (\\(\\phi = ${phiFlexure.toFixed(3)}\\))</p>
             <p style="display: block; margin-top: 10px; font-family: monospace; color: #cbd5e1;">${rebarCheckText}</p>
@@ -372,7 +370,7 @@ function calculateBeam() {
             Vc = 0.17 * lambda * Math.sqrt(fc) * b_shear * d;
             dynamicMathHTML += `
                 <p style="display: block;">Based on ACI 318-19M:</p>
-                <div class="equation">\\[ V_c = 0.17 \\lambda \\sqrt{f'_c} b_w d \\]</div>
+                <div class="equation">\\[ V_c = 0.17 \\lambda \\sqrt{f'_c} b_w d \\quad \\color{red}{\\text{[${codeDisplay} Table 22.5.5.1]}} \\]</div>
                 <div class="equation">\\[ V_c = 0.17(1.0)\\sqrt{${fc}}(${b_shear})(${d.toFixed(1)}) = ${(Vc/1000).toFixed(2)} \\text{ kN} \\]</div>
             `;
         } else if (code === "ACI318_25M") {
@@ -382,8 +380,8 @@ function calculateBeam() {
             
             dynamicMathHTML += `
                 <p style="display: block;">Based on ACI 318-25M (Accounting for \\(\\rho_w\\) = ${rho_w.toFixed(4)}):</p>
-                <div class="equation">\\[ V_{c,(calc)} = \\left(0.16 \\lambda \\sqrt{f'_c} + 17 \\rho_w\\right) b_w d = ${(Vc_calc/1000).toFixed(2)} \\text{ kN} \\]</div>
-                <div class="equation">\\[ V_{c,(min)} = 0.17 \\lambda \\sqrt{f'_c} b_w d = ${(VcMin/1000).toFixed(2)} \\text{ kN} \\]</div>
+                <div class="equation">\\[ V_{c,(calc)} = \\left(0.16 \\lambda \\sqrt{f'_c} + 17 \\rho_w\\right) b_w d = ${(Vc_calc/1000).toFixed(2)} \\text{ kN} \\quad \\color{red}{\\text{[${codeDisplay} Table 22.5.5.1]}} \\]</div>
+                <div class="equation">\\[ V_{c,(min)} = 0.17 \\lambda \\sqrt{f'_c} b_w d = ${(VcMin/1000).toFixed(2)} \\text{ kN} \\quad \\color{red}{\\text{[${codeDisplay} Table 22.5.5.1]}} \\]</div>
             `;
 
             if (Vc_calc < VcMin) {
@@ -409,7 +407,6 @@ function calculateBeam() {
         // Update Dynamic Formula Substitutions
         document.getElementById("equationSubstitutions").innerHTML = dynamicMathHTML;
         
-        // Chain the MathJax promise to prevent unhandled rejection errors
         if (window.MathJax && document.getElementById('equationPanel').style.display === 'block') { 
             mathJaxPromise = mathJaxPromise.then(() => {
                 return MathJax.typesetPromise([document.getElementById("equationSubstitutions")]);

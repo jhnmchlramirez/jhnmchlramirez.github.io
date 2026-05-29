@@ -1,7 +1,7 @@
 /**
  * RC Column Capacity Analyzer
- * Compliant with ACI 318-19M/25M
- * Calculates theoretical axial strength and maximum design axial strength with full substitution and code referencing.
+ * Compliant with ACI 318-19M & ACI 318-25M
+ * Calculates theoretical axial strength and maximum design axial strength with full substitution and strict code referencing.
  */
 
 function launchRCColumnTool() {
@@ -12,8 +12,15 @@ function launchRCColumnTool() {
     document.getElementById('appTitle').innerText = 'RC COLUMN CAPACITY ANALYZER';
 
     const content = `
-        <div class="app-section-title">Geometry & Materials</div>
+        <div class="app-section-title">Design Parameters, Geometry & Materials</div>
         <div class="app-grid">
+            <div class="app-group">
+                <label>Design Code</label>
+                <select id="aciCode" onchange="runColAnalysis()">
+                    <option value="ACI 318-19M">ACI 318-19M</option>
+                    <option value="ACI 318-25M">ACI 318-25M</option>
+                </select>
+            </div>
             <div class="app-group">
                 <label>Column Shape</label>
                 <select id="colShape" onchange="toggleColShape()">
@@ -88,13 +95,13 @@ function toggleColShape() {
         transverseSelect.value = 'tied'; 
     }
     
-    // Hide results if geometry changes to avoid mismatched data
     document.getElementById('colResults').style.display = 'none';
     document.getElementById('colFormulas').style.display = 'none';
 }
 
 function runColAnalysis() {
     // 1. Gather Inputs
+    const codeSelected = document.getElementById('aciCode').value;
     const shape = document.getElementById('colShape').value;
     const transverse = document.getElementById('colTransverse').value;
     const fc = parseFloat(document.getElementById('colFc').value) || 0;
@@ -106,33 +113,37 @@ function runColAnalysis() {
 
     // 2. Compute Geometrics & Steel
     let Ag = 0;
-    let Ag_formula = "";
+    let Ag_substitution = "";
     if (shape === 'rectangular') {
         Ag = b * h;
-        Ag_formula = `$$ A_g = b \\times h = (${b})(${h}) = ${Ag.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2 $$`;
+        Ag_substitution = `A_g = b \\times h = (${b})(${h}) = ${Ag.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2`;
     } else {
         Ag = (Math.PI / 4) * Math.pow(b, 2);
-        Ag_formula = `$$ A_g = \\frac{\\pi}{4} D^2 = \\frac{\\pi}{4} (${b})^2 = ${Ag.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2 $$`;
+        Ag_substitution = `A_g = \\frac{\\pi}{4} D^2 = \\frac{\\pi}{4} (${b})^2 = ${Ag.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2`;
     }
     
     const Ast = N * (Math.PI / 4) * Math.pow(db, 2);
     const rho = Ast / Ag;
 
-    // 3. ACI 318 Constraints Limits Check (Fixed NaN fallthrough bug)
+    // 3. ACI Constraints Limits Check
     let rhoStatus = "";
     let rhoColor = "#4ade80"; 
+    let statusText = "OK ✔";
     
     if (Ag === 0 || isNaN(rho)) {
         rhoStatus = "ERROR (Invalid Inputs) ❌";
         rhoColor = "#ef4444";
+        statusText = "Invalid Inputs ❌";
     } else if (rho < 0.01) {
-        rhoStatus = "FAIL (ρ < 1%) ❌";
+        rhoStatus = `As (${Ast.toFixed(0)} mm²) < As_min (${(Ag * 0.01).toFixed(0)} mm²) ❌ Section fails minimum steel requirement.`;
         rhoColor = "#ef4444"; 
+        statusText = "FAIL (ρ < 1%) ❌";
     } else if (rho > 0.08) {
-        rhoStatus = "FAIL (ρ > 8%) ❌";
+        rhoStatus = `As (${Ast.toFixed(0)} mm²) > As_max (${(Ag * 0.08).toFixed(0)} mm²) ❌ Section exceeds maximum steel requirement.`;
         rhoColor = "#ef4444"; 
+        statusText = "FAIL (ρ > 8%) ❌";
     } else {
-        rhoStatus = "OK ✔";
+        rhoStatus = `As_min (${(Ag * 0.01).toFixed(0)} mm²) ≤ As (${Ast.toFixed(0)} mm²) ≤ As_max (${(Ag * 0.08).toFixed(0)} mm²) ✔ Section satisfies reinforcement limits.`;
     }
 
     // 4. Compute Nominal Axial Strength (Po)
@@ -142,12 +153,12 @@ function runColAnalysis() {
     // 5. Apply ACI Reduction Factors
     let phi = 0.65;
     let alpha = 0.80; 
-    let tieText = "Tied";
+    let tieTypeWord = "Tied";
 
     if (transverse === 'spiral') {
         phi = 0.75;
         alpha = 0.85;
-        tieText = "Spiral";
+        tieTypeWord = "Spiral";
     }
 
     const phiPn_max_kN = (phi * alpha * Po) / 1000;
@@ -159,51 +170,79 @@ function runColAnalysis() {
     resultsDiv.innerHTML = `
         <p><span>Gross Area, Ag:</span> <span class="result-val">${Ag.toLocaleString(undefined, {maximumFractionDigits: 1})} mm²</span></p>
         <p><span>Steel Area, Ast:</span> <span class="result-val">${Ast.toLocaleString(undefined, {maximumFractionDigits: 1})} mm²</span></p>
-        <p><span>Rebar Ratio, ρ:</span> <span class="result-val" style="color: ${rhoColor};">${(isNaN(rho) ? 0 : rho * 100).toFixed(2)} % ${rhoStatus}</span></p>
+        <p><span>Rebar Ratio, ρ:</span> <span class="result-val" style="color: ${rhoColor};">${(isNaN(rho) ? 0 : rho * 100).toFixed(2)} % (${statusText})</span></p>
         <hr style="border: 0; border-top: 1px solid #333; margin: 15px 0;">
         <p><span>Nominal Capacity, P<sub>o</sub>:</span> <span class="result-val">${(isNaN(Po_kN) ? 0 : Po_kN).toLocaleString(undefined, {maximumFractionDigits: 1})} kN</span></p>
         <p><span>Design Capacity, φP<sub>n,max</sub>:</span> <span class="result-val" style="color: #FFEE91; font-size: 1.2rem;">${(isNaN(phiPn_max_kN) ? 0 : phiPn_max_kN).toLocaleString(undefined, {maximumFractionDigits: 1})} kN</span></p>
     `;
 
-    // 7. Inject Dynamic Formulas, Substitutions, and ACI Code Referencing (Fixed inline LaTeX tags)
+    // 7. Inject Strict Layout matched with the reference style image
     const formulasDiv = document.getElementById('colFormulas');
     formulasDiv.innerHTML = `
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 10px;">1. Section Properties</div>
+        <div style="color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; border-bottom: 1px solid #2d2d2d; padding-bottom: 8px; margin-bottom: 15px; text-transform: uppercase;">GOVERNING EQUATIONS & SUBSTITUTIONS</div>
         
-        ${Ag_formula}
+        <div style="color: #FFD54F; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 10px;">Section & Geometric Mechanics</div>
         
-        $$ A_{st} = N \\times \\frac{\\pi}{4} d_b^2 = ${N} \\times \\frac{\\pi}{4} (${db})^2 = ${Ast.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2 $$
-        
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 5px;">2. ACI 318 Steel Limits \\( (0.01 \\le \\rho_g \\le 0.08) \\)</div>
-        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0; font-style: italic;">
-            * Ref: ACI 318 Section 10.6.1.1 - The ratio of longitudinal reinforcement area to gross concrete area shall be between 0.01 and 0.08.
-        </p>
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.9rem; margin-bottom: 12px; padding-left: 5px; color: #e0e0e0;">
+            Gross Area of Section (\(A_g\)):
+            <div style="margin: 8px 0; text-align: center;">
+                \\( ${Ag_substitution} \\)
+            </div>
+        </div>
 
-        $$ \\rho_g = \\frac{A_{st}}{A_g} = \\frac{${Ast.toFixed(1)}}{${Ag.toFixed(1)}} = ${(isNaN(rho) ? 0 : rho).toFixed(4)} $$
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.9rem; margin-bottom: 25px; padding-left: 5px; color: #e0e0e0;">
+            Area of Longitudinal Reinforcement (\(A_{st}\)):
+            <div style="margin: 8px 0; text-align: center;">
+                \\( A_{st} = N \\times \\frac{\\pi}{4} d_b^2 = ${N} \\times \\frac{\\pi}{4} (${db})^2 = ${Ast.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2 \\)
+            </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #2d2d2d; margin: 15px 0;">
+
+        <div style="color: #FFD54F; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 10px;">Reinforcement & Ductility Verification</div>
         
-        <p style="color: ${rhoColor}; font-family: monospace; font-size: 0.95rem; margin-top: 5px;">* Limit Check: ${rhoStatus}</p>
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.9rem; margin-bottom: 12px; padding-left: 5px; color: #e0e0e0;">
+            Longitudinal Reinforcement Ratio (\(\\rho_g\)):
+            <div style="margin: 8px 0; text-align: center;">
+                \\( \\rho_g = \\frac{A_{st}}{A_g} = \\frac{${Ast.toFixed(1)}}{${Ag.toFixed(1)}} = ${(isNaN(rho) ? 0 : rho).toFixed(4)} \\) &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff4444; font-size: 0.85rem; font-weight: bold; font-family: monospace;">[${codeSelected} Sec. 10.6.1.1]</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.8rem; margin: 4px 0 8px 0; font-style: italic;">* Permissible Code Limits: 0.01 ≤ \(\\rho_g\) ≤ 0.08</p>
+            <p style="color: ${rhoColor}; font-weight: 600; font-size: 0.88rem; margin: 4px 0 0 0;">${rhoStatus}</p>
+        </div>
 
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 5px;">3. Nominal Axial Strength</div>
-        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0; font-style: italic;">
-            * Ref: ACI 318 Section 22.4.2.2 - Nominal axial compressive strength \\(P_o\\) shall be calculated based on the equilibrium of material yield forces.
-        </p>
+        <hr style="border: 0; border-top: 1px solid #2d2d2d; margin: 15px 0;">
 
-        $$ P_o = 0.85f'_c(A_g - A_{st}) + f_yA_{st} $$
-        $$ P_o = 0.85(${fc})(${Ag.toFixed(1)} - ${Ast.toFixed(1)}) + (${fy})(${Ast.toFixed(1)}) $$
-        $$ P_o = ${(isNaN(Po_kN) ? 0 : Po_kN).toLocaleString(undefined, {maximumFractionDigits: 2})} \\text{ kN} $$
-
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 5px;">4. Maximum Design Axial Strength</div>
-        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0; font-style: italic;">
-            * Ref: ACI 318 Section 22.4.2.1 (Table 22.4.2.1) - Maximum axial strength coefficient \\(\\alpha = ${alpha.toFixed(2)}\\) for ${tieText.toLowerCase()} columns.<br>
-            * Ref: ACI 318 Section 21.2.2 (Table 21.2.2) - Strength reduction factor \\(\\phi = ${phi.toFixed(2)}\\) for compression-controlled ${tieText.toLowerCase()} members.
-        </p>
+        <div style="color: #FFD54F; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 10px;">Axial Compressive Strength Mechanics</div>
         
-        $$ \\phi P_{n,max} = \\phi \\cdot \\alpha \\cdot P_o $$
-        $$ \\phi P_{n,max} = (${phi.toFixed(2)})(${alpha.toFixed(2)})(${(isNaN(Po_kN) ? 0 : Po_kN).toLocaleString(undefined, {maximumFractionDigits: 2})}) $$
-        $$ \\phi P_{n,max} = ${(isNaN(phiPn_max_kN) ? 0 : phiPn_max_kN).toLocaleString(undefined, {maximumFractionDigits: 2})} \\text{ kN} $$
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.9rem; margin-bottom: 15px; padding-left: 5px; color: #e0e0e0;">
+            Nominal Axial Compressive Strength (\(P_o\)):
+            <div style="margin: 8px 0; text-align: center;">
+                \\( P_o = 0.85f'_c(A_g - A_{st}) + f_yA_{st} \\)
+            </div>
+            <div style="margin: 8px 0; text-align: center;">
+                \\( P_o = 0.85(${fc})(${Ag.toFixed(1)} - ${Ast.toFixed(1)}) + (${fy})(${Ast.toFixed(1)}) = ${(isNaN(Po_kN) ? 0 : Po_kN * 1000).toLocaleString(undefined, {maximumFractionDigits: 0})} \\text{ N} \\)
+            </div>
+            <div style="margin: 8px 0; text-align: center;">
+                \\( P_o = ${(isNaN(Po_kN) ? 0 : Po_kN).toLocaleString(undefined, {maximumFractionDigits: 2})} \\text{ kN} \\) &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff4444; font-size: 0.85rem; font-weight: bold; font-family: monospace;">[${codeSelected} Eq. 22.4.2.2]</span>
+            </div>
+        </div>
+
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.9rem; margin-bottom: 10px; padding-left: 5px; color: #e0e0e0;">
+            Maximum Design Axial Compressive Strength (\(\\phi P_{n,max}\)):
+            <p style="color: #4ade80; font-size: 0.85rem; margin: 4px 0 8px 0; font-weight: 500;">Compression-Controlled (${tieTypeWord}) Member &nbsp;&nbsp;➔&nbsp;&nbsp; \\(\\phi = ${phi.toFixed(2)}\\), \\(\\alpha = ${alpha.toFixed(2)}\\)</p>
+            <div style="margin: 8px 0; text-align: center;">
+                \\( \\phi P_{n,max} = \\phi \\cdot \\alpha \\cdot [0.85f'_c(A_g - A_{st}) + f_yA_{st}] \\)
+            </div>
+            <div style="margin: 8px 0; text-align: center;">
+                \\( \\phi P_{n,max} = (${phi.toFixed(2)})(${alpha.toFixed(2)})(${(isNaN(Po_kN) ? 0 : Po_kN).toLocaleString(undefined, {maximumFractionDigits: 2})}) \\)
+            </div>
+            <div style="margin: 8px 0; text-align: center;">
+                \\( \\phi P_{n,max} = ${(isNaN(phiPn_max_kN) ? 0 : phiPn_max_kN).toLocaleString(undefined, {maximumFractionDigits: 2})} \\text{ kN} \\) &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: #ff4444; font-size: 0.85rem; font-weight: bold; font-family: monospace;">[${codeSelected} Table 22.4.2.1 &amp; 21.2.2]</span>
+            </div>
+        </div>
     `;
 
-    // 8. Typeset MathJax safely (Fixed internal state retention bug)
+    // 8. Typeset MathJax safely
     if (formulasDiv.style.display === 'block' && window.MathJax) {
         MathJax.typesetClear([formulasDiv]);
         MathJax.typesetPromise([formulasDiv]).catch((err) => console.error(err));
