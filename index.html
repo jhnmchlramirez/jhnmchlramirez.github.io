@@ -107,47 +107,80 @@
 
         /* --- MOBILE RESPONSIVENESS PATCH --- */
         @media (max-width: 600px) {
-            .app-interface { padding: 15px; }
-            .app-results p { flex-direction: column; align-items: flex-start; gap: 6px; background: #222222; padding: 10px; border-radius: 4px; }
-            .app-results span.result-val { align-self: flex-end; font-size: 1.1rem; }
-            .app-actions { flex-direction: column; gap: 10px; }
-
-            /* 1. Catch-all for formulas, MathJax, and equation blocks across ALL tools */
-            #equationSubstitutions, .equation, [id*="Substitutions"], [id*="Math"], .mjx-chtml { 
-                overflow-x: auto !important; 
-                max-width: 100% !important; 
-                display: block !important; 
-                padding-bottom: 5px; 
-            }
-
-            /* 2. Interactive SFD & BMD Engine Canvas Fix */
-            #appContent canvas {
+            /* 1. Prevent the whole page from stretching or scrolling sideways */
+            html, body { 
+                overflow-x: hidden !important; 
                 width: 100% !important;
-                height: auto !important;
+            }
+            .app-interface, #activeAppInterface, #appContent { 
+                padding: 15px !important; 
+                max-width: 100% !important;
+                overflow-x: hidden !important;
             }
 
-            /* 3. Table/Schedule Fix (If Footing/Slab/Column uses tables for data output) */
-            #appContent table {
-                display: block;
-                width: 100%;
-                overflow-x: auto;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
+            /* 2. FIX FOR MATHJAX FORMULAS (Slab & Column Overflow) */
+            mjx-container, .mjx-container, .MathJax, .MathJax_Display {
+                display: block !important;
+                max-width: 100% !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                padding-bottom: 8px !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+            
+            /* Give formula parents breathing room to scroll internally */
+            [id*="Substitutions"], .equation, .app-results {
+                max-width: 100% !important;
+                overflow-x: auto !important;
             }
 
-            /* 4. Force strict single-column stacking for inputs */
-            .app-grid, [class*="grid-layout"], .app-group-wrapper { 
-                grid-template-columns: 1fr !important; 
+            /* 3. FIX FOR LOADING MATRIX (Checkbox & Text Alignment) */
+            .load-card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+                display: block !important;
+            }
+            
+            .load-toggle-wrapper {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                gap: 12px !important;
+                width: 100% !important;
+                flex-wrap: wrap !important;
+            }
+            
+            /* Ensure text labels stay inside the gray cards */
+            .load-toggle-wrapper label, 
+            .load-card text, 
+            #appContent span {
+                white-space: normal !important;
+                word-break: break-word !important;
+                display: inline-block !important;
+                max-width: calc(100% - 30px) !important;
+            }
+
+            /* 4. FORCE SINGLE COLUMN FOR ALL GRID INPUTS */
+            .app-grid, [class*="grid"], [class*="matrix"] {
+                grid-template-columns: 1fr !important;
                 display: flex !important;
                 flex-direction: column !important;
-                gap: 15px; 
+                gap: 15px !important;
+                width: 100% !important;
+            }
+            
+            .app-group input, .app-group select, input[type="range"] {
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
 
-            /* 5. Prevent input box overflows */
-            .app-group input, .app-group select, #appContent input, #appContent select {
-                width: 100% !important;
-                box-sizing: border-box;
-            }
+            .app-actions { flex-direction: column !important; gap: 10px !important; }
+            .app-results p { flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; }
+            .app-results span.result-val { align-self: flex-end !important; }
         }
     </style>
 </head>
