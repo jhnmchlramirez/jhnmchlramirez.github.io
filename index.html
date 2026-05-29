@@ -64,40 +64,11 @@
 
         /* --- MOBILE RESPONSIVENESS PATCH --- */
         @media (max-width: 600px) {
-            /* 1. Give more breathing room by shrinking container margins */
-            .app-interface { 
-                padding: 15px; 
-            }
-            
-            /* 2. Stack labels and values vertically so they never overlap */
-            .app-results p { 
-                flex-direction: column; 
-                align-items: flex-start; 
-                gap: 6px;
-                background: #222222;
-                padding: 10px;
-                border-radius: 4px;
-            }
-            
-            /* 3. Push values to the right side of their row for a clean layout */
-            .app-results span.result-val { 
-                align-self: flex-end; 
-                font-size: 1.1rem;
-            }
-
-            /* 4. Allow long MathJax equations to scroll sideways if they are too wide */
-            #equationSubstitutions, .equation {
-                overflow-x: auto;
-                max-width: 100%;
-                display: block;
-                padding-bottom: 5px;
-            }
-            
-            /* 5. Make action buttons stack vertically on tiny screens */
-            .app-actions {
-                flex-direction: column;
-                gap: 10px;
-            }
+            .app-interface { padding: 15px; }
+            .app-results p { flex-direction: column; align-items: flex-start; gap: 6px; background: #222222; padding: 10px; border-radius: 4px; }
+            .app-results span.result-val { align-self: flex-end; font-size: 1.1rem; }
+            #equationSubstitutions, .equation { overflow-x: auto; max-width: 100%; display: block; padding-bottom: 5px; }
+            .app-actions { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
@@ -204,6 +175,15 @@
                     </div>
                     <div class="tool-actions">
                         <button class="btn-launch" onclick="launchRCBeamTool()">Launch</button>
+                    </div>
+                </div>
+                <div class="tool-list-item">
+                    <div class="tool-info">
+                        <h3>RC COLUMN CAPACITY ANALYZER</h3>
+                        <p>v1.0. Axial capacity limits per ACI 318-19M/25M</p>
+                    </div>
+                    <div class="tool-actions">
+                        <button class="btn-launch" onclick="launchRCColumnTool()">Launch</button>
                     </div>
                 </div>
             </div>
@@ -340,8 +320,7 @@
     <script src="blogsData.js"></script>
     <script src="webtoolsData.js"></script>
     <script src="RCBeamCalc.js"></script>
-
-    <script>
+    <script src="RCColumnCalc.js"></script> <script>
         // Global variables initialized after data sets load
         const modal = document.getElementById('projectModal');
         const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
@@ -350,7 +329,6 @@
 
         // DATA INJECTION ENGINE
         function initAppEngine() {
-            // A. Render Works
             const worksTrack = document.getElementById('worksCarousel');
             if (worksTrack && projectKeys.length > 0) {
                 worksTrack.innerHTML = projectKeys.map(key => `
@@ -362,7 +340,6 @@
                 `).join('');
             }
 
-            // B. Render Services
             const servicesTrack = document.getElementById('servicesCarousel');
             if (servicesTrack && typeof servicesData !== 'undefined') {
                 servicesTrack.innerHTML = servicesData.map(service => `
@@ -373,7 +350,6 @@
                 `).join('');
             }
 
-            // C. Render Blogs Placeholder
             const blogsGrid = document.getElementById('blogsGrid');
             if (blogsGrid && typeof blogsData !== 'undefined') {
                 blogsGrid.innerHTML = `
@@ -382,36 +358,31 @@
             }
         }
 
-        // Run rendering logic when DOM loads
         window.addEventListener('DOMContentLoaded', initAppEngine);
 
         function switchTab(tabId, event) {
             if (event) event.preventDefault(); 
 
-            // Hide all sections
             const sections = document.querySelectorAll('.page-section');
             sections.forEach(sec => {
                 sec.classList.remove('active-section');
                 sec.classList.add('hidden-section');
             });
 
-            // Show target section
             const targetSection = document.getElementById(tabId);
             if (targetSection) {
                 targetSection.classList.remove('hidden-section');
                 targetSection.classList.add('active-section');
             }
 
-            // --- Highlight the active navigation link ---
             const allNavLinks = document.querySelectorAll('a[data-tab]');
             allNavLinks.forEach(link => {
-                link.classList.remove('active-link'); // Remove highlight from all tabs
+                link.classList.remove('active-link');
                 if (link.getAttribute('data-tab') === tabId) {
-                    link.classList.add('active-link'); // Add highlight to the active tab
+                    link.classList.add('active-link');
                 }
             });
 
-            // Toggle Back to Home Button
             const backBtn = document.getElementById('backToHomeBtn');
             if (backBtn) {
                 if (tabId === 'about') {
@@ -426,9 +397,7 @@
 
         function scrollToFooter(event) {
             if (event) event.preventDefault(); 
-            document.getElementById('site-footer').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
+            document.getElementById('site-footer').scrollIntoView({ behavior: 'smooth' });
         }
 
         function openProjectModal(projectId) {
@@ -505,7 +474,6 @@
             }
         }
 
-        // CAROUSEL EVENT LISTENERS (With safety handling for empty loads)
         window.addEventListener('DOMContentLoaded', () => {
             const worksTrack = document.getElementById('worksCarousel');
             document.getElementById('prevBtn').addEventListener('click', () => {
@@ -536,11 +504,10 @@
             });
         });
 
-        // APP UI TOGGLING LOGIC
         function closeApp() {
             document.getElementById('activeAppInterface').style.display = 'none';
             document.getElementById('webtoolsDashboard').style.display = 'flex';
-            document.getElementById('appContent').innerHTML = ''; // Clears the tool from memory
+            document.getElementById('appContent').innerHTML = ''; 
         }
     </script>
 </body>
