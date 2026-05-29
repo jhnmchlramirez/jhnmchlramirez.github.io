@@ -1,7 +1,7 @@
 /**
  * RC Column Capacity Analyzer
  * Compliant with ACI 318-19M/25M
- * Calculates theoretical axial strength and maximum design axial strength with full substitution.
+ * Calculates theoretical axial strength and maximum design axial strength with full substitution and code referencing.
  */
 
 function launchRCColumnTool() {
@@ -161,7 +161,7 @@ function runColAnalysis() {
         <p><span>Design Capacity, φP<sub>n,max</sub>:</span> <span class="result-val" style="color: #FFEE91; font-size: 1.2rem;">${phiPn_max_kN.toLocaleString(undefined, {maximumFractionDigits: 1})} kN</span></p>
     `;
 
-    // 7. Inject Dynamic Formulas & Substitutions
+    // 7. Inject Dynamic Formulas, Substitutions, and ACI Code Referencing
     const formulasDiv = document.getElementById('colFormulas');
     formulasDiv.innerHTML = `
         <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 10px;">1. Section Properties</div>
@@ -170,21 +170,28 @@ function runColAnalysis() {
         
         $$ A_{st} = N \\times \\frac{\\pi}{4} d_b^2 = ${N} \\times \\frac{\\pi}{4} (${db})^2 = ${Ast.toLocaleString(undefined, {maximumFractionDigits: 1})} \\text{ mm}^2 $$
         
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 10px;">2. ACI 318 Steel Limits (0.01 \\le \\rho \\le 0.08)</div>
-        
+        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 5px;">2. ACI 318 Steel Limits (0.01 \\le \\rho_g \\le 0.08)</div>
+        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0; font-style: italic;">
+            * Ref: ACI 318 Section 10.6.1.1 - The ratio of longitudinal reinforcement area to gross concrete area shall be between 0.01 and 0.08.
+        </p>
+
         $$ \\rho_g = \\frac{A_{st}}{A_g} = \\frac{${Ast.toFixed(1)}}{${Ag.toFixed(1)}} = ${(rho).toFixed(4)} $$
         
         <p style="color: ${rhoColor}; font-family: monospace; font-size: 0.95rem; margin-top: 5px;">* Limit Check: ${rhoStatus}</p>
 
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 10px;">3. Nominal Axial Strength</div>
-        
+        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 5px;">3. Nominal Axial Strength</div>
+        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0; font-style: italic;">
+            * Ref: ACI 318 Section 22.4.2.2 - Nominal axial compressive strength \\(P_o\\) shall be calculated based on the equilibrium of material yield forces.
+        </p>
+
         $$ P_o = 0.85f'_c(A_g - A_{st}) + f_yA_{st} $$
         $$ P_o = 0.85(${fc})(${Ag.toFixed(1)} - ${Ast.toFixed(1)}) + (${fy})(${Ast.toFixed(1)}) $$
         $$ P_o = ${Po_kN.toLocaleString(undefined, {maximumFractionDigits: 2})} \\text{ kN} $$
 
-        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 10px;">4. Maximum Design Axial Strength</div>
-        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0;">
-            * Assumptions for ${tieText} columns: $\\phi = ${phi.toFixed(2)}$, max $\\alpha = ${alpha.toFixed(2)}$
+        <div style="color: #FFEE91; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-top: 25px; margin-bottom: 5px;">4. Maximum Design Axial Strength</div>
+        <p style="color: #94a3b8; font-family: 'Inter', sans-serif; font-size: 0.85rem; margin: 0 0 10px 0; font-style: italic;">
+            * Ref: ACI 318 Section 22.4.2.1 (Table 22.4.2.1) - Maximum axial strength coefficient \\(\\alpha = ${alpha.toFixed(2)}\\) for ${tieText.toLowerCase()} columns.<br>
+            * Ref: ACI 318 Section 21.2.2 (Table 21.2.2) - Strength reduction factor \\(\\phi = ${phi.toFixed(2)}\\) for compression-controlled ${tieText.toLowerCase()} members.
         </p>
         
         $$ \\phi P_{n,max} = \\phi \\cdot \\alpha \\cdot P_o $$
