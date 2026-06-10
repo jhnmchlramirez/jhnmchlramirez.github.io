@@ -884,7 +884,7 @@
                 </div>
 
                 <div class="contact-form-container">
-                    <form id="contactForm" action="https://formspree.io/f/mkoabrpq" method="POST" onsubmit="handleFormSubmit(event)">
+                    <form action="https://formspree.io/f/mkoabrpq" method="POST">
                         <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 1.8rem;">Send a Message</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 0.95rem;">Tell me about your project and I'll get back to you shortly.</p>
 
@@ -909,9 +909,7 @@
                         </div>
 
                         <div class="form-group" style="margin-bottom: 25px;"><label for="message">Tell Me About Your Project</label><textarea id="message" name="message" rows="5" placeholder="Describe your structural requirements, project scope, and any references..." required></textarea></div>
-                        <button type="submit" id="submitBtn" class="btn-submit">Send Message ✦</button>
-                        
-                        <div id="formSuccessMessage" class="form-success-banner">Message successfully sent!</div>
+                        <button type="submit" class="btn-submit">Send Message ✦</button>
                     </form>
                 </div>
             </div>
@@ -1008,13 +1006,23 @@
     <script src="RCFootingCalc.js"></script>
 
     <script>
-        // Automatic Category Detection Logic
+        // Automatic Category Detection Logic - REORDERED COMMERCIAL PRIORITY
         function detectCategory(title, description) {
             const text = (title + " " + description).toLowerCase();
-            if (text.includes('residential') || text.includes('house') || text.includes('residence') || text.includes('villa') || text.includes('ayala') || text.includes('storey')) return 'residential';
-            if (text.includes('mid-rise') || text.includes('mid rise') || text.includes('apartment') || text.includes('bldg') || text.includes('building')) return 'mid-rise';
-            if (text.includes('pickleball') || text.includes('commercial') || text.includes('warehouse') || text.includes('court') || text.includes('office') || text.includes('retail')) return 'commercial';
-            return 'commercial'; 
+            // 1. MID-RISE: Explicit phrase and acronym checks
+            if (text.includes('mid-rise building') || text.includes('mrb') || text.includes('mid-rise')) {
+                return 'mid-rise';
+            }
+            // 2. COMMERCIAL: Specific use-case layouts and multi-purpose properties
+            if (text.includes('commercial building') || text.includes('multi-purpose building') || text.includes('court') || text.includes('warehouse') || text.includes('office')) {
+                return 'commercial';
+            }
+            // 3. RESIDENTIAL: Strict residential housing identifiers
+            if (text.includes('residential building') || text.includes('residences') || text.includes('villa') || text.includes('house') || text.includes('residential')) {
+                return 'residential';
+            }
+            // 4. OTHERS: Fallback category if no structural keywords are detected
+            return 'other';
         }
 
         const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
@@ -1251,7 +1259,7 @@
                     </div>
 
                     <div style="position: relative; margin: 20px auto 0;">
-                        <canvas id="mlCanvas" width="800" height="960" style="background: transparent; width: 100%; max-width: 800px; display: block;"></canvas>
+                        <canvas id="mlCanvas" width="800" height="1100" style="background: transparent; width: 100%; max-width: 800px; display: block;"></canvas>
                     </div>
                 </div>
             `;
@@ -1284,6 +1292,7 @@
             // Append explicit supports array matching what is drawn
             currentMlResult.supports = [{x: s1, type: 'pin'}, {x: s2, type: 'roller'}];
             currentMlResult.axles = axles;
+            currentMlResult.EI = EI; // Need EI stored to recalculate deflections on hover
 
             document.getElementById('ml_results').style.display = 'block';
             document.getElementById('ml_maxV').innerText = currentMlResult.maxV.toFixed(2) + ' kN';
@@ -1308,19 +1317,50 @@
             let exactX = parseFloat(slider.value);
             posDisplay.innerText = exactX.toFixed(1) + ' m';
             
+            // 1. Build instantaneous loads from axles
+            let activeLoads = [];
+            let currentPos = exactX;
+            currentMlResult.axles.forEach((axle, j) => {
+                if (j > 0) currentPos -= axle.spacing;
+                if (currentPos >= 0 && currentPos <= currentMlResult.L) {
+                    activeLoads.push({ type: 'P', mag: axle.weight, a: currentPos });
+                }
+            });
+
+            // 2. Solve instantaneous frame
+            let snapFrame;
+            if (currentMlResult.type === 'continuous') {
+                snapFrame = ComplexBeams.solve(currentMlResult.L, 'continuous', activeLoads, currentMlResult.EI, 'matrix_stiffness', currentMlResult.supports.map(s=>s.x).join(','));
+                if (typeof MovingLoadCalc.fixContinuousDeflection === 'function') {
+                    snapFrame = MovingLoadCalc.fixContinuousDeflection(snapFrame, currentMlResult.L, currentMlResult.EI);
+                }
+            } else {
+                snapFrame = CommonBeams.solve(currentMlResult.L, currentMlResult.type, activeLoads, currentMlResult.EI, currentMlResult.supports[0].x, currentMlResult.supports[1].x);
+            }
+            
             // Limit the "cut" point evaluation to the actual beam length to prevent out-of-bounds array reads
             let evalX = Math.max(0, Math.min(exactX, currentMlResult.L));
-            let p = currentMlResult.envelopeData.reduce((prev, curr) => Math.abs(curr.x - evalX) < Math.abs(prev.x - evalX) ? curr : prev);
+            
+            let pEnv = currentMlResult.envelopeData.reduce((prev, curr) => Math.abs(curr.x - evalX) < Math.abs(prev.x - evalX) ? curr : prev);
+            let pInst = snapFrame.mathData.reduce((prev, curr) => Math.abs(curr.x - evalX) < Math.abs(prev.x - evalX) ? curr : prev);
 
-            document.getElementById('rd_x').innerText = p.x.toFixed(2);
-            document.getElementById('rd_v').innerText = p.maxV.toFixed(2);
-            document.getElementById('rd_vmin').innerText = p.minV.toFixed(2);
-            document.getElementById('rd_m').innerText = p.maxM.toFixed(2);
-            document.getElementById('rd_mmin').innerText = p.minM.toFixed(2);
-            document.getElementById('rd_d').innerText = p.maxY.toFixed(2);
-            document.getElementById('rd_dmin').innerText = p.minY.toFixed(2);
+            document.getElementById('rd_x').innerText = pEnv.x.toFixed(2);
+            document.getElementById('rd_v').innerText = pEnv.maxV.toFixed(2);
+            document.getElementById('rd_vmin').innerText = pEnv.minV.toFixed(2);
+            document.getElementById('rd_m').innerText = pEnv.maxM.toFixed(2);
+            document.getElementById('rd_mmin').innerText = pEnv.minM.toFixed(2);
+            document.getElementById('rd_d').innerText = pEnv.maxY.toFixed(2);
+            document.getElementById('rd_dmin').innerText = pEnv.minY.toFixed(2);
 
-            let renderPoint = { ...p, truckX: exactX };
+            let renderPoint = { 
+                ...pEnv, 
+                truckX: exactX, 
+                snapFrame: snapFrame,
+                instV: pInst.V,
+                instM: pInst.M,
+                instY: pInst.y
+            };
+            
             drawMLEnvelopes(renderPoint);
         }
 
@@ -1333,12 +1373,12 @@
             const padX = 80;
             const gWidth = canvas.width - padX * 2;
             
-            // Y-Coordinate placements to perfectly match the standard BMD calculator
+            // FIX: Y-Coordinate placements adjusted for new 1100px height. Titles are pushed further above the charts.
             const schemaCenterY = 120; 
             const dimCenterY = 220; 
-            const sfdCenterY = 400; 
-            const bmdCenterY = 640; 
-            const defCenterY = 860;
+            const sfdCenterY = 460; 
+            const bmdCenterY = 720; 
+            const defCenterY = 980;
             const graphHeight = 130;
 
             const mapX = x => padX + (x / currentMlResult.L) * gWidth;
@@ -1379,7 +1419,7 @@
             }
 
             // ==========================================
-            // 2. DRAW ENVELOPES (GRAPHS)
+            // 2. DRAW ENVELOPES (DASHED OUTLINES ONLY)
             // ==========================================
             ctx.strokeStyle = '#7f8c8d'; ctx.lineWidth = 1.5;
             [sfdCenterY, bmdCenterY, defCenterY].forEach(y => {
@@ -1387,15 +1427,10 @@
             });
 
             const drawEnv = (data, mapFn, color) => {
-                ctx.fillStyle = `rgba(${color}, 0.15)`;
-                ctx.beginPath();
-                ctx.moveTo(mapX(data[0].x), mapFn(data[0].max));
-                for(let i=1; i<data.length; i++) ctx.lineTo(mapX(data[i].x), mapFn(data[i].max));
-                for(let i=data.length-1; i>=0; i--) ctx.lineTo(mapX(data[i].x), mapFn(data[i].min));
-                ctx.closePath();
-                ctx.fill();
+                ctx.strokeStyle = `rgba(${color}, 0.5)`; 
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]); // Dashed Envelope Boundary
 
-                ctx.strokeStyle = `rgb(${color})`; ctx.lineWidth = 2;
                 ctx.beginPath(); ctx.moveTo(mapX(data[0].x), mapFn(data[0].max));
                 for(let i=1; i<data.length; i++) ctx.lineTo(mapX(data[i].x), mapFn(data[i].max));
                 ctx.stroke();
@@ -1403,6 +1438,8 @@
                 ctx.beginPath(); ctx.moveTo(mapX(data[0].x), mapFn(data[0].min));
                 for(let i=1; i<data.length; i++) ctx.lineTo(mapX(data[i].x), mapFn(data[i].min));
                 ctx.stroke();
+                
+                ctx.setLineDash([]); // Reset Dash
             };
 
             const vData = currentMlResult.envelopeData.map(d => ({x: d.x, max: d.maxV, min: d.minV}));
@@ -1412,27 +1449,57 @@
             drawEnv(vData, mapV, '39, 174, 96');
             drawEnv(mData, mapM, '41, 128, 185');
             drawEnv(dData, mapD, '142, 68, 173');
-
-            // LABELS MOVED UP TO PREVENT OVERLAPPING WITH THE GRAPH LINES
-            ctx.fillStyle = '#111111'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'left';
-            ctx.fillText("Shear Envelope (V) kN", padX, sfdCenterY - (graphHeight/2) - 15);
-            ctx.fillText("Moment Envelope (M) kN·m", padX, bmdCenterY - (graphHeight/2) - 15);
-            ctx.fillText("Deflection Envelope (Δ) mm", padX, defCenterY - (graphHeight/2) - 15);
-
+            
             // ==========================================
-            // 3. DRAW SLIDER CUT & TRUCK AXLES
+            // 3. DRAW INSTANTANEOUS DIAGRAMS (LIVE LINES)
             // ==========================================
-            if (renderPoint) {
-                let evalX = mapX(renderPoint.x); // Placed at clamped position
+            // FIX: This draws the live curves as they move across the background envelope
+            if (renderPoint && renderPoint.snapFrame && renderPoint.snapFrame.mathData.length > 0) {
+                let sData = renderPoint.snapFrame.mathData;
                 
-                // Draw cut line
+                // Live SFD
+                ctx.strokeStyle = '#27ae60'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(mapX(sData[0].x), mapV(sData[0].V));
+                sData.forEach(d => ctx.lineTo(mapX(d.x), mapV(d.V)));
+                ctx.stroke();
+
+                // Live BMD
+                ctx.strokeStyle = '#2980b9'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(mapX(sData[0].x), mapM(sData[0].M));
+                sData.forEach(d => ctx.lineTo(mapX(d.x), mapM(d.M)));
+                ctx.stroke();
+
+                // Live Deflection
+                ctx.strokeStyle = '#8e44ad'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(mapX(sData[0].x), mapD(sData[0].y));
+                sData.forEach(d => ctx.lineTo(mapX(d.x), mapD(d.y)));
+                ctx.stroke();
+            }
+
+            // ==========================================
+            // 4. DRAW LABELS & AXLES
+            // ==========================================
+            // FIX: Title text aligned cleanly above graphs
+            ctx.fillStyle = '#111111'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'left';
+            ctx.fillText("Shear Envelope (V) kN", padX, sfdCenterY - (graphHeight/2) - 25);
+            ctx.fillText("Moment Envelope (M) kN·m", padX, bmdCenterY - (graphHeight/2) - 25);
+            ctx.fillText("Deflection Envelope (Δ) mm", padX, defCenterY - (graphHeight/2) - 25);
+
+            if (renderPoint) {
+                let evalX = mapX(renderPoint.truckX); // Lock the cut line to the lead axle
+                
+                // Draw vertical tracking line across all graphs
                 ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
                 ctx.beginPath(); ctx.moveTo(evalX, schemaCenterY-10); ctx.lineTo(evalX, defCenterY + graphHeight/2 + 10); ctx.stroke(); ctx.setLineDash([]);
 
-                // Draw dots on Envelopes
+                // Draw dots on LIVE curves (Tracking exactly on the solid lines)
                 ctx.fillStyle = '#e74c3c';
-                [mapV(renderPoint.maxV), mapV(renderPoint.minV), mapM(renderPoint.maxM), mapM(renderPoint.minM), mapD(renderPoint.maxY), mapD(renderPoint.minY)].forEach(yCoord => {
-                    ctx.beginPath(); ctx.arc(evalX, yCoord, 5, 0, 2 * Math.PI); ctx.fill();
+                let yV = mapV(renderPoint.instV || 0);
+                let yM = mapM(renderPoint.instM || 0);
+                let yD = mapD(renderPoint.instY || 0);
+                
+                [yV, yM, yD].forEach(yCoord => {
+                    ctx.beginPath(); ctx.arc(evalX, yCoord, 6, 0, 2 * Math.PI); ctx.fill();
                 });
 
                 // Draw the dynamic Truck Axles on the Beam Schema
@@ -1444,11 +1511,13 @@
                     
                     let ax = mapX(currentPos);
                     
-                    // Draw downward Point Load arrow for axle
-                    ctx.strokeStyle = '#e74c3c'; ctx.fillStyle = '#e74c3c'; ctx.lineWidth = 3;
-                    ctx.beginPath(); ctx.moveTo(ax, schemaCenterY - 50); ctx.lineTo(ax, schemaCenterY - 5); ctx.stroke();
-                    ctx.beginPath(); ctx.moveTo(ax, schemaCenterY); ctx.lineTo(ax-8, schemaCenterY-12); ctx.lineTo(ax+8, schemaCenterY-12); ctx.closePath(); ctx.fill();
-                    ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'; ctx.fillText(`${axle.weight}kN`, ax, schemaCenterY - 55);
+                    // Only draw if truck axle is physically on the beam
+                    if (currentPos >= 0 && currentPos <= currentMlResult.L) {
+                        ctx.strokeStyle = '#e74c3c'; ctx.fillStyle = '#e74c3c'; ctx.lineWidth = 3;
+                        ctx.beginPath(); ctx.moveTo(ax, schemaCenterY - 50); ctx.lineTo(ax, schemaCenterY - 5); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(ax, schemaCenterY); ctx.lineTo(ax-8, schemaCenterY-12); ctx.lineTo(ax+8, schemaCenterY-12); ctx.closePath(); ctx.fill();
+                        ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'; ctx.fillText(`${axle.weight}kN`, ax, schemaCenterY - 55);
+                    }
                     
                     // Draw spacing dimension bracket between trailing axles
                     if (j > 0 && axle.spacing > 0) {
@@ -1477,44 +1546,6 @@
             document.getElementById('legalModal').style.display = 'flex';
         }
         function closeLegalModal() { document.getElementById('legalModal').style.display = 'none'; }
-
-        // ==========================================
-        // FORM SUBMIT HANDLER (AJAX Fix)
-        // ==========================================
-        function handleFormSubmit(event) {
-            event.preventDefault(); 
-            
-            const form = document.getElementById('contactForm');
-            const successMessage = document.getElementById('formSuccessMessage');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            submitBtn.innerText = "Sending...";
-            
-            // Use Fetch API to submit form without redirecting the page
-            fetch(form.action, {
-                method: form.method,
-                body: new FormData(form),
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
-                    successMessage.style.display = 'block';
-                    form.reset();
-                    submitBtn.innerText = "Send Message ✦";
-                    
-                    setTimeout(() => { 
-                        successMessage.style.display = 'none'; 
-                    }, 5000);
-                } else {
-                    alert("Oops! There was a problem submitting your form.");
-                    submitBtn.innerText = "Send Message ✦";
-                }
-            }).catch(error => {
-                alert("Oops! There was a problem submitting your form.");
-                submitBtn.innerText = "Send Message ✦";
-            });
-        }
     </script>
 </body>
 </html>
