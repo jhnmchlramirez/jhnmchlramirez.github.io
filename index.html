@@ -1,423 +1,799 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>John Michael C. Ramirez | Structural Engineer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
     <style>
-        /* Webtools List Dashboard - Clean minimal row design */
-        .tools-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        .tool-list-item { 
-            display: flex; justify-content: space-between; align-items: center; 
-            background: #1e1e24; border: 1px solid #2d2d35; padding: 20px; border-radius: 6px; 
+        /* =========================================================================
+           EDITORIAL MONOCHROME - HIGH-CONTRAST TAILORED PALETTE
+           ========================================================================= */
+        :root {
+            --bg-page: #FBFBFC;          
+            --bg-card: #FFFFFF;          
+            --bg-section-alt: #F1F1F4;   
+            --text-primary: #111111;     
+            --text-secondary: #555555;   
+            --accent-primary: #111111;   
+            --kicker-color: #888888;     
+            --border-color: #111111;     
+            
+            --card-shadow: 4px 4px 0px rgba(17, 17, 17, 0.08);
+            --hover-shadow: 8px 8px 0px rgba(17, 17, 17, 1);
         }
-        .tool-info h3 { color: #f8fafc; margin: 0 0 5px 0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; }
-        .tool-info p { color: #94a3b8; margin: 0; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
 
-        /* Retained primary accent color only for action button points */
-        .btn-launch { 
-            background: #FFEE91; color: #222222; border: none; padding: 10px 25px; 
-            font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px;
+        body {
+            background-color: var(--bg-page) !important;
+            color: var(--text-primary) !important;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            letter-spacing: 0.2px;
         }
-        .btn-launch:hover { background: #e6d57e; }
 
-        /* Full App Interface - Darkmoon Core Theme */
-        .app-interface { display: none; background: #222222; padding: 30px; border-radius: 8px; margin-top: 20px; border: 1px solid #2d2d35; text-align: left; }
-        .app-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2d2d35; padding-bottom: 15px; margin-bottom: 25px; }
-        .app-header h2 { color: #ffffff; margin: 0; text-transform: uppercase; font-size: 1.5rem; letter-spacing: 1px; }
-        .btn-close-app { background: transparent; color: #a0aec0; border: 1px solid #4a5568; padding: 5px 15px; cursor: pointer; border-radius: 4px; }
-        .btn-close-app:hover { background: #a0aec0; color: #222222; }
-
-        /* Technical Content Layout Parameters */
-        .app-section-title { color: #FFEE91; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 15px; letter-spacing: 1px; }
-        .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px; }
-        .app-group { display: flex; flex-direction: column; }
-        .app-group label { color: #a0aec0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.8rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .app-group input, .app-group select { 
-            background: #1a1a1a; color: #f8fafc; border: 1px solid #333333; 
-            padding: 10px; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 1rem; 
+        /* Typography Hierarchy */
+        h1, h2, h3, h4, .logo-name, .section-title { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--text-primary) !important; 
         }
-        .app-group input:focus, .app-group select:focus { outline: none; border-color: #FFEE91; }
         
-        /* Actions Execution Row Panel Layout */
-        .app-actions { display: flex; gap: 15px; margin-top: 10px; }
-        .btn-run { flex: 1; background: #FFEE91; color: #222222; border: none; padding: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
-        .btn-run:hover { background: #e6d57e; }
+        .section-header { text-align: left; margin-bottom: 3rem; }
+        .section-kicker { font-family: 'Lato', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 5px; color: var(--kicker-color); font-weight: 700; display: block; margin-bottom: 12px; }
+        .section-title { font-size: 3.2rem; font-weight: 500; margin: 0; letter-spacing: -0.5px; }
+
+        /* Works Section Header with Filters */
+        .works-header-container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 3rem; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+        }
+        .works-header-container .title-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .works-header-container .section-title {
+            text-transform: uppercase; 
+            line-height: 1; 
+            margin-bottom: 0;
+        }
+
+        .portfolio-filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(17, 17, 17, 0.2);
+            color: var(--text-secondary);
+            padding: 10px 24px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0; 
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--text-primary);
+            color: #FFFFFF;
+            border-color: var(--text-primary);
+            box-shadow: 2px 2px 0px rgba(17, 17, 17, 0.2);
+            transform: translate(-1px, -1px);
+        }
+
+        /* Navigation */
+        nav { 
+            background-color: rgba(251, 251, 252, 0.95) !important; 
+            border-bottom: 1px solid rgba(17, 17, 17, 0.1); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; padding-left: 20px; padding-right: 0; }
         
-        .btn-formula { 
-            flex: 1; background: transparent; color: #FFEE91; border: 1px solid #FFEE91; 
-            padding: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; border-radius: 4px; text-transform: uppercase; 
-            transition: all 0.2s ease;
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 15px 0; }
+        nav .logo-name { color: var(--text-primary) !important; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.5px; text-transform: uppercase; line-height: 1;}
+        nav .logo-suffix { font-family: 'Lato', sans-serif; font-size: 0.6rem; color: var(--kicker-color) !important; letter-spacing: 4px; text-transform: uppercase; margin-left: 0; }
+        
+        .nav-right-group { display: flex; align-items: center; height: 100%; }
+        nav .nav-links a { color: var(--text-primary) !important; transition: all 0.2s ease; font-weight: 700; text-decoration: none; margin: 0 14px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; }
+        nav .nav-links a:hover { color: var(--text-secondary) !important; }
+        
+        .btn-hire { 
+            background: var(--text-primary) !important; 
+            color: #FFFFFF !important; 
+            padding: 20px 40px; 
+            border-radius: 0 !important; 
+            border: none;
+            font-family: 'Lato', sans-serif;
+            font-weight: 900; 
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: background 0.2s ease; 
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            margin-left: 20px;
         }
-        .btn-formula:hover { background: rgba(255, 238, 145, 0.08); }
+        .btn-hire:hover { background: var(--text-secondary) !important; }
 
-        /* Output Metrics Presentation Grid */
-        .app-results { background: #1a1a1a; padding: 20px; border-radius: 6px; margin-top: 25px; border-left: 4px solid #FFEE91; }
-        .app-results p { color: #f8fafc; font-family: monospace; font-size: 1rem; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; }
-        .app-results p span:first-child { display: flex; align-items: center; gap: 6px; }
-        .app-results span.result-val { color: #FFEE91; font-weight: bold; font-size: 1.05rem; }
+        .btn-outline, .btn-launch, .btn-submit, .btn-close-app {
+            background: transparent;
+            color: var(--text-primary) !important;
+            padding: 12px 28px; 
+            border-radius: 0 !important;
+            border: 1px solid var(--border-color);
+            font-family: 'Lato', sans-serif;
+            font-weight: 900; 
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-outline:hover, .btn-launch:hover, .btn-submit:hover {
+            background: var(--text-primary) !important;
+            color: #FFFFFF !important;
+            box-shadow: 4px 4px 0px rgba(17, 17, 17, 0.2);
+            transform: translate(-3px, -3px);
+        }
+        .btn-submit { background: var(--text-primary); color: #FFFFFF !important; width: 100%; text-align: center; padding: 16px; margin-top: 10px; border: none; }
 
-        /* Checkbox Alignment & Input Cards */
-        .load-card { background: #222222; padding: 15px; border-radius: 4px; margin-bottom: 10px; }
-        .load-toggle-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .load-toggle-wrapper input[type="checkbox"] { width: 18px; height: 18px; margin: 0; }
-        input[type="range"] { width: 100%; margin-top: 8px; cursor: pointer; accent-color: #FFEE91; }
-
-        /* HTML Canvas Tooltip Fix (No Clipping) */
-        .canvas-tooltip { 
-            background: #1e1e24; color: #FFEE91; font-family: monospace; font-size: 12px; 
-            text-align: left; padding: 12px; padding-bottom: 16px; min-height: 95px; 
-            border: 1px solid #444; border-radius: 4px; position: absolute; pointer-events: none; 
-            z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.5); display: none; 
+        /* Layout */
+        .page-section { padding: 100px 20px; display: block !important; } 
+        .alt-bg { background-color: var(--bg-section-alt); border-top: 1px solid rgba(17, 17, 17, 0.05); border-bottom: 1px solid rgba(17, 17, 17, 0.05); }
+        
+        /* CSS GRIDS FOR WORKS */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            width: 100%;
         }
 
-        /* Step-by-Step Modal Overlay */
+        .portfolio-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(17, 17, 17, 0.15);
+            box-shadow: var(--card-shadow);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .portfolio-card:hover { 
+            transform: translate(-6px, -6px); 
+            box-shadow: var(--hover-shadow); 
+            border-color: var(--border-color); 
+        }
+
+        .portfolio-card.featured-item {
+            grid-column: span 2;
+        }
+
+        .card-thumb {
+            width: 100%;
+            height: 240px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(17, 17, 17, 0.15);
+        }
+        .featured-item .card-thumb {
+            height: 380px; 
+        }
+        .card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .portfolio-card:hover .card-thumb img { transform: scale(1.05); }
+        
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--text-primary);
+            color: #FFFFFF;
+            padding: 6px 14px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 2;
+        }
+
+        .card-content { padding: 25px 30px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-content h3 { font-size: 1.4rem; margin: 0 0 10px 0; font-weight: 600; line-height: 1.3; }
+        .card-content p { color: var(--text-secondary); font-size: 0.95rem; margin: 0 0 20px 0; line-height: 1.6; flex-grow: 1; }
+        .card-tags { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 0.7rem; color: var(--kicker-color); text-transform: uppercase; letter-spacing: 1.5px; margin-top: auto; }
+
+        /* --- EXPERTISE CARD FIX --- */
+        .expertise-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(17, 17, 17, 0.15);
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .expertise-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--border-color);
+        }
+
+        /* --- SERVICES GRID FIX (.card) --- */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(17, 17, 17, 0.15);
+            box-shadow: var(--card-shadow);
+            padding: 40px 30px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%; 
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translate(-6px, -6px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--border-color);
+        }
+        .card h3 {
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .card p {
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
+            flex-grow: 1; 
+        }
+
+        #servicesGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            align-items: stretch; 
+        }
+
+        /* --- SOFTWARE & TOOLS SECTION FIXES --- */
+        .tools-category {
+            margin-bottom: 50px;
+        }
+        .category-title {
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--kicker-color);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+            padding-bottom: 10px;
+        }
+        .tools-grid {
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 20px;
+        }
+        .tool-card {
+            width: 180px; 
+            background: var(--bg-card);
+            border: 1px solid rgba(17, 17, 17, 0.15);
+            box-shadow: var(--card-shadow);
+            padding: 30px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .tool-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--border-color);
+        }
+        .tool-image {
+            max-width: 60px;
+            max-height: 60px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        .css-logo {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Lato', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: inset 0 -3px 0 rgba(0,0,0,0.2);
+        }
+        .logo-prota { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .logo-etabs { background: linear-gradient(135deg, #3498db, #2980b9); }
+
+        .tool-card h4 {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* --- ENGINEERING WEBTOOLS FIX --- */
+        .tool-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            background: var(--bg-card);
+            border: 1px solid rgba(17, 17, 17, 0.15);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .tool-list-item:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--border-color);
+        }
+        .tool-info h3 { margin: 0 0 5px 0; font-size: 1.25rem; }
+        .tool-info p { margin: 0; color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Custom Modals */
         .structural-modal { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px); 
+            background: rgba(17, 17, 17, 0.95); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); 
         }
         .structural-modal-content { 
-            background: #1e1e24; padding: 30px; border-radius: 8px; width: 90%; max-width: 850px; 
-            max-height: 90vh; overflow-y: auto; color: #f8fafc; border: 1px solid #2d2d35; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); 
+            background: var(--bg-page); padding: 40px; border-radius: 0; width: 90%; max-width: 1100px; 
+            max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
         }
         .close-modal-btn { 
-            position: absolute; top: 20px; right: 20px; background: none; border: none; color: #a0aec0; font-size: 24px; cursor: pointer; transition: 0.2s; 
+            position: absolute; top: 20px; right: 30px; background: none; border: none; color: var(--text-primary); font-size: 40px; font-weight: 300; cursor: pointer; transition: 0.2s; 
         }
-        .close-modal-btn:hover { color: var(--accent-color); }
+        .close-modal-btn:hover { color: var(--text-secondary); transform: scale(1.1); }
 
-        /* FAQ Accordion & Inquiry Tool */
-        .accordion-btn { 
-            background-color: #1a1a1a; color: #FAFAFA; cursor: pointer; padding: 15px 20px; 
-            width: 100%; text-align: left; border: none; outline: none; transition: 0.3s background-color; 
-            font-size: 1rem; font-weight: 600; border-left: 4px solid #3498db; border-radius: 4px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; 
+        /* --- CONTACT SECTION & FORM FIXES --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: start;
         }
-        .accordion-btn:hover { background-color: #2a2a2a; }
-        .accordion-btn:after { content: '+'; font-size: 1.5rem; color: #FFEE91; font-weight: bold; }
-        .accordion-btn.active:after { content: '\2212'; } 
-        .accordion-content { 
-            padding: 0 20px; background-color: #222222; max-height: 0; overflow: hidden; 
-            transition: max-height 0.3s ease-out; margin-bottom: 10px; border-radius: 0 0 4px 4px; 
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
         }
-        .accordion-content p { padding: 15px 0; margin: 0; color: #d1d5db; line-height: 1.6; text-align: justify; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .form-group label {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 16px;
+            border: 1px solid rgba(17, 17, 17, 0.2);
+            background: var(--bg-card);
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            border-radius: 0;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--text-primary);
+            box-shadow: 4px 4px 0px rgba(17, 17, 17, 0.05);
+        }
+
+        /* --- ICON SIZE FIXES --- */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon-box svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text-primary);
+            display: block;
+        }
+
+        .social-btn svg { width: 24px; height: 24px; fill: #FFFFFF; transition: opacity 0.2s; }
+        .social-btn:hover svg { opacity: 0.7; }
+        .contact-details p { margin: 0; font-weight: 700; font-size: 0.85rem; color: var(--text-primary); }
+        .contact-details span { color: var(--text-secondary); font-size: 0.95rem; }
 
         /* --- MOBILE RESPONSIVENESS PATCH --- */
+        @media (max-width: 768px) {
+            .contact-wrapper { grid-template-columns: 1fr; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+
         @media (max-width: 600px) {
             .app-interface { padding: 15px; }
             .app-results p { flex-direction: column; align-items: flex-start; gap: 6px; background: #222222; padding: 10px; border-radius: 4px; }
             .app-results span.result-val { align-self: flex-end; font-size: 1.1rem; }
-            #equationSubstitutions, .equation { overflow-x: auto; max-width: 100%; display: block; padding-bottom: 5px; }
-            .app-actions { flex-direction: column; gap: 10px; }
+            .tool-list-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+            /* Allow wrapping on very small mobile screens to prevent layout breakage */
+            .hero-text h1, .hero-text h2 { white-space: normal !important; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="container nav-content">
-            <a href="#" onclick="switchTab('about', event)" class="logo">
-                <span class="logo-name">Engr. JM Ramirez</span> 
-                <span class="logo-suffix">Engineering Solutions</span>
+        <div class="container" style="max-width: 1300px; margin: 0 auto;">
+            <a href="#about" class="logo" style="text-decoration: none;">
+                <div class="logo-wrap">
+                    <span class="logo-name">JOHN MICHAEL RAMIREZ</span> 
+                    <span class="logo-suffix">ENGINEERING SOLUTIONS</span>
+                </div>
             </a>
-            <div class="nav-links">
-                <a href="#" data-tab="about" onclick="switchTab('about', event)" class="active-link">Home</a>
-                <a href="#" data-tab="works" onclick="switchTab('works', event)">Works</a>
-                <a href="#" data-tab="services" onclick="switchTab('services', event)">Services</a>
-                <a href="#" data-tab="blogs" onclick="switchTab('blogs', event)">Blogs/Insights</a>
-                <a href="#" data-tab="webtools" onclick="switchTab('webtools', event)">Webtools</a>
-                <a href="#site-footer" onclick="scrollToFooter(event)" class="btn-hire">Hire Me</a>
+            <div class="nav-right-group">
+                <div class="nav-links">
+                    <a href="#about">Home</a>
+                    <a href="#works">Works</a>
+                    <a href="#services">Services</a>
+                    <a href="#tools">Tools</a>
+                    <a href="#blogs">Insights</a>
+                    <a href="#webtools">Webtools</a>
+                </div>
+                <a href="#contact" class="btn-hire">Send a Message</a>
             </div>
         </div>
     </nav>
 
-    <button id="backToHomeBtn" class="back-btn" onclick="switchTab('about', event)">
-        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Home
-    </button>
-
     <main id="app-container">
         
-        <section id="about" class="container page-section active-section">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>More Than Structures</h1>
-                    <h2>Civil Engineer | Structural Design Engineer | Structural BIM Modeler</h2>
+        <section id="about" class="container page-section">
+            <div class="hero-content" style="display: flex; gap: 60px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto;">
+                <div class="hero-text" style="flex: 1; min-width: 320px;">
+                    <span class="section-kicker">Civil Engineer & Structural BIM Modeler</span>
                     
-                    <p style="margin-bottom: 1.5rem; text-align: justify;">Licensed Civil Engineer practicing structural design since 2020, specializing in practical, buildable solutions for residential and mid-rise buildings. My focus is bridging the gap between rigorous structural analysis and precise documentation.</p>
+                    <h1 style="margin-bottom: 5px; white-space: nowrap; font-size: clamp(2rem, 4vw, 3.5rem);">More than a structure.</h1>
                     
-                    <h3 style="color: var(--accent-color); margin-top: 2rem; margin-bottom: 0.75rem; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Core Expertise:</h3>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 2.1rem); color: var(--text-primary) !important; text-transform: none; letter-spacing: -0.5px; font-weight: 500; margin-top: 0; margin-bottom: 25px; white-space: nowrap;">Engineered with absolute precision.</h2>
                     
-                    <ul style="list-style-type: none; padding-left: 0; margin-top: 0.5rem;">
-                        <li style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.95rem; text-align: justify; padding-left: 1rem; border-left: 2px solid var(--accent-color);">
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Structural Design & Analysis</strong> Experienced in delivering coordinated calculations and designs optimized for real-world constructability.
-                        </li>
-                        <li style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.95rem; text-align: justify; padding-left: 1rem; border-left: 2px solid var(--accent-color);">
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">BIM Workflows & Drafting</strong> Proficient in Revit and CAD to build seamless, accurate structural models and detailed drawings.
-                        </li>
-                        <li style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.95rem; text-align: justify; padding-left: 1rem; border-left: 2px solid var(--accent-color);">
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Integrated Execution</strong> Passionate about continuous technical growth, ensuring design, calculations, and documentation align perfectly with project goals.
-                        </li>
-                        <li style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.95rem; text-align: justify; padding-left: 1rem; border-left: 2px solid var(--accent-color);">
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">AI-Assisted Coding & Automation</strong> Enthusiastic about leveraging AI-assisted programming and modern scripting tools to build interactive engineering calculators, automate complex design workflows, and rapidly transform technical concepts into functional, real-world digital applications.
-                        </li>
-                    </ul>
-                </div>
-                <div class="hero-image">
-                    <img src="images/Profile.jpg" alt="John Michael C. Ramirez">
-                </div>
-            </div>
-        </section>
-
-        <section id="works" class="container page-section hidden-section">
-            <h2 class="section-title">Works & Projects</h2>
-            <div class="carousel-container">
-                <button class="carousel-btn" id="prevBtn" aria-label="Previous">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
-                </button>
-                <div class="carousel-wrapper">
-                    <div class="carousel-track" id="worksCarousel"></div>
-                </div>
-                <button class="carousel-btn" id="nextBtn" aria-label="Next">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-                </button>
-            </div>
-        </section>
-
-        <section id="services" class="container page-section hidden-section">
-            <h2 class="section-title">Services Offered</h2>
-            <div class="carousel-container">
-                <button class="carousel-btn" id="prevBtnServices" aria-label="Previous">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
-                </button>
-                <div class="carousel-wrapper">
-                    <div class="carousel-track" id="servicesCarousel"></div>
-                </div>
-                <button class="carousel-btn" id="nextBtnServices" aria-label="Next">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-                </button>
-            </div>
-        </section>
-
-        <section id="blogs" class="container page-section hidden-section">
-            <h2 class="section-title">Blogs & Insights</h2>
-            <div id="blogsGrid" class="grid-container"></div>
-        </section>
-
-        <section id="webtools" class="container page-section hidden-section">
-            <h2 class="section-title">Engineering Webtools</h2>
-            
-            <div id="webtoolsDashboard" class="tools-list">
-                <div class="tool-list-item">
-                    <div class="tool-info">
-                        <h3>RC BEAM CAPACITY ANALYZER</h3>
-                        <p>v1.0. Flexure and shear capacity per ACI 318-19M/25M</p>
+                    <p style="margin-bottom: 2.5rem; font-size: 1.15rem; line-height: 1.8; color: var(--text-secondary);">
+                        Licensed Civil Engineer practicing structural design since 2020, specializing in practical, buildable solutions for residential and mid-rise buildings. My focus is bridging the gap between rigorous structural analysis and precise documentation.
+                    </p>
+                    
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 3.5rem;">
+                        <a href="#contact" class="btn-outline">Send a Message</a>
+                        <a href="#works" class="btn-outline">View Portfolio</a>
                     </div>
-                    <div class="tool-actions">
+
+                    <div class="core-expertise">
+                        <h3 style="font-family: 'Lato', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; margin-bottom: 1.5rem;">Core Expertise</h3>
+                        
+                        <div class="expertise-card">
+                            <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem;">Structural Design & Analysis</strong>
+                            <span style="color: var(--text-secondary); font-size: 0.95rem;">Experienced in delivering coordinated calculations and designs optimized for real-world constructability.</span>
+                        </div>
+                        
+                        <div class="expertise-card">
+                            <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem;">BIM Workflows & Drafting</strong>
+                            <span style="color: var(--text-secondary); font-size: 0.95rem;">Proficient in Revit and CAD to build seamless, accurate structural models and detailed drawings.</span>
+                        </div>
+                        
+                        <div class="expertise-card">
+                            <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem;">Integrated Execution</strong>
+                            <span style="color: var(--text-secondary); font-size: 0.95rem;">Passionate about continuous technical growth, ensuring design, calculations, and documentation align perfectly with project goals.</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-image" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; background : transparent; border: none; max-width: 380px;">
+                    <div style="padding: 0; background: transparent; box-shadow: none; width: 100%; max-width: 380px; margin: 0 auto;">
+                        <img src="images/Profile.jpg" alt="John Michael C. Ramirez" style="width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center; display: block; box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.05);">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="works" class="page-section alt-bg">
+            <div class="container" style="max-width: 1200px; margin: 0 auto;">
+                
+                <div class="works-header-container">
+                    <div class="title-wrapper">
+                        <span class="section-kicker">Project Portfolio</span>
+                        <h2 class="section-title">Engineered Structures</h2>
+                    </div>
+                    <div class="portfolio-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="residential">Residential</button>
+                        <button class="filter-btn" data-filter="mid-rise">Mid-Rise</button>
+                        <button class="filter-btn" data-filter="commercial">Commercial</button>
+                    </div>
+                </div>
+                
+                <div id="worksGrid" class="portfolio-grid">
+                </div>
+
+                <div style="text-align: right; margin-top: 50px;">
+                    <button onclick="openAllProjectsModal()" class="btn-outline" style="border-width: 2px; padding: 12px 35px;">MORE ▷</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="services" class="container page-section" style="max-width: 1200px; margin: 0 auto;">
+            <div class="section-header">
+                <span class="section-kicker">Professional Services</span>
+                <h2 class="section-title">Core Capabilities</h2>
+            </div>
+            <div id="servicesGrid">
+            </div>
+        </section>
+
+        <section id="tools" class="page-section alt-bg">
+            <div class="container" style="max-width: 1200px; margin: 0 auto;">
+                <div class="section-header">
+                    <span class="section-kicker">The Stack</span>
+                    <h2 class="section-title">Software & Tools</h2>
+                </div>
+
+                <div class="tools-category">
+                    <h3 class="category-title">BIM Modeling & Drafting</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card"><img src="images/autocad.png" alt="AutoCAD" class="tool-image"><h4>AutoCAD</h4></div>
+                        <div class="tool-card"><img src="images/revit.png" alt="Revit" class="tool-image"><h4>Revit</h4></div>
+                        <div class="tool-card"><img src="images/python-logo.png" alt="Python" class="tool-image"><h4>Custom Programs</h4></div>
+                    </div>
+                </div>
+
+                <div class="tools-category">
+                    <h3 class="category-title">Structural Analysis</h3>
+                    <div class="tools-grid">
+                        <div class="tool-card"><div class="css-logo logo-prota">PS</div><h4>ProtaStructures</h4></div>
+                        <div class="tool-card"><div class="css-logo logo-etabs">ET</div><h4>ETABS</h4></div>
+                        <div class="tool-card"><img src="images/midasgen.png" alt="MidasGen" class="tool-image"><h4>MidasGen</h4></div>
+                        <div class="tool-card"><img src="images/tekla-logo.png" alt="Tekla Detailer" class="tool-image"><h4>Tekla Detailer</h4></div>
+                        <div class="tool-card"><img src="images/excel-logo.png" alt="Excel" class="tool-image"><h4>Custom Excel</h4></div>
+                        <div class="tool-card"><img src="images/python-logo.png" alt="Python" class="tool-image"><h4>Custom Python</h4></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="blogs" class="container page-section" style="max-width: 1200px; margin: 0 auto;">
+            <div class="section-header">
+                <span class="section-kicker">Knowledge Base</span>
+                <h2 class="section-title">Blogs & Insights</h2>
+            </div>
+            <div id="blogsGrid" style="border: 1px dashed rgba(17, 17, 17, 0.2); padding: 50px; text-align: center; background: var(--bg-card); box-shadow: var(--card-shadow);">
+                <p style="color: var(--text-secondary); font-style: italic; font-size: 1.05rem;">(Blog content and articles will populate here)</p>
+            </div>
+        </section>
+
+        <section id="webtools" class="page-section alt-bg">
+            <div class="container" style="max-width: 1200px; margin: 0 auto;">
+                <div class="section-header">
+                    <span class="section-kicker">Digital Solutions</span>
+                    <h2 class="section-title">Engineering Webtools</h2>
+                </div>
+                
+                <div id="webtoolsDashboard" style="max-width: 1000px;">
+                    <div class="tool-list-item">
+                        <div class="tool-info"><h3>RC BEAM CAPACITY ANALYZER</h3><p>Flexure and shear capacity per ACI 318-19M/25M</p></div>
                         <button class="btn-launch" onclick="launchRCBeamTool()">Launch</button>
                     </div>
-                </div>
-                <div class="tool-list-item">
-                    <div class="tool-info">
-                        <h3>RC COLUMN CAPACITY ANALYZER</h3>
-                        <p>v1.0. Axial capacity limits per ACI 318-19M/25M</p>
-                    </div>
-                    <div class="tool-actions">
+                    <div class="tool-list-item">
+                        <div class="tool-info"><h3>RC COLUMN CAPACITY ANALYZER</h3><p>Axial capacity limits per ACI 318-19M/25M</p></div>
                         <button class="btn-launch" onclick="launchRCColumnTool()">Launch</button>
                     </div>
-                </div>
-                <div class="tool-list-item">
-                    <div class="tool-info">
-                        <h3>RC SLAB CAPACITY ANALYZER</h3>
-                        <p>v1.0. One-Way & Two-Way analysis per ACI 318-19M/25M</p>
-                    </div>
-                    <div class="tool-actions">
+                    <div class="tool-list-item">
+                        <div class="tool-info"><h3>RC SLAB CAPACITY ANALYZER</h3><p>One-Way & Two-Way analysis per ACI 318-19M/25M</p></div>
                         <button class="btn-launch" onclick="launchRCSlabTool()">Launch</button>
                     </div>
-                </div>
-                <div class="tool-list-item">
-                    <div class="tool-info">
-                        <h3>RC FOOTING CAPACITY ANALYZER</h3>
-                        <p>v1.0. Isolated, Combined & Mat analysis per ACI 318-19M/25M</p>
-                    </div>
-                    <div class="tool-actions">
+                    <div class="tool-list-item">
+                        <div class="tool-info"><h3>RC FOOTING CAPACITY ANALYZER</h3><p>Isolated, Combined & Mat analysis per ACI 318-19M/25M</p></div>
                         <button class="btn-launch" onclick="launchRCFootingTool()">Launch</button>
                     </div>
                 </div>
-                <div class="tool-list-item">
-                    <div class="tool-info">
-                        <h3>INTERACTIVE SFD & BMD ENGINE</h3>
-                        <p>v2.0. Modular multi-span matrix & determinate solver</p>
+
+                <div id="activeAppInterface" class="app-interface" style="display: none; background: var(--bg-card); padding: 40px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); margin-top: 3rem;">
+                    <div class="app-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 30px;">
+                        <h2 id="appTitle" style="margin: 0; font-size: 2rem; font-family: 'Playfair Display', serif;">Tool Loading...</h2>
+                        <button class="btn-close-app" onclick="closeApp()">Close Interface</button>
                     </div>
-                    <div class="tool-actions">
-                        <button class="btn-launch" onclick="launchSFDBMDTool()">Launch</button>
-                    </div>
+                    <div id="appContent"></div>
                 </div>
             </div>
+        </section>
 
-            <div id="activeAppInterface" class="app-interface" style="display: none;">
-                <div class="app-header">
-                    <h2 id="appTitle">Tool Loading...</h2>
-                    <button class="btn-close-app" onclick="closeApp()">← Back to Tools</button>
+        <section id="contact" class="container page-section" style="max-width: 1200px; margin: 0 auto;">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <span class="section-kicker">Let's Connect</span>
+                    <h2 class="section-title" style="margin-bottom: 20px;">Ready to work together?</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem; max-width: 400px;">Send me a message and let's talk about your project. I typically respond within 24 hours.</p>
+
+                    <div class="contact-item">
+                        <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+                        <div class="contact-details"><p>Email</p><span>jhnmchlramirez@gmail.com</span></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+                        <div class="contact-details"><p>WhatsApp</p><span>09560535570</span></div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.762 0-5 2.238-5 5v14c0 2.762 2.238 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.762-2.238-5-5-5zM7 19H4V8h3v11zM5.5 6.5C4.12 6.5 3 5.38 3 4s1.12-2.5 2.5-2.5S8 2.62 8 4 6.88 6.5 5.5 6.5zM20 19h-3v-5.5c0-1.3-1-2.5-2.4-2.5-1.2 0-1.8.8-2.1 1.5-.1.2-.1.5-.1.8V19h-3V8h3v1.6c.4-.6 1.3-1.5 3-1.5 2.2 0 3.5 1.4 3.5 4.4V19z"/></svg></div>
+                        <div class="contact-details"><p>LinkedIn</p><span>John Michael Ramirez</span></div>
+                    </div>
+
+                    <div class="response-card" style="margin-top: 40px; padding: 25px; border: 1px solid var(--border-color); background: var(--bg-card); display: inline-block;">
+                        <span class="section-kicker" style="font-size: 0.65rem;">Response Time</span>
+                        <h4 style="margin: 5px 0 0 0;">Within 24 hours</h4>
+                        <span style="color: var(--text-secondary); font-size: 0.85rem;">Mon-Sat · Philippine Standard Time</span>
+                    </div>
                 </div>
 
-                <div id="appContent"></div>
+                <div class="contact-form-container">
+                    <form action="https://formspree.io/f/mkoabrpq" method="POST">
+                        <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 1.8rem;">Send a Message</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 0.95rem;">Tell me about your project and I'll get back to you shortly.</p>
+
+                        <div class="form-row">
+                            <div class="form-group"><label for="first-name">First Name</label><input type="text" id="first-name" name="first-name" placeholder="Juan" required></div>
+                            <div class="form-group"><label for="last-name">Last Name</label><input type="text" id="last-name" name="last-name" placeholder="Dela Cruz" required></div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 20px;"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="juan@yourbrand.com" required></div>
+                        
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="service-type">Project Requirement</label>
+                            <select id="service-type" name="service-type" required>
+                                <option value="" disabled selected>Select a project requirement...</option>
+                                <option value="Structural Engineering Design">Structural Engineering Design</option>
+                                <option value="Structural Drafting">Structural Drafting</option>
+                                <option value="Structural BIM Modeling">Structural BIM Modeling</option>
+                                <option value="Project Consultation">Project Consultation</option>
+                                <option value="AutoCAD Tutorial">AutoCAD Tutorial</option>
+                                <option value="Other">Other / General Inquiry</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 25px;"><label for="message">Tell Me About Your Project</label><textarea id="message" name="message" rows="5" placeholder="Describe your structural requirements, project scope, and any references..." required></textarea></div>
+                        <button type="submit" class="btn-submit">Send Message ✦</button>
+                    </form>
+                </div>
             </div>
         </section>
 
     </main>
 
     <footer id="site-footer" class="site-footer">
-        <div class="container footer-content">
-            
+        <div class="container footer-content" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; max-width: 1200px; margin: 0 auto;">
             <div class="footer-col brand-col">
-                <a href="#" onclick="switchTab('about', event)" class="footer-logo">
-                    <span class="logo-name">Engr. JM Ramirez</span>
-                </a>
-                <p class="footer-desc">Engineering Design, Drafting, BIM Modeling and Digital Solutions.</p>
-                
+                <a href="#about" class="footer-logo" style="text-decoration: none;"><span class="logo-name" style="font-size: 1.8rem; color: #FFFFFF;">Engr. JM Ramirez</span></a>
+                <p class="footer-desc" style="margin-top: 15px; font-size: 0.95rem; line-height: 1.6;">Engineering Design, Drafting, BIM Modeling and Digital Solutions.</p>
                 <div class="footer-socials">
-                    <a href="https://www.facebook.com/zerimar024" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/john-michael-ramirez-56ab46197/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="LinkedIn">
-                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.762 0-5 2.238-5 5v14c0 2.762 2.238 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.762-2.238-5-5-5zM7 19H4V8h3v11zM5.5 6.5C4.12 6.5 3 5.38 3 4s1.12-2.5 2.5-2.5S8 2.62 8 4 6.88 6.5 5.5 6.5zM20 19h-3v-5.5c0-1.3-1-2.5-2.4-2.5-1.2 0-1.8.8-2.1 1.5-.1.2-.1.5-.1.8V19h-3V8h3v1.6c.4-.6 1.3-1.5 3-1.5 2.2 0 3.5 1.4 3.5 4.4V19z"/></svg>
-                    </a>
-                    <a href="mailto:jhnmchlramirez@gmail.com" class="social-btn" aria-label="Gmail">
-                        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    </a>
+                    <a href="https://www.linkedin.com/in/john-michael-ramirez-56ab46197/" target="_blank" rel="noopener noreferrer" class="social-btn"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.762 0-5 2.238-5 5v14c0 2.762 2.238 5 5 5h14c2.762 0 5-2.238 5-5v-14c0-2.762-2.238-5-5-5zM7 19H4V8h3v11zM5.5 6.5C4.12 6.5 3 5.38 3 4s1.12-2.5 2.5-2.5S8 2.62 8 4 6.88 6.5 5.5 6.5zM20 19h-3v-5.5c0-1.3-1-2.5-2.4-2.5-1.2 0-1.8.8-2.1 1.5-.1.2-.1.5-.1.8V19h-3V8h3v1.6c.4-.6 1.3-1.5 3-1.5 2.2 0 3.5 1.4 3.5 4.4V19z"/></svg></a>
                 </div>
-
-                <h4 class="footer-heading contact-heading">CONTACT</h4>
-                <ul class="footer-contact-list">
-                    <li>
-                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                        <a href="mailto:jhnmchlramirez@gmail.com">jhnmchlramirez@gmail.com</a>
-                    </li>
-                    <li>
-                        <svg class="contact-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/></svg>
-                        <span>Manila, Philippines</span>
-                    </li>
-                </ul>
             </div>
-
-            <div class="footer-col">
-                <h4 class="footer-heading">PLATFORM</h4>
-                <ul class="footer-links">
-                    <li><a href="#" data-tab="about" onclick="switchTab('about', event)" class="active-link">Home</a></li>
-                    <li><a href="#" data-tab="works" onclick="switchTab('works', event)">Works</a></li>
-                    <li><a href="#" data-tab="services" onclick="switchTab('services', event)">Services</a></li>
-                    <li><a href="#" data-tab="blogs" onclick="switchTab('blogs', event)">Blogs/Insights</a></li>
-                    <li><a href="#" data-tab="webtools" onclick="switchTab('webtools', event)">Webtools</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4 class="footer-heading">SERVICES</h4>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="switchTab('services', event)">Structural Design</a></li>
-                    <li><a href="#" onclick="switchTab('services', event)">Drafting</a></li>
-                    <li><a href="#" onclick="switchTab('services', event)">BIM Modeling</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4 class="footer-heading">LEGAL</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Disclaimer</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                </ul>
-            </div>
+            <div class="footer-col" style="padding-top: 15px;"><h4 class="footer-heading">Platform</h4><ul class="footer-links" style="list-style: none; padding: 0;"><li style="margin-bottom: 12px;"><a href="#about" style="text-decoration: none;">Home</a></li><li style="margin-bottom: 12px;"><a href="#works" style="text-decoration: none;">Works</a></li></ul></div>
+            <div class="footer-col" style="padding-top: 15px;"><h4 class="footer-heading">Services</h4><ul class="footer-links" style="list-style: none; padding: 0;"><li style="margin-bottom: 12px;"><a href="#services" style="text-decoration: none;">Structural Design</a></li><li style="margin-bottom: 12px;"><a href="#services" style="text-decoration: none;">BIM Modeling</a></li></ul></div>
         </div>
-        
-        <div class="footer-bottom">
-            <div class="container">
-                <p>&copy; 2026 John Michael C. Ramirez. All Rights Reserved.</p>
-            </div>
-        </div>
+        <div class="footer-bottom"><p style="color: #66666A; margin: 0; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;">&copy; 2026 John Michael C. Ramirez. All Rights Reserved.</p></div>
     </footer>
 
-    <div id="lightboxOverlay" class="lightbox-overlay" onclick="closeLightbox()">
-        <img id="lightboxImg" src="" alt="Enlarged View">
-    </div>
-
-    <div id="projectModal" class="modal-overlay">
-        <button class="modal-project-nav prev-project" onclick="prevProject()" aria-label="Previous Project">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
-        </button>
-        <button class="modal-project-nav next-project" onclick="nextProject()" aria-label="Next Project">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-        </button>
-
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-btn" onclick="closeProjectModal()">&times;</span>
-            
-            <div class="modal-header">
-                <h2 id="modalTitle">Project Name</h2>
-                <span id="modalStatus" class="status-badge">Status</span>
+    <div id="allProjectsModal" class="structural-modal">
+        <div class="structural-modal-content">
+            <button class="close-modal-btn" onclick="closeAllProjectsModal()">×</button>
+            <div class="section-header" style="margin-bottom: 2rem;">
+                <span class="section-kicker">Complete Archive</span>
+                <h2 class="section-title">All Projects</h2>
             </div>
-            
-            <div class="modal-body">
-                <div class="modal-left">
-                    <div class="image-carousel">
-                        <button class="img-nav-btn prev-img" onclick="prevImage()" aria-label="Previous Photo">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
-                        </button>
-                        
-                        <img id="modalCarouselImg" src="" alt="Project Content" onclick="openLightbox(this.src)" title="Click to enlarge">
-                        
-                        <button class="img-nav-btn next-img" onclick="nextImage()" aria-label="Next Photo">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
-                        </button>
-                    </div>
-                    <span id="modalImageCaption" class="image-caption">Image Caption</span>
+            <div id="modalProjectsGrid" class="portfolio-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
                 </div>
-                
-                <div class="modal-right">
-                    <h4>Project Details</h4>
-                    <p id="modalDescription">Detailed description will load here.</p>
-                </div>
-            </div>
         </div>
     </div>
 
     <script src="worksData.js"></script>
     <script src="servicesData.js"></script>
-    <script src="blogsData.js"></script>
     <script src="webtoolsData.js"></script>
-    <script src="RCBeamCalc.js"></script>
-    <script src="RCColumnCalc.js"></script>
-    <script src="RCSlabCalc.js"></script>
-    <script src="RCFootingCalc.js"></script>
-    <script src="CommonBeams.js"></script>
-    <script src="ComplexBeams.js"></script>
-    <script src="MainUIController.js"></script> 
 
     <script>
-        const modal = document.getElementById('projectModal');
-        const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
-        let currentProjectIndex = 0;
-        let currentImageIndex = 0;
-
-        function initAppEngine() {
-            const worksTrack = document.getElementById('worksCarousel');
-            if (worksTrack && projectKeys.length > 0) {
-                worksTrack.innerHTML = projectKeys.map(key => `
-                    <div class="card" onclick="openProjectModal('${key}')">
-                        <span class="status-badge ${projectData[key].statusClass}">${projectData[key].status}</span>
-                        <h3>${projectData[key].title}</h3>
-                        <p>${projectData[key].description.substring(0, 140)}...</p>
-                    </div>
-                `).join('');
+        // Automatic Category Detection Logic - PRIORITIZES RESIDENTIAL
+        function detectCategory(title, description) {
+            const text = (title + " " + description).toLowerCase();
+            
+            // 1. Check for RESIDENTIAL triggers first (Adding Ayala to catch the Greenfield Project)
+            if (text.includes('residential') || text.includes('house') || text.includes('residence') || text.includes('villa') || text.includes('ayala') || text.includes('storey')) {
+                return 'residential';
+            }
+            
+            // 2. Check for MID-RISE
+            if (text.includes('mid-rise') || text.includes('mid rise') || text.includes('apartment') || text.includes('bldg') || text.includes('building')) {
+                return 'mid-rise';
             }
 
-            const servicesTrack = document.getElementById('servicesCarousel');
-            if (servicesTrack && typeof servicesData !== 'undefined') {
-                servicesTrack.innerHTML = servicesData.map(service => `
+            // 3. Check for COMMERCIAL
+            if (text.includes('pickleball') || text.includes('commercial') || text.includes('warehouse') || text.includes('court') || text.includes('office') || text.includes('retail')) {
+                return 'commercial';
+            }
+            
+            return 'commercial'; // Default Fallback
+        }
+
+        const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            // INJECT WORKS GRID WITH AUTO-CATEGORIZATION
+            const worksGrid = document.getElementById('worksGrid');
+            if (worksGrid && projectKeys.length > 0) {
+                worksGrid.innerHTML = projectKeys.map((key, index) => {
+                    const data = projectData[key];
+                    const thumbSrc = (data.images && data.images.length > 0) ? data.images[0].src : 'images/Profile.jpg'; 
+                    
+                    const category = detectCategory(data.title, data.description);
+                    const displayCategory = category === 'mid-rise' ? 'Mid-Rise' : category.charAt(0).toUpperCase() + category.slice(1);
+                    
+                    const isFeatured = index === 0 ? 'featured-item' : '';
+
+                    return `
+                        <div class="portfolio-card ${isFeatured}" data-category="${category}" onclick="openProjectModal('${key}')" style="cursor: pointer;">
+                            <div class="card-thumb">
+                                <span class="card-badge">${displayCategory}</span>
+                                <img src="${thumbSrc}" alt="${data.title}">
+                            </div>
+                            <div class="card-content">
+                                <h3>${data.title}</h3>
+                                <p>${data.description.substring(0, 110)}...</p>
+                                <div class="card-tags">• Structural • ${displayCategory}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // INJECT SERVICES GRID
+            const servicesGrid = document.getElementById('servicesGrid');
+            if (servicesGrid && typeof servicesData !== 'undefined') {
+                servicesGrid.innerHTML = servicesData.map(service => `
                     <div class="card">
                         <h3>${service.title}</h3>
                         <p>${service.desc}</p>
@@ -425,160 +801,71 @@
                 `).join('');
             }
 
-            const blogsGrid = document.getElementById('blogsGrid');
-            if (blogsGrid && typeof blogsData !== 'undefined') {
-                blogsGrid.innerHTML = `
-                    <p style="color: var(--text-secondary); padding: 10px 0;">${blogsData.placeholderText}</p>
-                `;
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', initAppEngine);
-
-        function switchTab(tabId, event) {
-            if (event) event.preventDefault(); 
-
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(sec => {
-                sec.classList.remove('active-section');
-                sec.classList.add('hidden-section');
-            });
-
-            const targetSection = document.getElementById(tabId);
-            if (targetSection) {
-                targetSection.classList.remove('hidden-section');
-                targetSection.classList.add('active-section');
-            }
-
-            const allNavLinks = document.querySelectorAll('a[data-tab]');
-            allNavLinks.forEach(link => {
-                link.classList.remove('active-link');
-                if (link.getAttribute('data-tab') === tabId) {
-                    link.classList.add('active-link');
-                }
-            });
-
-            const backBtn = document.getElementById('backToHomeBtn');
-            if (backBtn) {
-                backBtn.style.display = (tabId === 'about') ? 'none' : 'flex';
-            }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function scrollToFooter(event) {
-            if (event) event.preventDefault(); 
-            document.getElementById('site-footer').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function openProjectModal(projectId) {
-            currentProjectIndex = projectKeys.indexOf(projectId);
-            renderProjectData();
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function closeProjectModal() {
-            modal.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
-
-        function renderProjectData() {
-            const data = projectData[projectKeys[currentProjectIndex]];
-            document.getElementById('modalTitle').innerText = data.title;
-            const statusElement = document.getElementById('modalStatus');
-            statusElement.innerText = data.status;
-            statusElement.className = 'status-badge ' + data.statusClass; 
-            document.getElementById('modalDescription').innerText = data.description;
-            currentImageIndex = 0; 
-            renderModalImage();
-        }
-
-        function prevProject() {
-            if (currentProjectIndex > 0) currentProjectIndex--;
-            else currentProjectIndex = projectKeys.length - 1; 
-            renderProjectData();
-        }
-
-        function nextProject() {
-            if (currentProjectIndex < projectKeys.length - 1) currentProjectIndex++;
-            else currentProjectIndex = 0; 
-            renderProjectData();
-        }
-
-        function renderModalImage() {
-            const data = projectData[projectKeys[currentProjectIndex]];
-            const currentImg = data.images[currentImageIndex];
-            document.getElementById('modalCarouselImg').src = currentImg.src;
-            document.getElementById('modalImageCaption').innerText = currentImg.caption;
-        }
-
-        function prevImage() {
-            const data = projectData[projectKeys[currentProjectIndex]];
-            if (currentImageIndex > 0) currentImageIndex--;
-            else currentImageIndex = data.images.length - 1; 
-            renderModalImage();
-        }
-
-        function nextImage() {
-            const data = projectData[projectKeys[currentProjectIndex]];
-            if (currentImageIndex < data.images.length - 1) currentImageIndex++;
-            else currentImageIndex = 0; 
-            renderModalImage();
-        }
-
-        function openLightbox(src) {
-            document.getElementById('lightboxImg').src = src;
-            document.getElementById('lightboxOverlay').style.display = 'flex';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightboxOverlay').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const lightbox = document.getElementById('lightboxOverlay');
-            if (event.target === lightbox) {
-                closeLightbox();
-            } else if (event.target === modal) {
-                closeProjectModal();
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const worksTrack = document.getElementById('worksCarousel');
-            document.getElementById('prevBtn').addEventListener('click', () => {
-                const card = worksTrack.querySelector('.card');
-                const cardWidth = card ? card.offsetWidth : 300;
-                const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
-                worksTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
-            });
-            document.getElementById('nextBtn').addEventListener('click', () => {
-                const card = worksTrack.querySelector('.card');
-                const cardWidth = card ? card.offsetWidth : 300;
-                const gap = parseFloat(getComputedStyle(worksTrack).gap) || 32; 
-                worksTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
-            });
-
-            const servicesTrack = document.getElementById('servicesCarousel');
-            document.getElementById('prevBtnServices').addEventListener('click', () => {
-                const card = servicesTrack.querySelector('.card');
-                const cardWidth = card ? card.offsetWidth : 300;
-                const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
-                servicesTrack.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
-            });
-            document.getElementById('nextBtnServices').addEventListener('click', () => {
-                const card = servicesTrack.querySelector('.card');
-                const cardWidth = card ? card.offsetWidth : 300;
-                const gap = parseFloat(getComputedStyle(servicesTrack).gap) || 32; 
-                servicesTrack.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+            // FILTER BUTTON FUNCTIONALITY
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const filterValue = e.target.getAttribute('data-filter');
+                    const cards = document.querySelectorAll('.portfolio-card');
+                    
+                    let visibleCount = 0;
+                    cards.forEach(card => {
+                        card.classList.remove('featured-item');
+                        
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'flex';
+                            if (visibleCount === 0) {
+                                card.classList.add('featured-item');
+                            }
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
             });
         });
 
+        // Application handling
         function closeApp() {
             document.getElementById('activeAppInterface').style.display = 'none';
-            document.getElementById('webtoolsDashboard').style.display = 'flex';
+            document.getElementById('webtoolsDashboard').style.display = 'block';
             document.getElementById('appContent').innerHTML = ''; 
+        }
+
+        // Modal specific functions
+        function openAllProjectsModal() {
+            document.getElementById('allProjectsModal').style.display = 'flex';
+            
+            // Populate the modal grid if it hasn't been populated yet
+            const modalGrid = document.getElementById('modalProjectsGrid');
+            if (modalGrid.innerHTML.trim() === '' && projectKeys.length > 0) {
+                modalGrid.innerHTML = projectKeys.map(key => {
+                    const data = projectData[key];
+                    const thumbSrc = (data.images && data.images.length > 0) ? data.images[0].src : 'images/Profile.jpg'; 
+                    const category = detectCategory(data.title, data.description);
+                    const displayCategory = category === 'mid-rise' ? 'Mid-Rise' : category.charAt(0).toUpperCase() + category.slice(1);
+
+                    return `
+                        <div class="portfolio-card" onclick="closeAllProjectsModal(); openProjectModal('${key}')" style="cursor: pointer;">
+                            <div class="card-thumb" style="height: 200px;">
+                                <span class="card-badge">${displayCategory}</span>
+                                <img src="${thumbSrc}" alt="${data.title}">
+                            </div>
+                            <div class="card-content" style="padding: 20px;">
+                                <h3 style="font-size: 1.1rem;">${data.title}</h3>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function closeAllProjectsModal() {
+            document.getElementById('allProjectsModal').style.display = 'none';
         }
     </script>
 </body>

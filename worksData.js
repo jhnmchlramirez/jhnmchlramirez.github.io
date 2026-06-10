@@ -45,7 +45,7 @@ const projectData = {
         description: "Completed the structural design and detailed documentation for a residential project, prioritizing cost-efficiency and structural simplicity. Due to the site’s proximity to an active fault line, Linear Static and Dynamic Response-Spectrum Analysis (RSA) were utilized to ensure superior seismic performance. This high-level analytical approach allowed for a design that balances strict safety requirements with a lightweight and economical structural frame.\n\n Bridged the gap between advanced seismic modeling and on-site execution through high-precision CAD layouts. These detailed drawings provided contractor teams with a clear, error-free roadmap for assembly, ensuring that critical seismic details were accurately implemented during construction. The final output successfully synchronized stringent technical standards with the original architectural intent, delivering a safe and buildable residential solution."
     },
     'project5': {
-        title: 'Ayala Greenfield Residences (4-Storey Commercial Building)',
+        title: 'Ayala Greenfield Residences (One-Storey Residential Building with One-level Basement)',
         status: 'Completed',
         statusClass: 'status-completed',
         images: [
