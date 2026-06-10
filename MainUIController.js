@@ -1,5 +1,5 @@
 // =========================================================================
-// MainUIController.js - PRO STRUCTURAL ANALYSIS ENGINE (CENTRAL UI & RENDER)
+// MainUIController.js - SHEAR & MOMENT DIAGRAM ENGINE (CENTRAL UI & RENDER)
 // =========================================================================
 
 let beamState = { L: 20, loads: [], supports: [], mathData: [], maxV: 0, maxM: 0, maxY: 0, invert: true, supportType: 'custom', analysisMethod: 'matrix_stiffness', E: 200, I: 100 };
@@ -10,7 +10,8 @@ function launchSFDBMDTool() {
     const appInterface = document.getElementById('activeAppInterface');
     appInterface.style.display = 'block';
     
-    document.getElementById('appTitle').innerText = 'PRO STRUCTURAL ANALYSIS ENGINE';
+    // Updated title to remove HTML wrapper dependency
+    document.getElementById('appTitle').innerText = 'SHEAR AND MOMENT DIAGRAM CALCULATOR';
 
     const content = document.getElementById('appContent');
     content.innerHTML = `
