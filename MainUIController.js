@@ -15,11 +15,11 @@ function launchSFDBMDTool() {
     const content = document.getElementById('appContent');
     content.innerHTML = `
         <div style="display: flex; flex-direction: column; gap: 20px;">
-            <div style="background: #1e1e24; padding: 20px; border-radius: 6px; border: 1px solid #2d2d35;">
+            <div style="background: var(--bg-card); padding: 20px; border-radius: 6px; border: 1px solid rgba(17,17,17,0.1);">
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: #FFEE91; margin: 0; font-size: 1.1rem; text-transform: uppercase;">1. System Parameters</h3>
-                    <label style="color: #f8fafc; font-size: 0.9rem; cursor: pointer;">
+                    <h3 class="app-section-title" style="margin: 0; border: none; padding: 0;">1. System Parameters</h3>
+                    <label style="color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-weight: 700;">
                         <input type="checkbox" id="invertBMD" checked> Draw BMD on Tension Side
                     </label>
                 </div>
@@ -47,7 +47,7 @@ function launchSFDBMDTool() {
                     </div>
                 </div>
 
-                <div class="app-grid" id="singleSpanInputs" style="margin-bottom: 20px; border-left: 3px solid #3498db; padding-left: 10px;">
+                <div class="app-grid" id="singleSpanInputs" style="margin-bottom: 20px; border-left: 3px solid #111111; padding-left: 10px;">
                     <div class="app-group">
                         <label>Support 1 Pos (x1) in m:</label>
                         <input type="number" id="sup1_pos" value="0" step="0.5">
@@ -68,25 +68,25 @@ function launchSFDBMDTool() {
                     </div>
                 </div>
 
-                <div class="app-grid" id="multiSpanInputs" style="display: none; margin-bottom: 20px; border-left: 3px solid #3498db; padding-left: 10px;">
+                <div class="app-grid" id="multiSpanInputs" style="display: none; margin-bottom: 20px; border-left: 3px solid #111111; padding-left: 10px;">
                     <div class="app-group" style="grid-column: 1 / -1;">
                         <label>Manual Supports (Format -> x:type) e.g. 0:pin, 5:roller, 10:fixed:</label>
                         <input type="text" id="customSupports" value="0:pin, 10:roller, 20:roller" placeholder="e.g. 0:pin, 10:roller, 20:fixed">
                     </div>
                 </div>
 
-                <h3 style="color: #FFEE91; margin-top: 15px; font-size: 1.1rem; text-transform: uppercase;">2. Cross Section (Deflection)</h3>
+                <h3 class="app-section-title" style="margin-top: 15px; margin-bottom: 15px; border: none; padding: 0;">2. Cross Section (Deflection)</h3>
                 <div class="app-grid" style="margin-bottom: 20px;">
                     <div class="app-group"><label>Young's Modulus (E) in GPa:</label><input type="number" id="matE" value="200" step="10"></div>
                     <div class="app-group"><label>Moment of Inertia (I) in 10⁶ mm⁴:</label><input type="number" id="matI" value="100" step="10"></div>
                 </div>
 
-                <h3 style="color: #FFEE91; margin-top: 15px; font-size: 1.1rem; text-transform: uppercase;">3. Complex Loading Matrix</h3>
+                <h3 class="app-section-title" style="margin-top: 15px; margin-bottom: 15px; border: none; padding: 0;">3. Complex Loading Matrix</h3>
                 
-                <div class="load-card">
+                <div class="load-card" style="background: var(--bg-section-alt); border: 1px solid rgba(17,17,17,0.1); padding: 15px; border-radius: 4px; margin-bottom: 10px;">
                     <div class="load-toggle-wrapper">
                         <input type="checkbox" id="enablePoint" checked>
-                        <label style="color: #FFEE91; font-weight: bold; margin: 0;">Include Point Load</label>
+                        <label style="color: var(--text-primary); font-weight: bold; margin: 0;">Include Point Load</label>
                     </div>
                     <div class="app-grid">
                         <div class="app-group"><label>Magnitude (P) in kN:</label><input type="number" id="P_val" value="50"></div>
@@ -98,10 +98,10 @@ function launchSFDBMDTool() {
                     </div>
                 </div>
 
-                <div class="load-card">
+                <div class="load-card" style="background: var(--bg-section-alt); border: 1px solid rgba(17,17,17,0.1); padding: 15px; border-radius: 4px; margin-bottom: 10px;">
                     <div class="load-toggle-wrapper">
                         <input type="checkbox" id="enablePartUDL">
-                        <label style="color: #FFEE91; font-weight: bold; margin: 0;">Include Uniform Load (UDL)</label>
+                        <label style="color: var(--text-primary); font-weight: bold; margin: 0;">Include Uniform Load (UDL)</label>
                     </div>
                     <div class="app-grid">
                         <div class="app-group"><label>Magnitude (w) in kN/m:</label><input type="number" id="wPart_val" value="20"></div>
@@ -118,10 +118,10 @@ function launchSFDBMDTool() {
                     </div>
                 </div>
 
-                <div class="load-card">
+                <div class="load-card" style="background: var(--bg-section-alt); border: 1px solid rgba(17,17,17,0.1); padding: 15px; border-radius: 4px; margin-bottom: 10px;">
                     <div class="load-toggle-wrapper">
                         <input type="checkbox" id="enableTriLoad" checked>
-                        <label style="color: #FFEE91; font-weight: bold; margin: 0;">Include Triangular Load 1</label>
+                        <label style="color: var(--text-primary); font-weight: bold; margin: 0;">Include Triangular Load 1</label>
                     </div>
                     <div class="app-grid">
                         <div class="app-group">
@@ -145,10 +145,10 @@ function launchSFDBMDTool() {
                     </div>
                 </div>
 
-                <div class="load-card">
+                <div class="load-card" style="background: var(--bg-section-alt); border: 1px solid rgba(17,17,17,0.1); padding: 15px; border-radius: 4px; margin-bottom: 10px;">
                     <div class="load-toggle-wrapper">
                         <input type="checkbox" id="enableTrapLoad" checked>
-                        <label style="color: #FFEE91; font-weight: bold; margin: 0;">Include Triangular Load 2 (Trap UI)</label>
+                        <label style="color: var(--text-primary); font-weight: bold; margin: 0;">Include Triangular Load 2 (Trap UI)</label>
                     </div>
                     <div class="app-grid">
                         <div class="app-group">
@@ -175,25 +175,25 @@ function launchSFDBMDTool() {
 
             </div>
 
-            <div style="background: #ffffff; padding: 20px; border-radius: 6px; position: relative;">
-                <canvas id="diagramCanvas" width="800" height="960" style="background: #ffffff; width: 100%; max-width: 800px; display: block; margin: 0 auto; cursor: crosshair;"></canvas>
+            <div style="background: transparent; padding: 0; position: relative;">
+                <canvas id="diagramCanvas" width="800" height="960" style="background: transparent; width: 100%; max-width: 800px; display: block; margin: 0 auto; cursor: crosshair;"></canvas>
                 <div id="htmlTooltip" class="canvas-tooltip"></div>
             </div>
 
-            <div class="app-results" style="margin-top: 0; background: #1e1e24; display: flex; flex-direction: column; gap: 15px;">
+            <div class="app-results" style="margin-top: 0; background: var(--bg-section-alt); display: flex; flex-direction: column; gap: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="color: #FFEE91; margin: 0; font-size: 1.1rem; text-transform: uppercase;">Results & System Analysis</h3>
+                    <h3 class="app-section-title" style="margin: 0; border: none; padding: 0;">Results & System Analysis</h3>
                     <button class="btn-launch" onclick="showDerivationModal()">Show Calculation Breakdown</button>
                 </div>
-                <div id="macaulayOutput" style="color: #f8fafc; font-family: sans-serif; line-height: 1.6; overflow-x: auto; padding: 10px;">
+                <div id="macaulayOutput" style="color: var(--text-secondary); font-family: sans-serif; line-height: 1.6; overflow-x: auto; padding: 10px;">
                     Processing system vectors...
                 </div>
             </div>
         </div>
 
         <div id="calcModal" class="structural-modal" onclick="closeDerivationModal(event)">
-            <div class="structural-modal-content" onclick="event.stopPropagation()">
-                <button class="close-modal-btn" onclick="closeDerivationModal(event)">&times;</button>
+            <div class="structural-modal-content" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid rgba(17,17,17,0.1);" onclick="event.stopPropagation()">
+                <button class="close-modal-btn" style="color: var(--text-primary);" onclick="closeDerivationModal(event)">&times;</button>
                 <div id="calcBreakdown"></div>
             </div>
         </div>
@@ -307,7 +307,7 @@ function calculateAndDraw() {
         const method = document.getElementById('analysisMethod').value;
         const customSupportsRaw = document.getElementById('customSupports').value;
         
-        // FIX: Pre-parse and sort the user inputs so index mapping stays identical
+        // Pre-parse and sort the user inputs so index mapping stays identical
         let parsedSupports = customSupportsRaw.split(',').map(s => {
             let parts = s.trim().split(':');
             return { x: parseFloat(parts[0]) || 0, type: parts[1] || 'roller' };
@@ -322,7 +322,6 @@ function calculateAndDraw() {
             beamState.supports = parsedSupports.map(s => ({ x: s.x, R: 0 }));
         }
 
-        // FIX: Safely map pre-sorted types to the engine's structured supports
         beamState.supports.forEach((sup, idx) => {
             if(parsedSupports[idx]) sup.type = parsedSupports[idx].type;
         });
@@ -445,17 +444,17 @@ function calculateAndDraw() {
 }
 
 function renderOutputMetrics() {
-    let html = `<p><strong>Support Reactions:</strong></p><ul>`;
+    let html = `<p><strong style="color: var(--text-primary);">Support Reactions:</strong></p><ul>`;
     beamState.supports.forEach((sup, i) => {
         let label = String.fromCharCode(65 + i);
-        html += `<li>Reaction R<sub>${label}</sub> at x = ${sup.x.toFixed(2)} m [${sup.type.toUpperCase()}]: ${sup.R.toFixed(2)} kN</li>`;
+        html += `<li style="color: var(--text-secondary);">Reaction R<sub>${label}</sub> at x = ${sup.x.toFixed(2)} m [${sup.type.toUpperCase()}]: ${sup.R.toFixed(2)} kN</li>`;
         
         if (sup.M && Math.abs(sup.M) > 0.01) {
-            html += `<li>Moment M<sub>${label}</sub> at x = ${sup.x.toFixed(2)} m [${sup.type.toUpperCase()}]: ${sup.M.toFixed(2)} kN&middot;m</li>`;
+            html += `<li style="color: var(--text-secondary);">Moment M<sub>${label}</sub> at x = ${sup.x.toFixed(2)} m [${sup.type.toUpperCase()}]: ${sup.M.toFixed(2)} kN&middot;m</li>`;
         }
     });
-    html += `</ul><hr style="border-color: #333;">`;
-    html += `<p><strong>Mathematical Synthesis:</strong> System successfully resolved via piecewise singularity integration (with matrix superposition if fixed).</p>`;
+    html += `</ul><hr style="border-color: rgba(17,17,17,0.1); margin: 15px 0;">`;
+    html += `<p><strong style="color: var(--text-primary);">Mathematical Synthesis:</strong> <span style="color: var(--text-secondary);">System successfully resolved via piecewise singularity integration (with matrix superposition if fixed).</span></p>`;
     document.getElementById('macaulayOutput').innerHTML = html;
 }
 
@@ -464,11 +463,11 @@ function showDerivationModal() {
     const modal = document.getElementById('calcModal');
     const content = document.getElementById('calcBreakdown');
     
-    let html = `<h2 style="color: #FFEE91; margin-bottom: 20px; border-bottom: 1px solid #444; padding-bottom: 10px;">Structural Derivation Breakdown</h2>`;
+    let html = `<h2 style="color: var(--text-primary); margin-bottom: 20px; border-bottom: 1px solid rgba(17,17,17,0.1); padding-bottom: 10px; font-family: 'Playfair Display', serif;">Structural Derivation Breakdown</h2>`;
     
     // 1. GLOBAL EQUILIBRIUM
-    html += `<h3 style="color: #3498db; margin-top:20px;">Global Equilibrium (Support Reactions)</h3>`;
-    html += `<div style="background:#111; padding:15px; border-radius:6px; font-family: monospace; line-height:1.6;">`;
+    html += `<h3 style="color: var(--text-primary); margin-top:20px;">Global Equilibrium (Support Reactions)</h3>`;
+    html += `<div style="background:var(--bg-section-alt); padding:15px; border-radius:6px; font-family: monospace; line-height:1.6; color: var(--text-secondary);">`;
     html += `&Sigma;F<sub>y</sub> = 0<br>`;
     
     let sumF = 0;
@@ -558,31 +557,30 @@ function showDerivationModal() {
         if(strV.startsWith('+ ')) strV = strV.substring(2);
         if(strM.startsWith('+ ')) strM = strM.substring(2);
 
-        // --- EXTRACT SEGMENT MAXIMUMS (Including Deflection) ---
         let segmentData = beamState.mathData.filter(d => d.x >= x1 && d.x <= x2);
         let maxVSeg = 0, maxMSeg = 0, maxYSeg = 0;
         
         if (segmentData.length > 0) {
             maxVSeg = Math.max(...segmentData.map(d => Math.abs(d.V)));
             maxMSeg = Math.max(...segmentData.map(d => Math.abs(d.M)));
-            maxYSeg = Math.max(...segmentData.map(d => Math.abs(d.y))); // Pulls max deflection in segment
+            maxYSeg = Math.max(...segmentData.map(d => Math.abs(d.y))); 
         }
 
         html += `
-        <hr style="border-color: #444; margin: 25px 0;">
+        <hr style="border-color: rgba(17,17,17,0.1); margin: 25px 0;">
         <h3 style="color: #e74c3c; margin-bottom: 10px;">Segment ${segName} (${x1.toFixed(2)}m to ${x2.toFixed(2)}m)</h3>
-        <div style="background:#111; padding:15px; border-radius:6px; font-family: monospace; line-height: 1.6;">
-            <p style="color:#2ecc71; margin:0 0 10px 0;">* Load Function w(x): ${loadFunctionText}</p>
+        <div style="background:var(--bg-section-alt); padding:15px; border-radius:6px; font-family: monospace; line-height: 1.6; color: var(--text-primary);">
+            <p style="color:#2e7d32; margin:0 0 10px 0; font-weight:bold;">* Load Function w(x): ${loadFunctionText}</p>
             
-            <p style="color:#aaa; margin:0 0 5px 0;">* Shear Equation Setup:</p>
+            <p style="color:var(--text-secondary); margin:0 0 5px 0;">* Shear Equation Setup:</p>
             V<sub>${segName}</sub>(x) = ${strV}<br>
             |V<sub>max</sub>| in Segment &asymp; ${maxVSeg.toFixed(2)} kN<br><br>
             
-            <p style="color:#aaa; margin:0 0 5px 0;">* Moment Equation Setup:</p>
+            <p style="color:var(--text-secondary); margin:0 0 5px 0;">* Moment Equation Setup:</p>
             M<sub>${segName}</sub>(x) = ${strM}<br>
             |M<sub>max</sub>| in Segment &asymp; ${maxMSeg.toFixed(2)} kN&middot;m<br><br>
 
-            <p style="color:#aaa; margin:0 0 5px 0;">* Deflection Evaluation:</p>
+            <p style="color:var(--text-secondary); margin:0 0 5px 0;">* Deflection Evaluation:</p>
             &Delta;<sub>${segName}</sub>(x) = &int;&int; [M(x) / EI] dx<br>
             |&Delta;<sub>max</sub>| in Segment &asymp; ${maxYSeg.toFixed(2)} mm
         </div>`;
@@ -591,8 +589,8 @@ function showDerivationModal() {
     }
 
     if (currentHoverPoint) {
-        html += `<hr style="border-color: #444; margin: 30px 0;">`;
-        html += `<h2 style="color: #FFEE91;">Target Point Evaluation ("Red Dot" Boundary Analysis)</h2>`;
+        html += `<hr style="border-color: rgba(17,17,17,0.1); margin: 30px 0;">`;
+        html += `<h2 style="color: var(--text-primary); font-family: 'Playfair Display', serif;">Target Point Evaluation ("Red Dot" Boundary Analysis)</h2>`;
         
         if (isBoundaryRedDot) {
             let segL_idx = sortedCrits.indexOf(boundaryX) - 1;
@@ -605,19 +603,19 @@ function showDerivationModal() {
             let pRight = beamState.mathData.find(d => d.x > boundaryX && d.x <= boundaryX + 0.05) || currentHoverPoint;
 
             html += `
-            <div style="background:#2c3e50; border-left: 4px solid #e74c3c; padding:20px; border-radius:0 6px 6px 0;">
+            <div style="background:var(--bg-section-alt); border-left: 4px solid #e74c3c; padding:20px; border-radius:0 6px 6px 0; color: var(--text-primary);">
                 <p style="margin-top:0; font-size: 15px;"><strong>Note:</strong> The target evaluation point lies exactly on the boundary transition (x = ${boundaryX.toFixed(2)} m). To guarantee full visualization without boundary cut-offs, the limits from both adjacent segments are derived simultaneously:</p>
                 
-                <h4 style="color:#3498db; margin: 15px 0 5px 0; font-size: 16px;">Left-Side Approach (Evaluating using Segment ${sL1}${sL2} equations):</h4>
-                <p style="font-family:monospace; margin:0 0 15px 15px; font-size: 15px;">
+                <h4 style="color:var(--text-primary); margin: 15px 0 5px 0; font-size: 16px;">Left-Side Approach (Evaluating using Segment ${sL1}${sL2} equations):</h4>
+                <p style="font-family:monospace; margin:0 0 15px 15px; font-size: 15px; color: var(--text-secondary);">
                     * At x = ${boundaryX.toFixed(2)} m:<br>
                     &nbsp;&nbsp;V<sub>${sL1}${sL2}</sub>(${boundaryX.toFixed(2)}) = [Substitution Step] = ${pLeft.V.toFixed(2)} kN<br>
                     &nbsp;&nbsp;M<sub>${sL1}${sL2}</sub>(${boundaryX.toFixed(2)}) = [Substitution Step] = ${pLeft.M.toFixed(2)} kN&middot;m<br>
                     &nbsp;&nbsp;&Delta;<sub>${sL1}${sL2}</sub>(${boundaryX.toFixed(2)}) = [Substitution Step] = ${pLeft.y.toFixed(2)} mm
                 </p>
 
-                <h4 style="color:#2ecc71; margin: 15px 0 5px 0; font-size: 16px;">Right-Side Approach (Evaluating using Segment ${sR1}${sR2} equations):</h4>
-                <p style="font-family:monospace; margin:0 0 0 15px; font-size: 15px;">
+                <h4 style="color:var(--text-primary); margin: 15px 0 5px 0; font-size: 16px;">Right-Side Approach (Evaluating using Segment ${sR1}${sR2} equations):</h4>
+                <p style="font-family:monospace; margin:0 0 0 15px; font-size: 15px; color: var(--text-secondary);">
                     * At x = ${boundaryX.toFixed(2)} m:<br>
                     &nbsp;&nbsp;V<sub>${sR1}${sR2}</sub>(${boundaryX.toFixed(2)}) = [Substitution Step] = ${pRight.V.toFixed(2)} kN<br>
                     &nbsp;&nbsp;M<sub>${sR1}${sR2}</sub>(${boundaryX.toFixed(2)}) = [Substitution Step] = ${pRight.M.toFixed(2)} kN&middot;m<br>
@@ -629,9 +627,9 @@ function showDerivationModal() {
             let s1 = String.fromCharCode(65 + actSegIdx); let s2 = String.fromCharCode(66 + actSegIdx);
             
             html += `
-            <div style="background:#2c3e50; border-left: 4px solid #e74c3c; padding:20px; border-radius:0 6px 6px 0;">
-                <h4 style="color:#3498db; margin:0 0 10px 0; font-size: 16px;">Internal Span Evaluation (Segment ${s1}${s2}):</h4>
-                <p style="font-family:monospace; margin:0 0 0 15px; font-size: 15px;">
+            <div style="background:var(--bg-section-alt); border-left: 4px solid #e74c3c; padding:20px; border-radius:0 6px 6px 0; color: var(--text-primary);">
+                <h4 style="color:var(--text-primary); margin:0 0 10px 0; font-size: 16px;">Internal Span Evaluation (Segment ${s1}${s2}):</h4>
+                <p style="font-family:monospace; margin:0 0 0 15px; font-size: 15px; color: var(--text-secondary);">
                     * At x = ${currentHoverPoint.x.toFixed(2)} m:<br>
                     &nbsp;&nbsp;V<sub>${s1}${s2}</sub>(${currentHoverPoint.x.toFixed(2)}) = [Substitution] = ${currentHoverPoint.V.toFixed(2)} kN<br>
                     &nbsp;&nbsp;M<sub>${s1}${s2}</sub>(${currentHoverPoint.x.toFixed(2)}) = [Substitution] = ${currentHoverPoint.M.toFixed(2)} kN&middot;m<br>
@@ -709,7 +707,7 @@ function drawDiagrams(hoverPoint = null) {
     let isSystemLoaded = loads.length > 0;
 
     // 1. Draw Beam Line
-    ctx.strokeStyle = '#1e1e24'; ctx.lineWidth = 4;
+    ctx.strokeStyle = '#111111'; ctx.lineWidth = 4;
     ctx.beginPath(); ctx.moveTo(mapX(0), schemaCenterY); ctx.lineTo(mapX(L), schemaCenterY); ctx.stroke();
 
     // 2. Draw Support Shapes & Structurally Applicable Reaction Arrows
@@ -717,7 +715,7 @@ function drawDiagrams(hoverPoint = null) {
         let sx = mapX(sup.x);
         let isLeft = sup.x <= L/2;
         
-        ctx.lineWidth = 2; ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#1e1e24';
+        ctx.lineWidth = 2; ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#111111';
 
         if(sup.type === 'pin') {
             ctx.beginPath(); ctx.moveTo(sx, schemaCenterY); ctx.lineTo(sx-10, schemaCenterY+15); ctx.lineTo(sx+10, schemaCenterY+15); ctx.closePath(); ctx.stroke(); ctx.fill();
@@ -874,8 +872,6 @@ function drawDiagrams(hoverPoint = null) {
         });
     }
 
-    // FIX: Update the event listener to strictly fetch from the global `beamState` 
-    // so it doesn't get trapped in a stale closure after the math array is deep-copied.
     if (!canvas.onmousemove) {
         canvas.onmousemove = (e) => {
             const rect = canvas.getBoundingClientRect();
@@ -888,7 +884,6 @@ function drawDiagrams(hoverPoint = null) {
                 let exactX = ((mouseX - padX) / gWidth) * beamState.L;
                 if(!beamState.mathData || beamState.mathData.length === 0) return;
                 
-                // Pull nearest coordinate point directly from the globally updated state object
                 let p = beamState.mathData.reduce((prev, curr) => Math.abs(curr.x - exactX) < Math.abs(prev.x - exactX) ? curr : prev);
 
                 tooltip.style.display = 'block';

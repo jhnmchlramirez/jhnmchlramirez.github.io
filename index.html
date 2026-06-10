@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <style>
         /* =========================================================================
            EDITORIAL MONOCHROME - HIGH-CONTRAST TAILORED PALETTE
@@ -129,29 +131,33 @@
         }
         .btn-hire:hover { background: var(--text-secondary) !important; }
 
-        .btn-outline, .btn-launch, .btn-submit, .btn-close-app {
-            background: transparent;
+        /* BUTTON FIX: Forcing explicit browser override */
+        .btn-outline, .btn-launch, .btn-submit, .btn-close-app, .btn-run, .btn-formula {
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            background: transparent !important;
             color: var(--text-primary) !important;
-            padding: 12px 28px; 
+            padding: 12px 28px !important; 
             border-radius: 0 !important;
-            border: 1px solid var(--border-color);
-            font-family: 'Lato', sans-serif;
-            font-weight: 900; 
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            text-decoration: none;
-            display: inline-block;
-            cursor: pointer;
+            border: 1px solid var(--border-color) !important;
+            font-family: 'Lato', sans-serif !important;
+            font-weight: 900 !important; 
+            font-size: 0.75rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 2px !important;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            text-decoration: none !important;
+            display: inline-block !important;
+            cursor: pointer !important;
         }
-        .btn-outline:hover, .btn-launch:hover, .btn-submit:hover {
+        .btn-outline:hover, .btn-launch:hover, .btn-submit:hover, .btn-run:hover, .btn-formula:hover {
             background: var(--text-primary) !important;
             color: #FFFFFF !important;
-            box-shadow: 4px 4px 0px rgba(17, 17, 17, 0.2);
-            transform: translate(-3px, -3px);
+            box-shadow: 4px 4px 0px rgba(17, 17, 17, 0.2) !important;
+            transform: translate(-3px, -3px) !important;
         }
-        .btn-submit { background: var(--text-primary); color: #FFFFFF !important; width: 100%; text-align: center; padding: 16px; margin-top: 10px; border: none; }
+        .btn-submit { background: var(--text-primary) !important; color: #FFFFFF !important; width: 100% !important; text-align: center !important; padding: 16px !important; margin-top: 10px !important; border: none !important; }
+        .btn-run { background: var(--text-primary) !important; color: #FFFFFF !important; border: none !important; padding: 14px 30px !important; }
 
         /* Layout */
         .page-section { padding: 100px 20px; display: block !important; } 
@@ -361,6 +367,184 @@
         .tool-info h3 { margin: 0 0 5px 0; font-size: 1.25rem; }
         .tool-info p { margin: 0; color: var(--text-secondary); font-size: 0.95rem; }
 
+        /* =========================================================================
+           WEBTOOL APP INTERFACE STYLES (UI GRIDS)
+           ========================================================================= */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+            background: transparent !important;
+        }
+        .app-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .app-group label {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400 !important;
+            color: var(--text-primary) !important;
+        }
+        .app-group input, .app-group select {
+            padding: 12px;
+            border: 1px solid #CCCCCC !important;
+            background: #FFFFFF !important;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-primary) !important;
+            border-radius: 0;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+        .app-group input:focus, .app-group select:focus {
+            outline: none;
+            border-color: var(--text-primary) !important;
+            box-shadow: 2px 2px 0px rgba(17, 17, 17, 0.1);
+        }
+        .app-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        /* Moving Load Slider UI */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: rgba(17, 17, 17, 0.2);
+            outline: none;
+            border-radius: 3px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--text-primary);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* =========================================================================
+           SFD/BMD & APP THEME OVERRIDES (FORCING LIGHT EDITORIAL THEME)
+           ========================================================================= */
+        #activeAppInterface, .app-results, #equationPanel, #footingResultsPanel, #footingEquationPanel, #slabResultsPanel, #slabEquationPanel, #colResults, #colFormulas {
+            background: var(--bg-card) !important;
+            border: none !important;
+            color: var(--text-primary) !important;
+        }
+        
+        /* Overriding hardcoded SFD/BMD Dark styles from the JS */
+        div[style*="background: #1e1e24"], div[style*="background:#1e1e24"] {
+            background: var(--bg-card) !important;
+            border: 1px solid rgba(17, 17, 17, 0.1) !important;
+        }
+        h3[style*="color: #FFEE91"], label[style*="color: #FFEE91"], label[style*="color: #f8fafc"] {
+            color: var(--text-primary) !important;
+        }
+        div[style*="background: #ffffff; padding: 20px; border-radius: 6px; position: relative;"] {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        .app-results[style*="background: #1e1e24"] {
+            background: var(--bg-section-alt) !important;
+        }
+
+        /* Fix invisible lists and texts in the Reaction values */
+        #macaulayOutput, #macaulayOutput p, #macaulayOutput li, #macaulayOutput ul {
+            color: var(--text-secondary) !important;
+        }
+        #macaulayOutput strong {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Panel Separators and Padding */
+        .app-results, #equationPanel, #footingEquationPanel, #slabEquationPanel, #colFormulas {
+            border-top: 1px solid rgba(17,17,17,0.1) !important;
+            padding: 30px 0 10px 0 !important;
+            margin-top: 30px !important;
+        }
+
+        /* Section Titles (e.g., "ANALYSIS RESULTS") */
+        .app-section-title, .app-results .app-section-title, div[style*="border-bottom"][style*="color: #ffffff"], div[style*="border-bottom"][style*="color: #a0aec0"], #colFormulas div[style*="border-bottom"] {
+            color: #999999 !important;
+            font-family: 'Lato', sans-serif !important;
+            font-size: 0.85rem !important;
+            letter-spacing: 3px !important;
+            text-transform: uppercase !important;
+            border-bottom: 1px solid #111111 !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 25px !important;
+            font-weight: 700 !important;
+        }
+
+        /* Flexbox Rows for Results */
+        .app-results p {
+            color: var(--text-secondary) !important;
+            font-family: 'Lato', sans-serif !important;
+            font-size: 1rem !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding-bottom: 15px !important;
+            margin-bottom: 15px !important;
+            border-bottom: 1px solid #F5F5F5 !important;
+        }
+        .app-results p:last-child {
+            border-bottom: none !important;
+        }
+
+        /* Bold Values on the Right */
+        .result-val {
+            color: var(--text-primary) !important;
+            font-family: 'Playfair Display', serif !important;
+            font-size: 1.15rem !important;
+            font-weight: 700 !important;
+        }
+
+        /* Equations & Sub-headers */
+        h4[style*="color:#FFEE91"], h4[style*="color: #FFEE91"], .app-results h4, #colFormulas div[style*="color: #FFD54F"] {
+            color: var(--text-primary) !important;
+            font-family: 'Playfair Display', serif !important;
+            font-size: 1.2rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 15px !important;
+            border-bottom: none !important;
+        }
+        
+        #equationSubstitutions p, #footingEquationSubstitutions p, #slabEquationSubstitutions p, #colFormulas div {
+            color: var(--text-secondary) !important;
+            font-family: 'Lato', sans-serif !important;
+            border-bottom: none !important;
+            display: block !important; /* overrides flex */
+        }
+        
+        .equation {
+            color: var(--text-primary) !important;
+            background: transparent !important;
+        }
+
+        /* Preserve Red Citations and Green/Red Status Texts */
+        span[style*="color: red"], span[style*="color:#ef4444"], span[style*="color: #ef4444"], span[style*="color: #ff4444"], .app-results p span[style*="color: #ef4444"], .app-results p span[style*="color:#ef4444"] {
+            color: #d32f2f !important;
+        }
+        span[style*="color: #34d399"], span[style*="color: #4ade80"], .app-results p span[style*="color: #4ade80"] {
+            color: #2e7d32 !important;
+        }
+
         /* Custom Modals */
         .structural-modal { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -474,10 +658,10 @@
 
         @media (max-width: 600px) {
             .app-interface { padding: 15px; }
-            .app-results p { flex-direction: column; align-items: flex-start; gap: 6px; background: #222222; padding: 10px; border-radius: 4px; }
-            .app-results span.result-val { align-self: flex-end; font-size: 1.1rem; }
-            #equationSubstitutions, .equation { overflow-x: auto; max-width: 100%; display: block; padding-bottom: 5px; }
+            .app-results p { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .app-results span.result-val { align-self: flex-start; font-size: 1.1rem; }
             .app-actions { flex-direction: column; gap: 10px; }
+            #ml_instant_readout { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
@@ -652,6 +836,14 @@
                         <div class="tool-info"><h3>RC FOOTING CAPACITY ANALYZER</h3><p>Isolated, Combined & Mat analysis per ACI 318-19M/25M</p></div>
                         <button class="btn-launch" onclick="launchRCFootingTool()">Launch</button>
                     </div>
+                    <div class="tool-list-item">
+                        <div class="tool-info"><h3>SHEAR AND MOMENT DIAGRAM CALCULATOR</h3><p>Piecewise integration and Matrix Stiffness solver for continuous beams</p></div>
+                        <button class="btn-launch" onclick="launchSFDBMDToolWrap()">Launch</button>
+                    </div>
+                    <div class="tool-list-item">
+                        <div class="tool-info"><h3>MOVING LOAD CALCULATOR</h3><p>Vehicular train live load envelope generator</p></div>
+                        <button class="btn-launch" onclick="launchMovingLoadTool()">Launch</button>
+                    </div>
                 </div>
 
                 <div id="activeAppInterface" class="app-interface" style="display: none; background: var(--bg-card); padding: 40px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); margin-top: 3rem;">
@@ -692,7 +884,7 @@
                 </div>
 
                 <div class="contact-form-container">
-                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                    <form id="contactForm" action="https://formspree.io/f/mkoabrpq" method="POST" onsubmit="handleFormSubmit(event)">
                         <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 1.8rem;">Send a Message</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 30px; font-size: 0.95rem;">Tell me about your project and I'll get back to you shortly.</p>
 
@@ -717,7 +909,7 @@
                         </div>
 
                         <div class="form-group" style="margin-bottom: 25px;"><label for="message">Tell Me About Your Project</label><textarea id="message" name="message" rows="5" placeholder="Describe your structural requirements, project scope, and any references..." required></textarea></div>
-                        <button type="submit" class="btn-submit">Send Message ✦</button>
+                        <button type="submit" id="submitBtn" class="btn-submit">Send Message ✦</button>
                         
                         <div id="formSuccessMessage" class="form-success-banner">Message successfully sent!</div>
                     </form>
@@ -805,44 +997,37 @@
     <script src="worksData.js"></script>
     <script src="servicesData.js"></script>
     <script src="webtoolsData.js"></script>
+    
+    <script src="CommonBeams.js"></script>
+    <script src="ComplexBeams.js"></script>
+    <script src="MovingLoadCalc.js"></script>
+    <script src="MainUIController.js"></script>
+    <script src="RCBeamCalc.js"></script>
+    <script src="RCColumnCalc.js"></script>
+    <script src="RCSlabCalc.js"></script>
+    <script src="RCFootingCalc.js"></script>
 
     <script>
-        // Automatic Category Detection Logic - PRIORITIZES RESIDENTIAL
+        // Automatic Category Detection Logic
         function detectCategory(title, description) {
             const text = (title + " " + description).toLowerCase();
-            
-            // 1. Check for RESIDENTIAL triggers first
-            if (text.includes('residential') || text.includes('house') || text.includes('residence') || text.includes('villa') || text.includes('ayala') || text.includes('storey')) {
-                return 'residential';
-            }
-            
-            // 2. Check for MID-RISE
-            if (text.includes('mid-rise') || text.includes('mid rise') || text.includes('apartment') || text.includes('bldg') || text.includes('building')) {
-                return 'mid-rise';
-            }
-
-            // 3. Check for COMMERCIAL
-            if (text.includes('pickleball') || text.includes('commercial') || text.includes('warehouse') || text.includes('court') || text.includes('office') || text.includes('retail')) {
-                return 'commercial';
-            }
-            
-            return 'commercial'; // Default Fallback
+            if (text.includes('residential') || text.includes('house') || text.includes('residence') || text.includes('villa') || text.includes('ayala') || text.includes('storey')) return 'residential';
+            if (text.includes('mid-rise') || text.includes('mid rise') || text.includes('apartment') || text.includes('bldg') || text.includes('building')) return 'mid-rise';
+            if (text.includes('pickleball') || text.includes('commercial') || text.includes('warehouse') || text.includes('court') || text.includes('office') || text.includes('retail')) return 'commercial';
+            return 'commercial'; 
         }
 
         const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
         
         window.addEventListener('DOMContentLoaded', () => {
-            
             // INJECT WORKS GRID WITH AUTO-CATEGORIZATION
             const worksGrid = document.getElementById('worksGrid');
             if (worksGrid && projectKeys.length > 0) {
                 worksGrid.innerHTML = projectKeys.map((key, index) => {
                     const data = projectData[key];
                     const thumbSrc = (data.images && data.images.length > 0) ? data.images[0].src : 'images/Profile.jpg'; 
-                    
                     const category = detectCategory(data.title, data.description);
                     const displayCategory = category === 'mid-rise' ? 'Mid-Rise' : category.charAt(0).toUpperCase() + category.slice(1);
-                    
                     const isFeatured = index === 0 ? 'featured-item' : '';
 
                     return `
@@ -878,19 +1063,15 @@
                 btn.addEventListener('click', (e) => {
                     filterBtns.forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
-                    
                     const filterValue = e.target.getAttribute('data-filter');
                     const cards = document.querySelectorAll('.portfolio-card');
                     
                     let visibleCount = 0;
                     cards.forEach(card => {
                         card.classList.remove('featured-item');
-                        
                         if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
                             card.style.display = 'flex';
-                            if (visibleCount === 0) {
-                                card.classList.add('featured-item');
-                            }
+                            if (visibleCount === 0) card.classList.add('featured-item');
                             visibleCount++;
                         } else {
                             card.style.display = 'none';
@@ -923,17 +1104,13 @@
             
             document.getElementById('singleProjectModal').style.display = 'flex';
         }
-
-        function closeSingleProjectModal() {
-            document.getElementById('singleProjectModal').style.display = 'none';
-        }
+        function closeSingleProjectModal() { document.getElementById('singleProjectModal').style.display = 'none'; }
 
         // ==========================================
         // ALL PROJECTS MODAL LOGIC 
         // ==========================================
         function openAllProjectsModal() {
             document.getElementById('allProjectsModal').style.display = 'flex';
-            
             const modalGrid = document.getElementById('modalProjectsGrid');
             if (modalGrid.innerHTML.trim() === '' && projectKeys.length > 0) {
                 modalGrid.innerHTML = projectKeys.map(key => {
@@ -956,47 +1133,340 @@
                 }).join('');
             }
         }
-
-        function closeAllProjectsModal() {
-            document.getElementById('allProjectsModal').style.display = 'none';
-        }
+        function closeAllProjectsModal() { document.getElementById('allProjectsModal').style.display = 'none'; }
 
         // ==========================================
-        // WEBTOOLS DASHBOARD LOGIC 
+        // UI APP DASHBOARD CONTROLS
         // ==========================================
-        function loadToolInterface(title, description) {
-            document.getElementById('webtoolsDashboard').style.display = 'none';
-            const appInterface = document.getElementById('activeAppInterface');
-            appInterface.style.display = 'block';
-            
-            document.getElementById('appTitle').innerText = title;
-            document.getElementById('appContent').innerHTML = `
-                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 20px;">${description}</p>
-                <div style="padding: 40px; border: 1px dashed var(--border-color); text-align: center; background: var(--bg-page);">
-                    <p><em>(The custom calculator logic from your webtoolsData.js will inject here)</em></p>
-                </div>
-            `;
-            
-            appInterface.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function launchRCBeamTool() {
-            loadToolInterface("RC BEAM CAPACITY ANALYZER", "Calculate Flexure and Shear capacity in accordance with ACI 318-19M/25M.");
-        }
-        function launchRCColumnTool() {
-            loadToolInterface("RC COLUMN CAPACITY ANALYZER", "Analyze Axial capacity limits and interaction diagrams per ACI 318-19M/25M.");
-        }
-        function launchRCSlabTool() {
-            loadToolInterface("RC SLAB CAPACITY ANALYZER", "Determine One-Way and Two-Way slab requirements per ACI 318-19M/25M.");
-        }
-        function launchRCFootingTool() {
-            loadToolInterface("RC FOOTING CAPACITY ANALYZER", "Analyze Isolated, Combined & Mat footing designs per ACI 318-19M/25M.");
-        }
-
         function closeApp() {
             document.getElementById('activeAppInterface').style.display = 'none';
             document.getElementById('webtoolsDashboard').style.display = 'block';
             document.getElementById('appContent').innerHTML = ''; 
+        }
+
+        // WRAPPER TO RENAME THE SFD/BMD ENGINE DYNAMICALLY AFTER LAUNCH
+        function launchSFDBMDToolWrap() {
+            if(typeof launchSFDBMDTool === 'function') {
+                launchSFDBMDTool();
+                document.getElementById('appTitle').innerText = 'SHEAR AND MOMENT DIAGRAM CALCULATOR';
+            }
+        }
+
+        // ==========================================
+        // MOVING LOAD TOOL LAUNCHER & INJECTOR
+        // ==========================================
+        function launchMovingLoadTool() {
+            document.getElementById('webtoolsDashboard').style.display = 'none';
+            const appInterface = document.getElementById('activeAppInterface');
+            appInterface.style.display = 'block';
+            
+            document.getElementById('appTitle').innerText = "MOVING LOAD CALCULATOR";
+            
+            // Injecting the completely custom UI for the Moving Load Engine
+            document.getElementById('appContent').innerHTML = `
+                <div class="app-section-title">System Parameters</div>
+                <div class="app-grid">
+                    <div class="app-group">
+                        <label>Beam Length (L) in m:</label>
+                        <input type="number" id="ml_L" value="20" min="1" step="1">
+                    </div>
+                    <div class="app-group">
+                        <label>Support 1 (x) in m:</label>
+                        <input type="number" id="ml_s1" value="0" step="1">
+                    </div>
+                    <div class="app-group">
+                        <label>Support 2 (x) in m:</label>
+                        <input type="number" id="ml_s2" value="20" step="1">
+                    </div>
+                    <div class="app-group">
+                        <label>Flexural Stiffness (EI) in kNm²:</label>
+                        <input type="number" id="ml_EI" value="20000" step="1000">
+                    </div>
+                </div>
+
+                <div class="app-section-title">Vehicular Axle Loads (Train)</div>
+                <div id="ml_axles_container">
+                    <div class="app-grid axle-row">
+                        <div class="app-group">
+                            <label>Axle 1 (Front) Weight (kN):</label>
+                            <input type="number" class="axle-weight" value="35">
+                        </div>
+                        <div class="app-group">
+                            <label>Spacing from Prev (m):</label>
+                            <input type="number" class="axle-spacing" value="0" readonly style="background:#F1F1F4 !important; color:#888 !important;">
+                        </div>
+                    </div>
+                    <div class="app-grid axle-row">
+                        <div class="app-group">
+                            <label>Axle 2 Weight (kN):</label>
+                            <input type="number" class="axle-weight" value="145">
+                        </div>
+                        <div class="app-group">
+                            <label>Spacing from Axle 1 (m):</label>
+                            <input type="number" class="axle-spacing" value="4.3" step="0.1">
+                        </div>
+                    </div>
+                    <div class="app-grid axle-row">
+                        <div class="app-group">
+                            <label>Axle 3 (Rear) Weight (kN):</label>
+                            <input type="number" class="axle-weight" value="145">
+                        </div>
+                        <div class="app-group">
+                            <label>Spacing from Axle 2 (m):</label>
+                            <input type="number" class="axle-spacing" value="4.3" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-actions">
+                    <button class="btn-run" onclick="runMovingLoadAnalysis()">Generate Envelope</button>
+                </div>
+
+                <div class="app-results" id="ml_results" style="display:none; background: var(--bg-section-alt); padding: 25px; border-left: 4px solid var(--text-primary); margin-bottom: 20px;">
+                    <div class="app-section-title" style="color: #999999; border-bottom: 1px solid #111111; padding-bottom: 10px;">Envelope Extremes</div>
+                    
+                    <p style="color: var(--text-secondary); display: flex; justify-content: space-between; border-bottom: 1px solid rgba(17,17,17,0.1); padding-bottom: 15px; margin-bottom: 15px;">
+                        <span>Absolute Max Shear (|V|):</span> <span id="ml_maxV" class="result-val" style="color: var(--text-primary); font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;">-</span>
+                    </p>
+                    <p style="color: var(--text-secondary); display: flex; justify-content: space-between; border-bottom: 1px solid rgba(17,17,17,0.1); padding-bottom: 15px; margin-bottom: 15px;">
+                        <span>Absolute Max Moment (|M|):</span> <span id="ml_maxM" class="result-val" style="color: var(--text-primary); font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;">-</span>
+                    </p>
+                    <p style="color: var(--text-secondary); display: flex; justify-content: space-between; padding-bottom: 15px; margin-bottom: 15px;">
+                        <span>Absolute Max Deflection (|Δ|):</span> <span id="ml_maxY" class="result-val" style="color: var(--text-primary); font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;">-</span>
+                    </p>
+                    
+                    <div style="margin-top: 30px; margin-bottom: 10px; padding: 20px; background: var(--bg-card); border: 1px solid rgba(17,17,17,0.1); border-radius: 4px;">
+                        <label style="color: var(--text-primary); font-weight: bold; font-family: 'Lato', sans-serif;">Simulate Train Position (Lead Axle):</label>
+                        <div style="display: flex; align-items: center; gap: 15px; margin-top: 15px;">
+                            <input type="range" id="ml_truck_slider" min="0" max="20" step="0.1" value="0" style="flex-grow: 1;" oninput="updateTruckPosition()">
+                            <span id="ml_truck_pos_display" style="color: var(--text-primary); font-family: 'Playfair Display', serif; font-weight: bold; width: 60px;">0.0 m</span>
+                        </div>
+                        
+                        <div id="ml_instant_readout" style="display: flex; justify-content: space-between; font-family: 'Lato', sans-serif; font-size: 0.9rem; margin-top: 20px; color: var(--text-secondary);">
+                            <div><strong>Cut x:</strong> <span id="rd_x" style="color:var(--text-primary);">0.0</span> m</div>
+                            <div><strong>V:</strong> <span id="rd_vmin" style="color:var(--text-primary);">0.0</span> to <span id="rd_v" style="color:var(--text-primary);">0.0</span> kN</div>
+                            <div><strong>M:</strong> <span id="rd_mmin" style="color:var(--text-primary);">0.0</span> to <span id="rd_m" style="color:var(--text-primary);">0.0</span> kN·m</div>
+                            <div><strong>Δ:</strong> <span id="rd_dmin" style="color:var(--text-primary);">0.0</span> to <span id="rd_d" style="color:var(--text-primary);">0.0</span> mm</div>
+                        </div>
+                    </div>
+
+                    <div style="position: relative; margin: 20px auto 0;">
+                        <canvas id="mlCanvas" width="800" height="960" style="background: transparent; width: 100%; max-width: 800px; display: block;"></canvas>
+                    </div>
+                </div>
+            `;
+            appInterface.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        let currentMlResult = null; 
+
+        function runMovingLoadAnalysis() {
+            const L = parseFloat(document.getElementById('ml_L').value) || 20;
+            const s1 = parseFloat(document.getElementById('ml_s1').value) || 0;
+            const s2 = parseFloat(document.getElementById('ml_s2').value) || L;
+            const EI = parseFloat(document.getElementById('ml_EI').value) || 20000;
+
+            const axleRows = document.querySelectorAll('.axle-row');
+            let axles = [];
+            axleRows.forEach(row => {
+                const w = parseFloat(row.querySelector('.axle-weight').value) || 0;
+                const s = parseFloat(row.querySelector('.axle-spacing').value) || 0;
+                if (w > 0 || s > 0) axles.push({ weight: w, spacing: s });
+            });
+
+            if (axles.length === 0) return alert('Please enter at least one axle weight.');
+
+            let type = 'simply';
+            if (s1 > 0 || s2 < L) type = 'overhanging';
+            
+            // Call the engine solver
+            currentMlResult = MovingLoadCalc.solve(L, type, axles, EI, s1, s2, null, null, 0.2);
+            // Append explicit supports array matching what is drawn
+            currentMlResult.supports = [{x: s1, type: 'pin'}, {x: s2, type: 'roller'}];
+            currentMlResult.axles = axles;
+
+            document.getElementById('ml_results').style.display = 'block';
+            document.getElementById('ml_maxV').innerText = currentMlResult.maxV.toFixed(2) + ' kN';
+            document.getElementById('ml_maxM').innerText = currentMlResult.maxM.toFixed(2) + ' kN·m';
+            document.getElementById('ml_maxY').innerText = currentMlResult.maxY.toFixed(2) + ' mm';
+
+            // Setup the slider dynamics
+            let totalTrainLength = axles.reduce((sum, ax) => sum + ax.spacing, 0);
+            const slider = document.getElementById('ml_truck_slider');
+            slider.max = L + totalTrainLength;
+            slider.value = 0;
+
+            updateTruckPosition();
+        }
+
+        // TRIGGERED BY THE SLIDER TO DRIVE THE TRUCK ACROSS THE BEAM
+        function updateTruckPosition() {
+            if (!currentMlResult) return;
+            const slider = document.getElementById('ml_truck_slider');
+            const posDisplay = document.getElementById('ml_truck_pos_display');
+            
+            let exactX = parseFloat(slider.value);
+            posDisplay.innerText = exactX.toFixed(1) + ' m';
+            
+            // Limit the "cut" point evaluation to the actual beam length to prevent out-of-bounds array reads
+            let evalX = Math.max(0, Math.min(exactX, currentMlResult.L));
+            let p = currentMlResult.envelopeData.reduce((prev, curr) => Math.abs(curr.x - evalX) < Math.abs(prev.x - evalX) ? curr : prev);
+
+            document.getElementById('rd_x').innerText = p.x.toFixed(2);
+            document.getElementById('rd_v').innerText = p.maxV.toFixed(2);
+            document.getElementById('rd_vmin').innerText = p.minV.toFixed(2);
+            document.getElementById('rd_m').innerText = p.maxM.toFixed(2);
+            document.getElementById('rd_mmin').innerText = p.minM.toFixed(2);
+            document.getElementById('rd_d').innerText = p.maxY.toFixed(2);
+            document.getElementById('rd_dmin').innerText = p.minY.toFixed(2);
+
+            let renderPoint = { ...p, truckX: exactX };
+            drawMLEnvelopes(renderPoint);
+        }
+
+        function drawMLEnvelopes(renderPoint) {
+            if (!currentMlResult) return;
+            const canvas = document.getElementById('mlCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const padX = 80;
+            const gWidth = canvas.width - padX * 2;
+            
+            // Y-Coordinate placements to perfectly match the standard BMD calculator
+            const schemaCenterY = 120; 
+            const dimCenterY = 220; 
+            const sfdCenterY = 400; 
+            const bmdCenterY = 640; 
+            const defCenterY = 860;
+            const graphHeight = 130;
+
+            const mapX = x => padX + (x / currentMlResult.L) * gWidth;
+            const mapV = v => sfdCenterY - (v / (currentMlResult.maxV || 1)) * (graphHeight/2);
+            const mapM = m => bmdCenterY + (m / (currentMlResult.maxM || 1)) * (graphHeight/2); 
+            const mapD = d => defCenterY + (d / (currentMlResult.maxY || 1)) * (graphHeight/2);
+
+            // ==========================================
+            // 1. DRAW BEAM SCHEMA & SUPPORTS
+            // ==========================================
+            ctx.strokeStyle = '#111111'; ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(mapX(0), schemaCenterY); ctx.lineTo(mapX(currentMlResult.L), schemaCenterY); ctx.stroke();
+
+            currentMlResult.supports.forEach(sup => {
+                let sx = mapX(sup.x);
+                ctx.lineWidth = 2; ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#111111';
+                if(sup.type === 'pin') {
+                    ctx.beginPath(); ctx.moveTo(sx, schemaCenterY); ctx.lineTo(sx-10, schemaCenterY+15); ctx.lineTo(sx+10, schemaCenterY+15); ctx.closePath(); ctx.stroke(); ctx.fill();
+                } else if (sup.type === 'roller') {
+                    ctx.beginPath(); ctx.moveTo(sx, schemaCenterY); ctx.lineTo(sx-10, schemaCenterY+12); ctx.lineTo(sx+10, schemaCenterY+12); ctx.closePath(); ctx.stroke(); ctx.fill();
+                    ctx.beginPath(); ctx.arc(sx-4, schemaCenterY+16, 3, 0, 2*Math.PI); ctx.fill(); ctx.stroke();
+                    ctx.beginPath(); ctx.arc(sx+4, schemaCenterY+16, 3, 0, 2*Math.PI); ctx.fill(); ctx.stroke();
+                }
+            });
+
+            // 1B. Draw Dimensions
+            ctx.strokeStyle = '#95a5a6'; ctx.lineWidth = 1;
+            [0, currentMlResult.supports[0].x, currentMlResult.supports[1].x, currentMlResult.L].forEach(cx => {
+                ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(mapX(cx), schemaCenterY+20); ctx.lineTo(mapX(cx), dimCenterY+15); ctx.stroke();
+            });
+            ctx.setLineDash([]);
+            ctx.beginPath(); ctx.moveTo(mapX(0), dimCenterY); ctx.lineTo(mapX(currentMlResult.L), dimCenterY); ctx.stroke();
+            ctx.fillStyle = '#7f8c8d'; ctx.font = '12px Courier'; ctx.textAlign = 'center';
+            let crits = [...new Set([0, currentMlResult.supports[0].x, currentMlResult.supports[1].x, currentMlResult.L])].sort((a,b)=>a-b);
+            for(let i=0; i<crits.length-1; i++) {
+                let span = crits[i+1] - crits[i];
+                if(span > 0.1) ctx.fillText(`|-${span.toFixed(2)}m-|`, mapX(crits[i] + span/2), dimCenterY + 4);
+            }
+
+            // ==========================================
+            // 2. DRAW ENVELOPES (GRAPHS)
+            // ==========================================
+            ctx.strokeStyle = '#7f8c8d'; ctx.lineWidth = 1.5;
+            [sfdCenterY, bmdCenterY, defCenterY].forEach(y => {
+                ctx.beginPath(); ctx.moveTo(padX, y); ctx.lineTo(padX + gWidth, y); ctx.stroke();
+            });
+
+            const drawEnv = (data, mapFn, color) => {
+                ctx.fillStyle = `rgba(${color}, 0.15)`;
+                ctx.beginPath();
+                ctx.moveTo(mapX(data[0].x), mapFn(data[0].max));
+                for(let i=1; i<data.length; i++) ctx.lineTo(mapX(data[i].x), mapFn(data[i].max));
+                for(let i=data.length-1; i>=0; i--) ctx.lineTo(mapX(data[i].x), mapFn(data[i].min));
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = `rgb(${color})`; ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.moveTo(mapX(data[0].x), mapFn(data[0].max));
+                for(let i=1; i<data.length; i++) ctx.lineTo(mapX(data[i].x), mapFn(data[i].max));
+                ctx.stroke();
+
+                ctx.beginPath(); ctx.moveTo(mapX(data[0].x), mapFn(data[0].min));
+                for(let i=1; i<data.length; i++) ctx.lineTo(mapX(data[i].x), mapFn(data[i].min));
+                ctx.stroke();
+            };
+
+            const vData = currentMlResult.envelopeData.map(d => ({x: d.x, max: d.maxV, min: d.minV}));
+            const mData = currentMlResult.envelopeData.map(d => ({x: d.x, max: d.maxM, min: d.minM}));
+            const dData = currentMlResult.envelopeData.map(d => ({x: d.x, max: d.maxY, min: d.minY}));
+
+            drawEnv(vData, mapV, '39, 174, 96');
+            drawEnv(mData, mapM, '41, 128, 185');
+            drawEnv(dData, mapD, '142, 68, 173');
+
+            // LABELS MOVED UP TO PREVENT OVERLAPPING WITH THE GRAPH LINES
+            ctx.fillStyle = '#111111'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'left';
+            ctx.fillText("Shear Envelope (V) kN", padX, sfdCenterY - (graphHeight/2) - 15);
+            ctx.fillText("Moment Envelope (M) kN·m", padX, bmdCenterY - (graphHeight/2) - 15);
+            ctx.fillText("Deflection Envelope (Δ) mm", padX, defCenterY - (graphHeight/2) - 15);
+
+            // ==========================================
+            // 3. DRAW SLIDER CUT & TRUCK AXLES
+            // ==========================================
+            if (renderPoint) {
+                let evalX = mapX(renderPoint.x); // Placed at clamped position
+                
+                // Draw cut line
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+                ctx.beginPath(); ctx.moveTo(evalX, schemaCenterY-10); ctx.lineTo(evalX, defCenterY + graphHeight/2 + 10); ctx.stroke(); ctx.setLineDash([]);
+
+                // Draw dots on Envelopes
+                ctx.fillStyle = '#e74c3c';
+                [mapV(renderPoint.maxV), mapV(renderPoint.minV), mapM(renderPoint.maxM), mapM(renderPoint.minM), mapD(renderPoint.maxY), mapD(renderPoint.minY)].forEach(yCoord => {
+                    ctx.beginPath(); ctx.arc(evalX, yCoord, 5, 0, 2 * Math.PI); ctx.fill();
+                });
+
+                // Draw the dynamic Truck Axles on the Beam Schema
+                let currentPos = renderPoint.truckX;
+                let prevPos = currentPos;
+                
+                currentMlResult.axles.forEach((axle, j) => {
+                    if (j > 0) currentPos -= axle.spacing; 
+                    
+                    let ax = mapX(currentPos);
+                    
+                    // Draw downward Point Load arrow for axle
+                    ctx.strokeStyle = '#e74c3c'; ctx.fillStyle = '#e74c3c'; ctx.lineWidth = 3;
+                    ctx.beginPath(); ctx.moveTo(ax, schemaCenterY - 50); ctx.lineTo(ax, schemaCenterY - 5); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(ax, schemaCenterY); ctx.lineTo(ax-8, schemaCenterY-12); ctx.lineTo(ax+8, schemaCenterY-12); ctx.closePath(); ctx.fill();
+                    ctx.font = 'bold 12px Arial'; ctx.textAlign = 'center'; ctx.fillText(`${axle.weight}kN`, ax, schemaCenterY - 55);
+                    
+                    // Draw spacing dimension bracket between trailing axles
+                    if (j > 0 && axle.spacing > 0) {
+                        let px = mapX(prevPos);
+                        let cx = mapX(currentPos);
+                        let dimY = schemaCenterY - 80;
+                        
+                        ctx.strokeStyle = '#95a5a6'; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(cx, dimY); ctx.lineTo(px, dimY); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(cx, dimY - 5); ctx.lineTo(cx, dimY + 5); ctx.stroke();
+                        ctx.beginPath(); ctx.moveTo(px, dimY - 5); ctx.lineTo(px, dimY + 5); ctx.stroke();
+                        
+                        ctx.fillStyle = '#7f8c8d'; ctx.font = '12px Arial'; ctx.textAlign = 'center';
+                        ctx.fillText(`${axle.spacing}m`, (cx + px) / 2, dimY - 5);
+                    }
+                    prevPos = currentPos;
+                });
+            }
         }
 
         // ==========================================
@@ -1006,30 +1476,44 @@
             document.getElementById('legalModalTitle').innerText = title;
             document.getElementById('legalModal').style.display = 'flex';
         }
-
-        function closeLegalModal() {
-            document.getElementById('legalModal').style.display = 'none';
-        }
+        function closeLegalModal() { document.getElementById('legalModal').style.display = 'none'; }
 
         // ==========================================
-        // FORM SUBMIT HANDLER
+        // FORM SUBMIT HANDLER (AJAX Fix)
         // ==========================================
         function handleFormSubmit(event) {
-            event.preventDefault(); // Stop normal form submission (e.g. to Formspree)
+            event.preventDefault(); 
             
             const form = document.getElementById('contactForm');
             const successMessage = document.getElementById('formSuccessMessage');
+            const submitBtn = document.getElementById('submitBtn');
             
-            // Show the success banner
-            successMessage.style.display = 'block';
+            submitBtn.innerText = "Sending...";
             
-            // Reset the form fields
-            form.reset();
-
-            // Hide the banner automatically after 5 seconds
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
+            // Use Fetch API to submit form without redirecting the page
+            fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    form.reset();
+                    submitBtn.innerText = "Send Message ✦";
+                    
+                    setTimeout(() => { 
+                        successMessage.style.display = 'none'; 
+                    }, 5000);
+                } else {
+                    alert("Oops! There was a problem submitting your form.");
+                    submitBtn.innerText = "Send Message ✦";
+                }
+            }).catch(error => {
+                alert("Oops! There was a problem submitting your form.");
+                submitBtn.innerText = "Send Message ✦";
+            });
         }
     </script>
 </body>
