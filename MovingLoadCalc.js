@@ -30,11 +30,10 @@ const MovingLoadCalc = {
 
             if (activeLoads.length === 0) continue;
 
-            // Delegate to existing core solvers (Without altering them)
+            // Delegate to existing core solvers
             let snapFrame;
             if (type === 'continuous') {
                 snapFrame = ComplexBeams.solve(L, 'continuous', activeLoads, EI, method, customSupportsStr);
-                // Apply private integration fix ONLY for the moving load envelopes
                 snapFrame = this.fixContinuousDeflection(snapFrame, L, EI);
             } else {
                 snapFrame = CommonBeams.solve(L, type, activeLoads, EI, s1, s2);
@@ -68,7 +67,6 @@ const MovingLoadCalc = {
         return { L, loads: [], supports: [], mathData: envelopeData, envelopeData, maxV, maxM, maxY, type };
     },
 
-    // Private Deflection Fix (Does not alter ComplexBeams.js)
     fixContinuousDeflection: function(snapFrame, L, EI) {
         if (!snapFrame || !snapFrame.mathData || snapFrame.mathData.length === 0) return snapFrame;
         
@@ -77,11 +75,9 @@ const MovingLoadCalc = {
         let slope = new Array(numPoints + 1).fill(0);
         let defl = new Array(numPoints + 1).fill(0);
         
-        // Conjugate double integration
         for (let i = 1; i <= numPoints; i++) slope[i] = slope[i-1] + (snapFrame.mathData[i].M / EI) * dx;
         for (let i = 1; i <= numPoints; i++) defl[i] = defl[i-1] + slope[i] * dx;
         
-        // Enforce boundary pinning on the first two supports
         if (snapFrame.supports && snapFrame.supports.length >= 2) {
             let s1 = snapFrame.supports[0].x;
             let s2 = snapFrame.supports[1].x;

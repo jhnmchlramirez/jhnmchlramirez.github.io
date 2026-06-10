@@ -1,5 +1,5 @@
 // =========================================================================
-// MainUIController.js - SHEAR & MOMENT DIAGRAM ENGINE (CENTRAL UI & RENDER)
+// MainUIController.js - PRO STRUCTURAL ANALYSIS ENGINE (CENTRAL UI & RENDER)
 // =========================================================================
 
 let beamState = { L: 20, loads: [], supports: [], mathData: [], maxV: 0, maxM: 0, maxY: 0, invert: true, supportType: 'custom', analysisMethod: 'matrix_stiffness', E: 200, I: 100 };
@@ -10,7 +10,6 @@ function launchSFDBMDTool() {
     const appInterface = document.getElementById('activeAppInterface');
     appInterface.style.display = 'block';
     
-    // Updated title to remove HTML wrapper dependency
     document.getElementById('appTitle').innerText = 'SHEAR AND MOMENT DIAGRAM CALCULATOR';
 
     const content = document.getElementById('appContent');
@@ -459,7 +458,6 @@ function renderOutputMetrics() {
     document.getElementById('macaulayOutput').innerHTML = html;
 }
 
-// --- CORE DERIVATION MATHEMATICS GENERATOR ---
 function showDerivationModal() {
     const modal = document.getElementById('calcModal');
     const content = document.getElementById('calcBreakdown');
@@ -646,7 +644,6 @@ function showDerivationModal() {
 
 function closeDerivationModal() { document.getElementById('calcModal').style.display = 'none'; }
 
-// --- REACTION DRAWING HELPERS ---
 function drawReactionArrow(ctx, fromX, fromY, toX, toY) {
     const headlen = 8;
     const angle = Math.atan2(toY - fromY, toX - fromX);
@@ -707,11 +704,9 @@ function drawDiagrams(hoverPoint = null) {
 
     let isSystemLoaded = loads.length > 0;
 
-    // 1. Draw Beam Line
     ctx.strokeStyle = '#111111'; ctx.lineWidth = 4;
     ctx.beginPath(); ctx.moveTo(mapX(0), schemaCenterY); ctx.lineTo(mapX(L), schemaCenterY); ctx.stroke();
 
-    // 2. Draw Support Shapes & Structurally Applicable Reaction Arrows
     supports.forEach(sup => {
         let sx = mapX(sup.x);
         let isLeft = sup.x <= L/2;
@@ -747,7 +742,6 @@ function drawDiagrams(hoverPoint = null) {
     let distributedLoads = loads.filter(l => l.type !== 'P' && l.renderShape !== 'hidden');
     let globalMaxW = Math.max(1, ...distributedLoads.map(l => Math.max(Math.abs(l.w1 || 0), Math.abs(l.w2 || 0))));
 
-    // 3. Render Vector Loading Diagrams
     loads.forEach(ld => {
         if (ld.renderShape === 'hidden') return;
         
@@ -796,7 +790,6 @@ function drawDiagrams(hoverPoint = null) {
         }
     });
 
-    // 4. Dimension Guide Rendering Engine
     let crits = [0, L];
     loads.forEach(ld => { crits.push(ld.a); if(ld.b) crits.push(ld.b); });
     supports.forEach(sup => crits.push(sup.x));
@@ -815,7 +808,6 @@ function drawDiagrams(hoverPoint = null) {
         if(span > 0.1) ctx.fillText(`|-${span.toFixed(2)}m-|`, mapX(crits[i] + span/2), dimCenterY + 4);
     }
 
-    // 5. Build Graph Frame Bounds
     ctx.strokeStyle = '#7f8c8d'; ctx.lineWidth = 1.5;
     [sfdCenterY, bmdCenterY, defCenterY].forEach(y => { ctx.beginPath(); ctx.moveTo(paddingX, y); ctx.lineTo(paddingX + graphWidth, y); ctx.stroke(); });
 
@@ -843,7 +835,6 @@ function drawDiagrams(hoverPoint = null) {
     ctx.fillStyle = '#2980b9'; ctx.fillText(`Max |M| = ${maxM.toFixed(2)} kN·m`, canvas.width / 2, bmdCenterY + (graphHeight / 2) + 30);
     ctx.fillStyle = '#8e44ad'; ctx.fillText(`Max |Δ| = ${maxY.toFixed(2)} mm`, canvas.width / 2, defCenterY + (graphHeight / 2) + 30);
 
-    // 6. Interactive Crosshair Hover Processing
     if (hoverPoint) {
         let hoverX = mapX(hoverPoint.x);
         ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
