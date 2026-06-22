@@ -537,30 +537,6 @@
                 </div>
                 
                 <div id="webtoolsDashboard" style="max-width: 1000px;">
-                    <div class="tool-list-item">
-                        <div class="tool-info"><h3>RC BEAM CAPACITY ANALYZER</h3><p>Flexure and shear capacity per ACI 318-19M/25M</p></div>
-                        <button class="btn-launch" onclick="launchRCBeamTool()">Launch</button>
-                    </div>
-                    <div class="tool-list-item">
-                        <div class="tool-info"><h3>RC COLUMN CAPACITY ANALYZER</h3><p>Axial capacity limits per ACI 318-19M/25M</p></div>
-                        <button class="btn-launch" onclick="launchRCColumnTool()">Launch</button>
-                    </div>
-                    <div class="tool-list-item">
-                        <div class="tool-info"><h3>RC SLAB CAPACITY ANALYZER</h3><p>One-Way & Two-Way analysis per ACI 318-19M/25M</p></div>
-                        <button class="btn-launch" onclick="launchRCSlabTool()">Launch</button>
-                    </div>
-                    <div class="tool-list-item">
-                        <div class="tool-info"><h3>RC FOOTING CAPACITY ANALYZER</h3><p>Isolated, Combined & Mat analysis per ACI 318-19M/25M</p></div>
-                        <button class="btn-launch" onclick="launchRCFootingTool()">Launch</button>
-                    </div>
-                    <div class="tool-list-item">
-                        <div class="tool-info"><h3>SHEAR AND MOMENT DIAGRAM CALCULATOR</h3><p>Piecewise integration and Matrix Stiffness solver for continuous beams</p></div>
-                        <button class="btn-launch" onclick="launchSFDBMDTool()">Launch</button>
-                    </div>
-                    <div class="tool-list-item">
-                        <div class="tool-info"><h3>MOVING LOAD CALCULATOR</h3><p>Vehicular train live load envelope generator</p></div>
-                        <button class="btn-launch" onclick="launchMovingLoadTool()">Launch</button>
-                    </div>
                 </div>
 
                 <div id="activeAppInterface" class="app-interface" style="display: none; background: var(--bg-card); padding: 40px; border: 1px solid var(--border-color); box-shadow: var(--card-shadow); margin-top: 3rem;">
@@ -858,6 +834,20 @@
                 }).join('');
             }
 
+            // ADDITION: Dynamic Rendering of Webtools
+            const webtoolsDashboard = document.getElementById('webtoolsDashboard');
+            if (webtoolsDashboard && typeof webtoolsData !== 'undefined' && Array.isArray(webtoolsData)) {
+                webtoolsDashboard.innerHTML = webtoolsData.map(tool => `
+                    <div class="tool-list-item">
+                        <div class="tool-info">
+                            <h3>${tool.title}</h3>
+                            <p>${tool.description}</p>
+                        </div>
+                        <button class="btn-launch" onclick="${tool.launchFunction}">Launch</button>
+                    </div>
+                `).join('');
+            }
+
             const filterBtns = document.querySelectorAll('.filter-btn');
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -1109,7 +1099,6 @@
             });
         }
 
-        // Fix 2 Applied: Live Tracking Counter Engine 
         async function trackBlogViews(articleId) {
             const viewDisplay = document.getElementById("blog-view-count");
             if (!viewDisplay) return;
