@@ -6,6 +6,7 @@ const projectData = {
         statusClass: 'status-completed',
         images: [
             { src: 'images/FMDC Pers.jpg', caption: 'Perspective View' },
+            { src: 'images/FMDC Structural Perspective.png', caption: 'Geometric Perspective' },
             { src: 'images/FMDC_1.png', caption: 'Drawing File' },
             { src: 'images/FMDC_2.png', caption: 'Drawing File' },
             { src: 'images/FMDC_3.png', caption: 'Drawing File' }
@@ -29,6 +30,7 @@ const projectData = {
         statusClass: 'status-completed',
         images: [
             { src: 'images/Borreros Residences.jpg', caption: 'Perspective View' },
+            { src: 'images/Borreros Structural Perspective.png', caption: 'Geometric Perspective' },
             { src: 'images/Plans_Borreros.png', caption: 'Drawing File' },
             { src: 'images/Plans_Borreros2.png', caption: 'Drawing File' }
         ],
@@ -50,6 +52,7 @@ const projectData = {
         statusClass: 'status-completed',
         images: [
             { src: 'images/Ayala Perspective.png', caption: 'Perspective View' },
+            { src: 'images/Ayala Structural Perspective.png', caption: 'Geometric Perspective' },
             { src: 'images/Ayala Plans.png', caption: 'Drawing File' },
             { src: 'images/Ayala Plans2.png', caption: 'Drawing File' }
         ],
