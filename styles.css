@@ -222,6 +222,29 @@ nav {
     display: block;
 }
 
+/* =========================================================================
+   HERO SLIDESHOW - FLAWLESS PURE CROSS-FADE (NO MOTION)
+   ========================================================================= */
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    z-index: 0;
+    /* Soft, gradual 1.2-second fade out when switching away */
+    transition: opacity 1.2s ease-in-out; 
+}
+
+.hero-slide.active-slide {
+    opacity: 1;
+    z-index: 1; /* Sits cleanly on top of the old image while blending */
+    /* Matches the fade speed perfectly for a seamless blend */
+    transition: opacity 1.2s ease-in-out;
+}
+
 /* Carousels */
 .carousel-container {
     display: flex;

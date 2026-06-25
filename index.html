@@ -361,6 +361,18 @@
         .blog-markdown-content strong { color: var(--text-primary); }
 
         /* =========================================================================
+           HERO SLIDESHOW
+           ========================================================================= */
+        .hero-slide {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .hero-slide.active-slide {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        /* =========================================================================
            MOBILE RESPONSIVENESS & UX PATCHES
            ========================================================================= */
         
@@ -421,7 +433,7 @@
 
     <nav>
         <div class="container" style="max-width: 1300px; margin: 0 auto;">
-            <a href="#about" class="logo" style="text-decoration: none;">
+            <a href="#home" class="logo" style="text-decoration: none;">
                 <div class="logo-wrap">
                     <span class="logo-name">JOHN MICHAEL RAMIREZ</span> 
                     <span class="logo-suffix">ENGINEERING SOLUTIONS</span>
@@ -429,7 +441,8 @@
             </a>
             <div class="nav-right-group">
                 <div class="nav-links">
-                    <a href="#about">Home</a>
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
                     <a href="#works">Works</a>
                     <a href="#blogs">Insights</a>
                     <a href="#webtools">Webtools</a>
@@ -443,48 +456,81 @@
 
     <main id="app-container">
         
-        <section id="about" class="container page-section">
-            <div class="hero-content" style="display: flex; gap: 60px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto;">
+        <section id="home" class="container page-section">
+            <div class="hero-content" style="display: flex; gap: 50px; flex-wrap: wrap; max-width: 1300px; margin: 0 auto; align-items: center;">
+                
                 <div class="hero-text" style="flex: 1; min-width: 320px;">
                     <span class="section-kicker">Civil Engineer & Structural BIM Modeler</span>
                     
-                    <h1 style="margin-bottom: 5px; white-space: nowrap; font-size: clamp(2rem, 4vw, 3.5rem);">More than a structure.</h1>
+                    <h1 style="margin-bottom: 5px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1;">More than a structure.</h1>
                     
-                    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 2.1rem); color: var(--text-primary) !important; text-transform: none; letter-spacing: -0.5px; font-weight: 500; margin-top: 0; margin-bottom: 25px; white-space: nowrap;">Engineered with absolute precision.</h2>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 2.1rem); color: var(--text-primary) !important; text-transform: none; letter-spacing: -0.5px; font-weight: 500; margin-top: 10px; margin-bottom: 25px;">Engineered with absolute precision.</h2>
                     
                     <p style="margin-bottom: 2.5rem; font-size: 1.15rem; line-height: 1.8; color: var(--text-secondary);">
-                        Licensed Civil Engineer practicing structural design since 2020, specializing in practical, buildable solutions for residential and mid-rise buildings. My focus is bridging the gap between rigorous structural analysis and precise documentation.
+                        Delivering robust, constructible structural designs that seamlessly bridge architectural vision and engineering reality. Dedicated to efficiency, safety, and innovation in every project.
                     </p>
                     
-                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 3.5rem;">
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                         <a href="#contact" class="btn-outline">Send a Message</a>
                         <a href="#works" class="btn-outline">View Portfolio</a>
                     </div>
-
-                    <div class="core-expertise">
-                        <h3 style="font-family: 'Lato', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; margin-bottom: 1.5rem;">Core Expertise</h3>
-                        
-                        <div class="expertise-card">
-                            <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem;">Structural Design & Analysis</strong>
-                            <span style="color: var(--text-secondary); font-size: 0.95rem;">Experienced in delivering coordinated calculations and designs optimized for real-world constructability.</span>
-                        </div>
-                        
-                        <div class="expertise-card">
-                            <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem;">BIM Workflows & Drafting</strong>
-                            <span style="color: var(--text-secondary); font-size: 0.95rem;">Proficient in Revit and CAD to build seamless, accurate structural models and detailed drawings.</span>
-                        </div>
-                        
-                        <div class="expertise-card">
-                            <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.3rem;">Integrated Execution</strong>
-                            <span style="color: var(--text-secondary); font-size: 0.95rem;">Passionate about continuous technical growth, ensuring design, calculations, and documentation align perfectly with project goals.</span>
-                        </div>
-                    </div>
                 </div>
                 
-                <div class="hero-image" style="flex: 1; min-width: 320px; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; background : transparent; border: none; max-width: 380px;">
-                    <div style="padding: 0; background: transparent; box-shadow: none; width: 100%; max-width: 380px; margin: 0 auto;">
-                        <img src="images/Profile.jpg" alt="John Michael C. Ramirez" style="width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center; display: block; box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.05);">
+                <div class="hero-image" style="flex: 1.4; min-width: 320px; display: flex; justify-content: center; align-items: center; position: relative; aspect-ratio: 4/3; max-width: 680px; margin: 0 auto; border-radius: 0 !important; border: 1px solid rgba(17, 17, 17, 0.15);">
+                    <div id="hero-slideshow" style="width: 100%; height: 100%; box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.05); position: relative; overflow: hidden; background: var(--bg-section-alt); border-radius: 0 !important;">
+                        
+                        <img class="hero-slide active-slide" src="images/3D Perspective/Bacolod%20clubhouse.png" alt="Bacolod Clubhouse" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/Borreros%20Structural%20Perspective.png" alt="Borreros Structural Perspective" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/D-House%20residence.png" alt="D-House Residence" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/Estepa%20Residence.jpg" alt="Estepa Residence" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/FMDC%20Structural%20Perspective.png" alt="FMDC Structural Perspective" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/Isuzu%20San%20Pablo%20Commercial.jpg" alt="Isuzu San Pablo Commercial" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/Jubilation%20Perspective.png" alt="Jubilation Perspective" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        <img class="hero-slide" src="images/3D Perspective/SAMOY%20RESIDENCE.png" alt="Samoy Residence" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; border-radius: 0 !important;">
+                        
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="page-section alt-bg" style="border-top: 1px solid rgba(17, 17, 17, 0.1); border-bottom: 1px solid rgba(17, 17, 17, 0.1);">
+            <div class="container" style="max-width: 1200px; margin: 0 auto;">
+                <div class="about-content" style="display: flex; gap: 60px; flex-wrap: wrap; align-items: center;">
+                    
+                    <div class="about-image" style="flex: 1; min-width: 320px; display: flex; justify-content: center; max-width: 380px; margin: 0 auto;">
+                        <img src="images/Profile.jpg" alt="John Michael C. Ramirez" style="width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center; display: block; border-radius: 0 !important; box-shadow: 6px 6px 0px rgba(17, 17, 17, 0.05); border: 1px solid rgba(17, 17, 17, 0.1);">
+                    </div>
+
+                    <div class="about-text" style="flex: 1.5; min-width: 320px;">
+                        <div class="section-header" style="margin-bottom: 1.5rem;">
+                            <span class="section-kicker" style="margin-bottom: 8px;">Professional Profile</span>
+                            <h2 class="section-title" style="font-size: 2.8rem; line-height: 1.1;">About Me</h2>
+                        </div>
+                        
+                        <p style="margin-bottom: 2rem; font-size: 1.05rem; line-height: 1.7; color: var(--text-secondary);">
+                            Licensed Civil Engineer practicing structural design since 2020, specializing in practical, buildable solutions for residential and mid-rise buildings. My focus is bridging the gap between rigorous structural analysis and precise documentation.
+                        </p>
+
+                        <div class="core-expertise">
+                            <h3 style="font-family: 'Lato', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 700; color: var(--kicker-color); margin-bottom: 1.2rem; border-bottom: 1px solid rgba(17, 17, 17, 0.1); padding-bottom: 8px;">Core Expertise</h3>
+                            
+                            <div class="expertise-card" style="border-radius: 0 !important; margin-bottom: 12px; padding: 18px;">
+                                <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.2rem;">Structural Design & Analysis</strong>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">Experienced in delivering coordinated calculations and designs optimized for real-world constructability.</span>
+                            </div>
+                            
+                            <div class="expertise-card" style="border-radius: 0 !important; margin-bottom: 12px; padding: 18px;">
+                                <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.2rem;">BIM Workflows & Drafting</strong>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">Proficient in Revit and CAD to build seamless, accurate structural models and detailed drawings.</span>
+                            </div>
+                            
+                            <div class="expertise-card" style="border-radius: 0 !important; margin-bottom: 0; padding: 18px;">
+                                <strong style="display: block; font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.2rem;">Integrated Execution</strong>
+                                <span style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">Passionate about continuous technical growth, ensuring design, calculations, and documentation align perfectly with project goals.</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -509,7 +555,7 @@
                 </div>
 
                 <div style="text-align: right; margin-top: 50px;">
-                    <button onclick="openAllProjectsModal()" class="btn-outline" style="border-width: 2px; padding: 12px 35px;">MORE ▷</button>
+                    <button id="loadMoreProjectsBtn" onclick="openAllProjectsModal()" class="btn-outline" style="border-width: 2px; padding: 12px 35px;">MORE ▷</button>
                 </div>
 
             </div>
@@ -659,7 +705,7 @@
         <div class="container footer-content" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 50px; max-width: 1200px; margin: 0 auto;">
             
             <div class="footer-col brand-col">
-                <a href="#about" class="footer-logo" style="text-decoration: none;">
+                <a href="#home" class="footer-logo" style="text-decoration: none;">
                     <span class="logo-name" style="font-size: 1.8rem; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-primary);">Engr. JM Ramirez</span>
                 </a>
                 <p class="footer-desc" style="margin-top: 15px; font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); max-width: 300px;">
@@ -670,7 +716,7 @@
             <div class="footer-col" style="padding-top: 10px;">
                 <h4 class="footer-heading" style="font-family: 'Playfair Display', serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-primary); margin-bottom: 20px;">Platform</h4>
                 <ul class="footer-links" style="list-style: none; padding: 0; margin: 0;">
-                    <li style="margin-bottom: 15px;"><a href="#about" style="text-decoration: none; color: var(--text-secondary); transition: color 0.2s; font-size: 0.95rem;">Home</a></li>
+                    <li style="margin-bottom: 15px;"><a href="#home" style="text-decoration: none; color: var(--text-secondary); transition: color 0.2s; font-size: 0.95rem;">Home</a></li>
                     <li style="margin-bottom: 15px;"><a href="#works" style="text-decoration: none; color: var(--text-secondary); transition: color 0.2s; font-size: 0.95rem;">Works</a></li>
                     <li style="margin-bottom: 15px;"><a href="#services" style="text-decoration: none; color: var(--text-secondary); transition: color 0.2s; font-size: 0.95rem;">Services</a></li>
                 </ul>
@@ -767,14 +813,25 @@
         function detectCategory(title, description) {
             const text = (title + " " + description).toLowerCase();
             if (text.includes('mid-rise building') || text.includes('mrb') || text.includes('mid-rise')) return 'mid-rise';
-            if (text.includes('commercial building') || text.includes('multi-purpose building') || text.includes('court') || text.includes('warehouse') || text.includes('office')) return 'commercial';
+            if (text.includes('commercial') || text.includes('multi-purpose') || text.includes('clubhouse') || text.includes('court') || text.includes('warehouse') || text.includes('office')) return 'commercial';
             if (text.includes('residential building') || text.includes('residences') || text.includes('villa') || text.includes('house') || text.includes('residential')) return 'residential';
             return 'other';
         }
 
-        const projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
+        let projectKeys = (typeof projectData !== 'undefined') ? Object.keys(projectData) : [];
         
         window.addEventListener('DOMContentLoaded', () => {
+            
+            // Hero Image Slideshow Logic
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.hero-slide');
+            if (slides.length > 1) {
+                setInterval(() => {
+                    slides[currentSlide].classList.remove('active-slide');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active-slide');
+                }, 3500); // Shuffles every 3.5 seconds
+            }
             
             const worksGrid = document.getElementById('worksGrid');
             if (worksGrid && projectKeys.length > 0) {
@@ -784,9 +841,12 @@
                     const category = detectCategory(data.title, data.description);
                     const displayCategory = category === 'mid-rise' ? 'Mid-Rise' : category.charAt(0).toUpperCase() + category.slice(1);
                     const isFeatured = index === 0 ? 'featured-item' : '';
+                    
+                    // Initial load ONLY shows up to 5 items on the main page.
+                    const initialDisplay = index < 5 ? 'flex' : 'none';
 
                     return `
-                        <div class="portfolio-card ${isFeatured}" data-category="${category}" onclick="openProjectModal('${key}')" style="cursor: pointer;">
+                        <div class="portfolio-card ${isFeatured}" data-category="${category}" onclick="openProjectModal('${key}')" style="cursor: pointer; display: ${initialDisplay};">
                             <div class="card-thumb">
                                 <span class="card-badge">${displayCategory}</span>
                                 <img src="${thumbSrc}" alt="${data.title}">
@@ -799,6 +859,12 @@
                         </div>
                     `;
                 }).join('');
+                
+                // Hide "MORE" button if there are 5 or fewer items
+                const loadMoreBtn = document.getElementById('loadMoreProjectsBtn');
+                if (loadMoreBtn && projectKeys.length <= 5) {
+                    loadMoreBtn.style.display = 'none';
+                }
             }
 
             const servicesGrid = document.getElementById('servicesGrid');
@@ -834,7 +900,6 @@
                 }).join('');
             }
 
-            // ADDITION: Dynamic Rendering of Webtools
             const webtoolsDashboard = document.getElementById('webtoolsDashboard');
             if (webtoolsDashboard && typeof webtoolsData !== 'undefined' && Array.isArray(webtoolsData)) {
                 webtoolsDashboard.innerHTML = webtoolsData.map(tool => `
@@ -848,6 +913,7 @@
                 `).join('');
             }
 
+            // Updated Filter Logic: Never exceeds 5 items to keep layout balanced
             const filterBtns = document.querySelectorAll('.filter-btn');
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -857,16 +923,30 @@
                     const cards = document.querySelectorAll('#worksGrid .portfolio-card');
                     
                     let visibleCount = 0;
+                    let totalMatches = 0;
+                    
                     cards.forEach(card => {
                         card.classList.remove('featured-item');
                         if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                            card.style.display = 'flex';
-                            if (visibleCount === 0) card.classList.add('featured-item');
-                            visibleCount++;
+                            totalMatches++;
+                            // Show up to 5 items ONLY
+                            if (visibleCount < 5) {
+                                card.style.display = 'flex';
+                                if (visibleCount === 0) card.classList.add('featured-item');
+                                visibleCount++;
+                            } else {
+                                card.style.display = 'none';
+                            }
                         } else {
                             card.style.display = 'none';
                         }
                     });
+
+                    // Reveal MORE button only if matches exceed the 5 shown on screen
+                    const loadMoreBtn = document.getElementById('loadMoreProjectsBtn');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.style.display = totalMatches > 5 ? 'inline-block' : 'none';
+                    }
                 });
             });
 
@@ -1006,6 +1086,7 @@
             document.body.style.overflow = 'auto'; 
         }
 
+        // Opens the Modal overlay containing all projects (The "Mini window")
         function openAllProjectsModal() {
             document.getElementById('allProjectsModal').style.display = 'flex';
             const modalGrid = document.getElementById('modalProjectsGrid');
