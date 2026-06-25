@@ -116,15 +116,17 @@ nav .container {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 12px; /* Compressed here from 20px to bring individual links close together */
+    gap: 8px; /* Ultra-tightened gap to bring link strings close together */
 }
 
 nav .nav-links a {
     color: var(--text-secondary) !important;
     text-decoration: none;
-    font-size: 13px; 
-    font-weight: 500;
+    font-size: 12px; /* Slightly crisper size to balance the dense grouping */
+    font-weight: 600; /* Bumped weight for visibility at a tighter scale */
     text-transform: uppercase;
+    letter-spacing: -0.01em;
+    padding: 4px 6px; /* Strategic padding ensures easy clickability while maintaining visual density */
     transition: color 0.2s ease;
 }
 
@@ -147,7 +149,7 @@ nav .nav-links a.active-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 20px; /* Brought closer to match the compact menu links alignment */
+    margin-left: 16px; /* Adjusted to balance the compact menu links alignment */
     transition: all 0.2s ease;
     text-decoration: none;
     height: auto;
@@ -914,22 +916,17 @@ a.contact-item:hover .contact-details span {
 }
 
 .contact-icon-box svg { 
-    width: 24px; 
-    height: 24px; 
-    fill: var(--primary); 
-    display: block; 
+    width: 24px; height: 24px; 
+    fill: var(--primary); display: block; 
 }
 
 .contact-details p { 
-    margin: 0; 
-    font-weight: 600; 
-    font-size: 15px; 
-    color: var(--text-primary); 
+    margin: 0; font-weight: 600; 
+    font-size: 15px; color: var(--text-primary); 
 }
 
 .contact-details span { 
-    color: var(--text-secondary); 
-    font-size: 15px; 
+    color: var(--text-secondary); font-size: 15px; 
 }
 
 .response-card {
